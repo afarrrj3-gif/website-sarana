@@ -1,131 +1,227 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Kritik & Saran Mobile Legends</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AryanzUtama Store</title>
 
-  <!-- FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- ICON ASLI -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+<style>
+/* ================= BASE ================= */
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f5fbff;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #0a2cff, #0bbcff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-    }
+/* ================= LOADING SCREEN (TAMBAHAN) ================= */
+#loadingScreen{
+  position:fixed;
+  inset:0;
+  background:#f5fbff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+}
 
-    .card {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 30px;
-      width: 100%;
-      max-width: 400px;
-      animation: fadeIn 1s ease;
-    }
+.loader-box{
+  text-align:center;
+  animation:fadeIn .6s ease;
+}
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+.loader-box img{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  object-fit:cover;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  margin-bottom:20px;
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 5px;
-      font-size: 22px;
-    }
+.progress{
+  width:220px;
+  height:6px;
+  background:#dbe9ff;
+  border-radius:10px;
+  overflow:hidden;
+  margin:0 auto 12px;
+}
 
-    p {
-      text-align: center;
-      font-size: 13px;
-      opacity: 0.9;
-      margin-bottom: 20px;
-    }
+.progress .bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#4da3ff,#7bb9ff);
+  animation:loadBar 3s linear forwards;
+}
 
-    input, textarea, button {
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 12px;
-      font-size: 14px;
-    }
+.powered-loading{
+  font-size:13px;
+  color:#777;
+  letter-spacing:.3px;
+}
 
-    input, textarea {
-      outline: none;
-    }
+@keyframes loadBar{
+  from{width:0%}
+  to{width:100%}
+}
 
-    textarea {
-      resize: none;
-      height: 100px;
-    }
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.95)}
+  to{opacity:1;transform:scale(1)}
+}
 
-    button {
-      background: #ffffff;
-      color: #0a2cff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+/* ================= BANNER ================= */
+.banner{
+  padding:70px 15px 60px;
+  text-align:center;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,.4) 45%,
+      rgba(255,255,255,.8) 75%,
+      #fff 100%
+    ),
+    url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
+  background-size:cover;
+  background-position:center;
+}
 
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
+.banner img{max-width:220px;}
 
-    .footer {
-      margin-top: 15px;
-      text-align: center;
-      font-size: 12px;
-    }
+/* ================= SEARCH ================= */
+header{
+  background:#fff;
+  padding:15px;
+  position:sticky;
+  top:0;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+  z-index:10;
+}
 
-    .footer a {
-      color: #ffffff;
-      text-decoration: underline;
-      font-weight: 500;
-    }
-  </style>
+.search-box{display:flex;gap:10px;}
+.search-box input{
+  flex:1;
+  padding:14px 18px;
+  border-radius:30px;
+  border:1px solid #ccc;
+}
+.search-box button{
+  border:none;
+  background:#4da3ff;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:50%;
+}
+
+/* ================= PRODUK ================= */
+.container{
+  padding:15px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.card{
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
+  transition:.25s;
+  opacity:0;
+  transform:translateY(30px) scale(.97);
+  animation:produkMasuk .6s ease forwards;
+}
+
+.card:hover{transform:translateY(-4px) scale(1);}
+
+@keyframes produkMasuk{
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+.card img{
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+}
+
+/* ================= EMPTY & LOADING ================= */
+.empty,.loading{
+  grid-column:1/-1;
+  text-align:center;
+  padding:35px;
+  color:#555;
+}
+
+/* ================= MODAL ================= */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99;
+}
+.modal.show{display:flex;}
+.modal-content{
+  background:linear-gradient(180deg,#fafdff,#eaf4ff);
+  border-radius:18px;
+  width:90%;
+  max-width:420px;
+  padding:22px;
+  text-align:center;
+  animation:zoom .35s ease;
+}
+@keyframes zoom{
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* ================= FOOTER ================= */
+.footer{text-align:center;padding:30px 10px 20px;}
+.platform-bottom{display:flex;justify-content:center;gap:22px;margin-bottom:12px;}
+.platform-bottom a{font-size:28px;color:#555;}
+.powered{font-size:13px;color:#888;}
+</style>
 </head>
+
 <body>
 
-  <div class="card">
-    <h1>Mobile Legends Store</h1>
-    <p>Kritik & Saran Pelanggan</p>
-
-    <!-- FORM -->
-    <form action="https://formsubmit.co/afarrrj3@gmail.com" method="POST">
-
-      <!-- SETTINGS -->
-      <input type="hidden" name="_subject" value="Kritik Baru dari Pelanggan ML">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-
-      <input type="text" name="Nama" placeholder="Nama kamu" required>
-      <textarea name="Kritik" placeholder="Tulis kritik atau saran kamu..." required></textarea>
-
-      <button type="submit">Kirim Kritik</button>
-    </form>
-
-    <div class="footer">
-      🔗 <a href="https://whatsapp.com/channel/0029VbB5xTP3GJOzlxzCl20S" target="_blank">Saluran Resmi Saya</a>
-    </div>
+<!-- LOADING SCREEN -->
+<div id="loadingScreen">
+  <div class="loader-box">
+    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+    <div class="progress"><div class="bar"></div></div>
+    <div class="powered-loading">PoweredByAryanzUtama</div>
   </div>
+</div>
+
+<div class="banner"><img src="logo.png"></div>
+
+<header>
+  <div class="search-box">
+    <input id="search" placeholder="Cari kategori (ahli, senior)">
+    <button id="btnCari">🔍</button>
+  </div>
+</header>
+
+<div class="container" id="produk"></div>
+
+<!-- SCRIPT ASLI + LOADING -->
+<script>
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    const l=document.getElementById("loadingScreen");
+    l.style.opacity="0";
+    l.style.transition="opacity .5s ease";
+    setTimeout(()=>l.remove(),500);
+  },3000);
+});
+</script>
 
 </body>
 </html>
