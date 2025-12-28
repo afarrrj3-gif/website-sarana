@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AryanzUtama Store</title>
 
-<!-- SUPABASE -->
+<!-- SUPABASE V2 -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <style>
@@ -14,279 +14,123 @@
 --primary:#4facfe;
 --secondary:#00f2fe;
 --danger:#ff3b3b;
---dark:#111;
---light:#fff;
 }
 
-/* ================= RESET ================= */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:system-ui,-apple-system,Segoe UI,Roboto;
-}
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
 
-/* ================= BODY ================= */
-body{
-background:#f4f6fb;
-color:#222;
-overflow-x:hidden;
-}
+/* BODY */
+body{background:#f4f6fb;color:#222}
 
 /* ================= LOADING ================= */
 #loading{
-position:fixed;
-inset:0;
-background:#111;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-color:#fff;
-z-index:99999;
+position:fixed;inset:0;
+background:#111;color:#fff;
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+z-index:99999
 }
-
-.loading-bar{
-width:70%;
-height:6px;
-background:#333;
-border-radius:20px;
-overflow:hidden;
-}
-
-.loading-bar span{
-display:block;
-height:100%;
-width:0%;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
-transition:width .2s linear;
-}
-
-#loadingPercent{
-margin-top:8px;
-font-size:14px;
-}
-
-#loadingPower{
-margin-top:6px;
-font-size:12px;
-opacity:.6;
-}
+.loading-bar{width:70%;height:6px;background:#333;border-radius:20px;overflow:hidden}
+.loading-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--secondary))}
+#loadingPercent{margin-top:8px}
+#loadingPower{font-size:12px;opacity:.6}
 
 /* ================= HEADER ================= */
 header{
 height:300px;
-background:
-linear-gradient(
-to bottom,
-rgba(79,172,254,1) 0%,
-rgba(0,242,254,.9) 45%,
-rgba(255,255,255,.85) 75%,
-#fff 100%
-);
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:flex-end;
+background:linear-gradient(to bottom,#4facfe,#00f2fe,#fff);
+display:flex;flex-direction:column;
+align-items:center;justify-content:flex-end;
 padding-bottom:30px;
-position:relative;
-animation:fadeDown 1s ease;
+position:relative
 }
-
-@keyframes fadeDown{
-from{opacity:0;transform:translateY(-20px)}
-to{opacity:1;transform:none}
-}
-
 .logo{
-position:absolute;
-top:45px;
-width:140px;
-height:140px;
+position:absolute;top:40px;
+width:140px;height:140px;
 border-radius:50%;
-background:#fff;
-padding:6px;
+background:#fff;padding:6px;
 box-shadow:0 20px 40px rgba(0,0,0,.25);
-animation:float 4s ease-in-out infinite;
+animation:float 4s ease-in-out infinite
 }
-
-.logo img{
-width:100%;
-height:100%;
-border-radius:50%;
-object-fit:cover;
-}
-
-@keyframes float{
-50%{transform:translateY(-12px)}
-}
-
-header h1{
-font-size:22px;
-font-weight:700;
-}
+.logo img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+@keyframes float{50%{transform:translateY(-12px)}}
+header h1{font-size:22px}
 
 /* ================= PRODUCTS ================= */
 #products{
 padding:20px;
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-gap:16px;
+gap:16px
 }
-
-/* ================= CARD ================= */
 .card{
-background:#fff;
-border-radius:18px;
-overflow:hidden;
+background:#fff;border-radius:18px;
+overflow:hidden;position:relative;
 box-shadow:0 10px 30px rgba(0,0,0,.12);
-animation:cardIn .6s ease;
-position:relative;
-cursor:pointer;
+animation:fade .5s ease
 }
+@keyframes fade{from{opacity:0;transform:translateY(20px)}}
+.card img{width:100%;height:180px;object-fit:cover}
+.card .info{text-align:center;padding:10px;font-size:13px;font-weight:600}
 
-@keyframes cardIn{
-from{opacity:0;transform:translateY(25px)}
-to{opacity:1;transform:none}
-}
-
-.card img{
-width:100%;
-height:180px;
-object-fit:cover;
-}
-
-.card .info{
-padding:10px;
-text-align:center;
-font-size:13px;
-font-weight:600;
-}
-
-/* ================= SOLD ================= */
-.sold-badge{
-position:absolute;
-inset:0;
+/* SOLD */
+.sold{
+position:absolute;inset:0;
 background:rgba(0,0,0,.75);
-display:flex;
-align-items:center;
-justify-content:center;
-color:#fff;
-font-size:24px;
-font-weight:800;
-animation:soldFade .3s ease;
+display:flex;align-items:center;justify-content:center;
+color:#fff;font-size:24px;font-weight:800
 }
 
-@keyframes soldFade{
-from{opacity:0}
-to{opacity:1}
-}
-
-/* ================= ADMIN SOLD BTN ================= */
+/* ADMIN SOLD BTN */
 .admin-btn{
-position:absolute;
-bottom:10px;
-left:50%;
+position:absolute;bottom:10px;left:50%;
 transform:translateX(-50%);
-background:var(--danger);
-color:#fff;
-border:none;
-padding:6px 16px;
-border-radius:20px;
-font-size:12px;
-display:none;
+background:var(--danger);color:#fff;
+border:none;padding:6px 16px;
+border-radius:20px;font-size:12px;
+display:none
 }
 
 /* ================= ADMIN PANEL ================= */
 #adminPanel{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#fff;
-padding:16px;
-box-shadow:0 -10px 30px rgba(0,0,0,.25);
+position:fixed;bottom:0;left:0;right:0;
+background:#fff;padding:16px;
 border-radius:22px 22px 0 0;
-display:none;
-animation:slideUp .4s ease;
-z-index:90;
+box-shadow:0 -10px 30px rgba(0,0,0,.25);
+display:none;z-index:99
 }
-
-@keyframes slideUp{
-from{transform:translateY(100%)}
-to{transform:none}
+#adminPanel input,#adminPanel select{
+width:100%;padding:12px;margin-bottom:8px;
+border-radius:14px;border:1px solid #ddd
 }
-
-#adminPanel input,
-#adminPanel select{
-width:100%;
-padding:12px;
-border-radius:14px;
-border:1px solid #ddd;
-margin-bottom:10px;
-}
-
 #adminPanel button{
-width:100%;
-padding:14px;
-border:none;
+width:100%;padding:14px;border:none;
 border-radius:16px;
 background:linear-gradient(90deg,var(--primary),var(--secondary));
-color:#fff;
-font-weight:700;
+color:#fff;font-weight:700
 }
 
 /* ================= MODAL ================= */
 .modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.65);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:100;
+position:fixed;inset:0;
+background:rgba(0,0,0,.6);
+display:none;align-items:center;justify-content:center;
+z-index:100
 }
-
 .modal-content{
-background:#fff;
-width:90%;
-max-width:360px;
-border-radius:20px;
-padding:16px;
-text-align:center;
-animation:zoom .3s ease;
+background:#fff;width:90%;max-width:360px;
+border-radius:20px;padding:16px;text-align:center
 }
-
-@keyframes zoom{
-from{transform:scale(.85);opacity:0}
-to{transform:scale(1);opacity:1}
-}
-
-.modal img{
-width:100%;
-border-radius:14px;
-margin-bottom:8px;
-}
-
+.modal img{width:100%;border-radius:14px;margin-bottom:8px}
 .modal button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:14px;
-font-weight:700;
-margin-top:8px;
+width:100%;padding:12px;border:none;
+border-radius:14px;font-weight:700;margin-top:8px
 }
-
 .wa{background:#25d366;color:#fff}
 .ig{background:#e1306c;color:#fff}
 
-/* ================= FOOTER ================= */
-footer{
-text-align:center;
-padding:28px 10px;
-font-size:12px;
-opacity:.6;
-}
+/* FOOTER */
+footer{text-align:center;padding:28px;font-size:12px;opacity:.6}
 </style>
 </head>
 
@@ -307,7 +151,6 @@ opacity:.6;
 </header>
 
 <section id="products"></section>
-
 <footer>PoweredByAryanzUtama</footer>
 
 <!-- ADMIN PANEL -->
@@ -345,93 +188,63 @@ opacity:.6;
 
 <script>
 /* ================= CONFIG ================= */
-const ADMIN_PIN = "009898";
-const SUPABASE_URL = "PASTE_PROJECT_URL";
-const SUPABASE_ANON_KEY = "PASTE_ANON_KEY";
+const ADMIN_PIN="009898";
+const SUPABASE_URL="PASTE_PROJECT_URL";
+const SUPABASE_ANON_KEY="PASTE_ANON_KEY";
 
-/* ================= INIT SUPABASE ================= */
-const supabase = supabaseJs.createClient(
+/* ================= INIT SUPABASE (BENAR) ================= */
+const supabase = window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
 
+/* ================= LOADING (ANTI STUCK) ================= */
+let p=0;
+const loader=setInterval(()=>{
+p++;prog.style.width=p+"%";
+loadingPercent.innerText=p+"%";
+if(p>=100){clearInterval(loader);loading.style.display="none";}
+},15);
+setTimeout(()=>loading.style.display="none",3000);
+
 /* ================= STATE ================= */
-let isAdmin = false;
-
-/* ================= LOADING SAFE ================= */
-let percent = 0;
-const loader = setInterval(()=>{
-percent++;
-prog.style.width = percent+"%";
-loadingPercent.innerText = percent+"%";
-if(percent>=100){
-clearInterval(loader);
-loading.style.display="none";
-}
-},20);
-
-/* FAILSAFE */
-setTimeout(()=>loading.style.display="none",5000);
+let isAdmin=false;
 
 /* ================= LOAD PRODUCTS ================= */
 async function loadProducts(){
-try{
-const {data,error} = await supabase
+const {data,error}=await supabase
 .from("products")
 .select("*")
 .order("created_at",{ascending:false});
-
-if(error) return;
+if(error)return;
 
 products.innerHTML="";
 data.forEach(d=>{
 const card=document.createElement("div");
 card.className="card";
-
 card.innerHTML=`
 <img src="${d.image_url}">
 <div class="info">${d.kategori}</div>
-${d.sold?'<div class="sold-badge">SOLD</div>':''}
+${d.sold?'<div class="sold">SOLD</div>':''}
 <button class="admin-btn">SOLD</button>
 `;
-
-if(!d.sold){
-card.onclick=()=>openPay(d.image_url);
-}
-
-const btn=card.querySelector(".admin-btn");
-btn.onclick=(e)=>{
-e.stopPropagation();
-markSold(d.id);
+if(!d.sold)card.onclick=()=>openPay(d.image_url);
+card.querySelector(".admin-btn").onclick=e=>{
+e.stopPropagation();markSold(d.id);
 };
-
 products.appendChild(card);
 });
-
-if(isAdmin){
-document.querySelectorAll(".admin-btn").forEach(b=>b.style.display="block");
+if(isAdmin)document.querySelectorAll(".admin-btn").forEach(b=>b.style.display="block");
 }
-}catch(e){
-console.error(e);
-}
-}
-
 loadProducts();
 
-/* ================= REALTIME ================= */
-supabase.channel("products-live")
-.on(
-"postgres_changes",
-{event:"*",schema:"public",table:"products"},
-()=>loadProducts()
-)
+/* REALTIME */
+supabase.channel("live")
+.on("postgres_changes",{event:"*",schema:"public",table:"products"},loadProducts)
 .subscribe();
 
-/* ================= ADMIN ================= */
-document.body.addEventListener("dblclick",()=>{
-loginModal.style.display="flex";
-});
-
+/* ADMIN LOGIN */
+document.body.addEventListener("dblclick",()=>loginModal.style.display="flex");
 function loginAdmin(){
 if(pin.value===ADMIN_PIN){
 isAdmin=true;
@@ -441,39 +254,27 @@ loadProducts();
 }else alert("PIN salah");
 }
 
-/* ================= UPLOAD ================= */
+/* UPLOAD */
 async function uploadProduct(){
 const f=file.files[0];
-if(!f) return alert("Pilih foto");
-
-const name = Date.now()+"-"+f.name;
-
-await supabase.storage
-.from("products")
-.upload(name,f,{upsert:true});
-
-const {data} = supabase
-.storage
-.from("products")
-.getPublicUrl(name);
-
+if(!f)return alert("Pilih foto");
+const name=Date.now()+"-"+f.name;
+await supabase.storage.from("products").upload(name,f,{upsert:true});
+const {data}=supabase.storage.from("products").getPublicUrl(name);
 await supabase.from("products").insert({
 image_url:data.publicUrl,
 kategori:kategori.value,
 sold:false
 });
-
 file.value="";
 }
 
-/* ================= SOLD ================= */
+/* SOLD */
 async function markSold(id){
-await supabase.from("products")
-.update({sold:true})
-.eq("id",id);
+await supabase.from("products").update({sold:true}).eq("id",id);
 }
 
-/* ================= PAY ================= */
+/* PAY */
 function openPay(img){
 payModal.style.display="flex";
 payImg.src=img;
