@@ -5,474 +5,335 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AryanzUtama Store</title>
 
-<!-- SUPABASE -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <style>
-/* =====================================================
-   RESET & ROOT
-===================================================== */
 :root{
-  --primary:#ff7a18;
-  --secondary:#ffb347;
-  --dark:#0f0f0f;
-  --soft:#f4f6fb;
-  --green:#25d366;
-  --danger:#ff3b3b;
-  --radius:18px;
+--blue:#4da3ff;
+--blueSoft:#eaf3ff;
+--dark:#0d1b2a;
+--white:#fff;
+--radius:18px;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
 
 body{
-  background:var(--soft);
-  color:#222;
-  overflow-x:hidden;
+background:var(--blueSoft);
+color:#222;
+overflow-x:hidden;
 }
 
-/* =====================================================
-   LOADING SCREEN (AMAN DI KLIK SETELAH HILANG)
-===================================================== */
-#loadingScreen{
-  position:fixed;
-  inset:0;
-  background:#111;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-#loadingScreen.hide{
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .6s ease;
-}
-
-#loadingLogo{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  margin-bottom:18px;
-}
-
-#progressWrap{
-  width:70%;
-  max-width:320px;
-}
-
-#progressBar{
-  height:6px;
-  background:#333;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-#progressFill{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,var(--primary),var(--secondary));
-}
-
-#progressText{
-  margin-top:10px;
-  font-size:12px;
-  color:#aaa;
-  text-align:center;
-}
-
-/* =====================================================
-   BANNER
-===================================================== */
+/* ================= BANNER ================= */
 .banner{
-  height:260px;
-  background:
-    linear-gradient(to bottom,
-      rgba(255,255,255,0) 0%,
-      rgba(255,255,255,.6) 60%,
-      #fff 100%),
-    url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
-  background-size:cover;
-  background-position:center;
-  position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  padding-bottom:18px;
+height:260px;
+background:
+linear-gradient(to bottom,
+rgba(255,255,255,0) 0%,
+rgba(255,255,255,.6) 60%,
+#fff 100%),
+url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
+background-size:cover;
+background-position:center;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
 }
 
-.logo{
-  position:absolute;
-  top:80px;
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  background:#fff;
-  padding:6px;
-  box-shadow:0 20px 40px rgba(0,0,0,.35);
-  transition:all .9s cubic-bezier(.4,0,.2,1);
-  z-index:10;
+.banner .logo{
+width:130px;
+height:130px;
+border-radius:50%;
+background:#fff;
+padding:6px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
 }
 
-.logo.move{
-  top:190px;
+.banner .logo img{
+width:100%;
+height:100%;
+border-radius:50%;
+object-fit:cover;
 }
 
-.logo img{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  object-fit:cover;
+/* ================= HOME ================= */
+#home{
+padding:30px;
+display:flex;
+gap:20px;
+justify-content:center;
+flex-wrap:wrap;
 }
 
-/* =====================================================
-   HOME MENU
-===================================================== */
-#homeMenu{
-  padding:22px;
-  display:flex;
-  gap:20px;
-  justify-content:center;
-  flex-wrap:wrap;
+.card{
+background:#fff;
+border-radius:22px;
+padding:26px;
+max-width:320px;
+width:100%;
+box-shadow:0 15px 40px rgba(0,0,0,.15);
+cursor:pointer;
+transition:.35s;
+animation:fadeUp .6s ease;
 }
 
-.homeCard{
-  background:#fff;
-  border-radius:22px;
-  padding:26px;
-  max-width:320px;
-  width:100%;
-  box-shadow:0 15px 40px rgba(0,0,0,.15);
-  cursor:pointer;
-  transition:.3s;
+.card:hover{transform:translateY(-6px)}
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(30px)}
+to{opacity:1}
 }
 
-.homeCard:hover{
-  transform:translateY(-6px);
-}
+.card h2{margin-bottom:10px}
+.card p{font-size:14px;opacity:.75}
 
-.homeCard h2{
-  margin-bottom:10px;
-}
-
-.homeCard p{
-  font-size:14px;
-  opacity:.75;
-}
-
-/* =====================================================
-   MODAL BASE (KLIK AMAN)
-===================================================== */
+/* ================= MODAL ================= */
 .modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:1000;
-  pointer-events:auto;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:1000;
 }
 
-.modal.show{
-  display:flex;
-}
+.modal.show{display:flex}
 
 .modalBox{
-  background:#fff;
-  width:90%;
-  max-width:420px;
-  border-radius:22px;
-  padding:18px;
-  max-height:90vh;
-  overflow:auto;
-  animation:pop .35s ease;
+background:#fff;
+border-radius:22px;
+padding:18px;
+width:92%;
+max-width:420px;
+max-height:90vh;
+overflow:auto;
+animation:scaleIn .3s ease;
 }
 
-@keyframes pop{
-  from{transform:scale(.9);opacity:0}
-  to{transform:none;opacity:1}
+@keyframes scaleIn{
+from{opacity:0;transform:scale(.9)}
+to{opacity:1}
 }
 
 .option{
-  padding:14px;
-  border-radius:14px;
-  background:#f4f6fb;
-  margin-bottom:10px;
-  font-weight:700;
-  cursor:pointer;
+background:var(--blueSoft);
+padding:14px;
+border-radius:14px;
+margin-bottom:10px;
+font-weight:700;
+cursor:pointer;
+transition:.2s;
 }
 
-.option:hover{
-  background:#ececec;
+.option:hover{background:#d9eaff}
+
+/* ================= PRODUCTS ================= */
+#products{
+padding:16px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
 }
 
-/* =====================================================
-   READONLY & FORM
-===================================================== */
-.readonly{
-  white-space:pre-line;
-  background:#f4f6fb;
-  border-radius:14px;
-  padding:14px;
-  font-size:13px;
-  margin-bottom:12px;
+.product{
+background:#fff;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+position:relative;
+animation:fadeUp .4s ease;
 }
 
-input, textarea{
-  width:100%;
-  padding:11px;
-  border-radius:12px;
-  border:1px solid #ddd;
-  margin-bottom:10px;
-  font-size:14px;
+.product.sold{
+filter:grayscale(100%);
+opacity:.5;
+pointer-events:none;
 }
 
-textarea{
-  resize:none;
-  height:130px;
+.product img{
+width:100%;
+height:160px;
+object-fit:cover;
 }
 
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  font-weight:900;
-  margin-top:8px;
-  cursor:pointer;
+.product .info{
+padding:10px;
+font-weight:800;
+text-align:center;
 }
 
-.btn.green{background:var(--green);color:#fff}
-.btn.gray{background:#ccc;color:#666;cursor:not-allowed}
-
-/* =====================================================
-   ADMIN FLOAT BUTTON (SAMAR)
-===================================================== */
-#adminFloat{
-  position:fixed;
-  left:10px;
-  bottom:10px;
-  width:18px;
-  height:18px;
-  opacity:.08;
-  z-index:2000;
-  cursor:pointer;
+/* ================= ADMIN FLOAT ================= */
+#adminBtn{
+position:fixed;
+left:8px;
+bottom:8px;
+width:18px;
+height:18px;
+opacity:.08;
+z-index:2000;
+cursor:pointer;
 }
 
-/* =====================================================
-   FOOTER
-===================================================== */
+/* ================= FORM ================= */
+input,textarea{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:1px solid #ccc;
+margin-bottom:10px;
+}
+
+textarea{height:120px;resize:none}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+font-weight:900;
+cursor:pointer;
+}
+
+.green{background:#25d366;color:#fff}
+.gray{background:#ccc;color:#666}
+
 footer{
-  text-align:center;
-  padding:28px 10px;
-  font-size:12px;
-  opacity:.6;
+text-align:center;
+padding:26px;
+font-size:12px;
+opacity:.6;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
-<div id="loadingScreen">
-  <img id="loadingLogo" src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
-  <div id="progressWrap">
-    <div id="progressBar">
-      <div id="progressFill"></div>
-    </div>
-    <div id="progressText">0% • PoweredByAryanzUtama</div>
-  </div>
-</div>
-
-<!-- BANNER -->
 <div class="banner">
-  <div class="logo" id="logo">
-    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
-  </div>
+<div class="logo">
+<img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+</div>
 </div>
 
-<!-- HOME -->
-<div id="homeMenu">
-  <div class="homeCard" onclick="openSell()">
-    <h2>➕ Jual Akun</h2>
-    <p>Jual akun ML terpercaya, proses aman dan transparan.</p>
-  </div>
-
-  <div class="homeCard" onclick="openBuy()">
-    <h2>🛒 Beli Akun</h2>
-    <p>Beli akun siap pakai & dijamin aman.</p>
-  </div>
+<div id="home">
+<div class="card" onclick="openSell()">
+<h2>➕ Jual Akun</h2>
+<p>Jual akun terpercaya, proses aman & transparan.</p>
 </div>
 
-<!-- ADMIN FLOAT -->
-<div id="adminFloat" onclick="openAdminPin()"></div>
-
-<!-- ================= MODALS ================= -->
-
-<!-- SELL GAME -->
-<div class="modal" id="sellGame">
-  <div class="modalBox">
-    <h3>Mau jual akun apa?</h3>
-    <p style="font-size:13px;margin-bottom:10px">Klik pada pilihan yang benar!</p>
-    <div class="option" onclick="toTier()">Mobile Legend</div>
-    <div class="option">Free Fire</div>
-    <div class="option">Roblox</div>
-    <div class="option">Efootball</div>
-    <div class="option">COC</div>
-  </div>
+<div class="card" onclick="openBuy()">
+<h2>🛒 Beli Akun</h2>
+<p>Pilih akun terbaik sesuai kebutuhanmu.</p>
+</div>
 </div>
 
-<!-- TIER -->
+<div id="products" style="display:none"></div>
+
+<div id="adminBtn" onclick="adminLogin()"></div>
+
+<!-- MODALS -->
+<div class="modal" id="sellModal">
+<div class="modalBox">
+<h3>Mau jual akun apa?</h3>
+<div class="option" onclick="nextTier()">Mobile Legend</div>
+<div class="option">Free Fire</div>
+<div class="option">Roblox</div>
+<div class="option">Efootball</div>
+<div class="option">COC</div>
+</div>
+</div>
+
 <div class="modal" id="tierModal">
-  <div class="modalBox">
-    <h3>Pilih Tier Akun ML</h3>
-    <div class="option" onclick="toLevel()">Ahli</div>
-    <div class="option">Senior</div>
-    <div class="option">Junior</div>
-    <div class="option">Ternama</div>
-    <div class="option">Terhormat</div>
-    <p style="font-size:12px;opacity:.6;text-align:center">PoweredByAryanzUtama</p>
-  </div>
+<div class="modalBox">
+<h3>Pilih Tier</h3>
+<div class="option" onclick="nextLevel()">Ahli</div>
+<div class="option">Senior</div>
+<div class="option">Junior</div>
+<p style="text-align:center;font-size:12px">PoweredByAryanzUtama</p>
+</div>
 </div>
 
-<!-- LEVEL -->
 <div class="modal" id="levelModal">
-  <div class="modalBox">
-    <h3>Semua akan ku take selagi kalian benar mengisi opsi</h3>
-    <div class="option" onclick="toCein()">Ahli 5</div>
-    <div class="option">Ahli 4</div>
-    <div class="option">Ahli 3</div>
-    <div class="option">Ahli 2</div>
-    <div class="option">Ahli 1</div>
-  </div>
+<div class="modalBox">
+<h3>Semua akan ku take selagi benar</h3>
+<div class="option" onclick="openForm()">Ahli 5</div>
+<div class="option">Ahli 4</div>
+<div class="option">Ahli 3</div>
+</div>
 </div>
 
-<!-- CEIN -->
-<div class="modal" id="ceinModal">
-  <div class="modalBox">
-    <div class="readonly">
-JUAL AKUN WAJIB BISA CEIN
-
-Nomor :
-089679520905
-
-Gmail :
-nnffvyya48@gmail.com
-    </div>
-
-    <p style="font-size:12px;margin-bottom:8px">
-Code OTP ke Gmail nnffvyya58XXXXX, gausah dikasih kode, biarkan admin saja.
-    </p>
-
-    <button class="btn green" onclick="waAdmin()">Chat Admin</button>
-    <button class="btn gray" onclick="toForm()">Lanjut (sudah CEIN)</button>
-  </div>
-</div>
-
-<!-- FORM -->
 <div class="modal" id="formModal">
-  <div class="modalBox">
-    <div class="readonly">
-DATA ACCOUNT ML STOK KE [  ]
-
-peraturan:
-- wajib isi email benar
-- sekunder wajib
-- wajib ada code cadangan
-- pw google & moonton wajib benar
-- semua wajib sudah di cein
-- harga tidak berubah
-    </div>
-
-    <input id="fEmail" placeholder="Email">
-    <input id="fPwGoogle" placeholder="Pw Google">
-    <input id="fPwMoonton" placeholder="Pw Moonton">
-    <input id="fSekunder" placeholder="Sekunder">
-    <textarea id="fCode" placeholder="Code cadangan (10 baris)"></textarea>
-
-    <button id="btnNext" class="btn gray" disabled onclick="finish()">Lanjut</button>
-  </div>
+<div class="modalBox">
+<p style="font-size:13px">
+DATA ACCOUNT ML STOK KE [ ]
+</p>
+<input placeholder="Email">
+<input placeholder="Pw Google">
+<input placeholder="Pw Moonton">
+<input placeholder="Sekunder">
+<textarea placeholder="Code cadangan"></textarea>
+<button class="green" onclick="wa()">Lanjut ke WhatsApp</button>
+</div>
 </div>
 
 <footer>PoweredByAryanzUtama</footer>
 
 <script>
-/* =====================================================
-   LOADING 2.4 DETIK
-===================================================== */
-let progress=0;
-const fill=document.getElementById("progressFill");
-const text=document.getElementById("progressText");
-
-const loadInt=setInterval(()=>{
-  progress+=4;
-  fill.style.width=progress+"%";
-  text.innerText=progress+"% • PoweredByAryanzUtama";
-  if(progress>=100){
-    clearInterval(loadInt);
-    document.getElementById("loadingScreen").classList.add("hide");
-    document.getElementById("logo").classList.add("move");
-  }
-},96);
-
-/* =====================================================
-   SUPABASE READY
-===================================================== */
+/* ================= SUPABASE ================= */
 const supabase = window.supabase.createClient(
-  "https://afjzqdqzihyttukaprnn.supabase.co",
-  "sb_publishable_C7eOYNByY-sNmFskC_gtpQ_SKffaH6Z"
+"https://afjzqdqzihyttukaprnn.supabase.co",
+"sb_publishable_C7eOYNByY-sNmFskC_gtpQ_SKffaH6Z"
 );
 
-/* =====================================================
-   FLOW FUNCTIONS (DIJAMIN ADA)
-===================================================== */
-function openSell(){document.getElementById("sellGame").classList.add("show")}
-function toTier(){closeAll();tierModal.classList.add("show")}
-function toLevel(){closeAll();levelModal.classList.add("show")}
-function toCein(){closeAll();ceinModal.classList.add("show")}
-function toForm(){closeAll();formModal.classList.add("show")}
-function openBuy(){waAdmin()}
-function waAdmin(){window.open("https://wa.me/6289679520905","_blank")}
+/* ================= FLOW ================= */
+function openSell(){sellModal.classList.add("show")}
+function nextTier(){closeAll();tierModal.classList.add("show")}
+function nextLevel(){closeAll();levelModal.classList.add("show")}
+function openForm(){closeAll();formModal.classList.add("show")}
+function openBuy(){
+document.getElementById("home").style.display="none";
+document.getElementById("products").style.display="grid";
+loadProducts();
+}
 
 function closeAll(){
-  document.querySelectorAll(".modal").forEach(m=>m.classList.remove("show"));
+document.querySelectorAll(".modal").forEach(m=>m.classList.remove("show"));
 }
 
-/* =====================================================
-   FORM VALIDATION
-===================================================== */
-const fields=["fEmail","fPwGoogle","fPwMoonton","fSekunder","fCode"];
-fields.forEach(id=>{
-  document.getElementById(id).addEventListener("input",checkForm);
+function wa(){
+window.open("https://wa.me/6289679520905","_blank");
+}
+
+/* ================= PRODUCTS ================= */
+async function loadProducts(){
+const {data}=await supabase
+.from("products")
+.select("*")
+.order("price",{ascending:false});
+products.innerHTML="";
+data.forEach(p=>{
+const d=document.createElement("div");
+d.className="product"+(p.sold?" sold":"");
+d.innerHTML=`
+<img src="${p.image}">
+<div class="info">${p.category} • Rp ${p.price}</div>`;
+if(!p.sold)d.onclick=()=>pay();
+products.appendChild(d);
 });
-
-function checkForm(){
-  const ok=fields.every(id=>document.getElementById(id).value.trim()!=="");
-  const btn=document.getElementById("btnNext");
-  btn.disabled=!ok;
-  btn.className="btn "+(ok?"green":"gray");
 }
 
-function finish(){
-  alert("SALIN DATA AKUN MU DAN LANJUT KE WHATSAPP ADMIN");
-  waAdmin();
+function pay(){
+alert("Silakan transfer lalu chat admin");
+wa();
 }
 
-/* =====================================================
-   ADMIN MODE (TERSEMBUNYI)
-===================================================== */
-function openAdminPin(){
-  const pin=prompt("Masukkan PIN Admin:");
-  if(pin==="009898"){
-    alert("ADMIN MODE AKTIF");
-  }
+/* ================= ADMIN ================= */
+function adminLogin(){
+const pin=prompt("PIN Admin:");
+if(pin==="009898"){
+alert("ADMIN MODE");
+}
 }
 </script>
 
