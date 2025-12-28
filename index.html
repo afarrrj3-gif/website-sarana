@@ -169,14 +169,57 @@ header::after{
 </div>
 
 <!-- ===================== POPUP BUY ===================== -->
-<div class="popup" id="buyPopup">
-  <div class="popup-box">
-    <h3>Beli Akun</h3>
-    <input placeholder="Cari kategori..." style="width:100%;padding:10px;border-radius:8px;border:1px solid #ccc">
-    <div id="productList"></div>
-    <button class="btn" onclick="closeAll()">Tutup</button>
+<section id="buyPage" style="display:none;padding-bottom:50px">
+
+  <!-- Banner -->
+  <div style="
+    position:relative;
+    height:220px;
+    background:url('https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg') center/cover no-repeat;
+  ">
+    <div style="
+      position:absolute;
+      bottom:0;
+      width:100%;
+      height:80px;
+      background:linear-gradient(to bottom,rgba(255,255,255,0),#eef6ff);
+    "></div>
+
+    <div style="
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      width:90px;
+      height:90px;
+      background:white;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    ">
+      <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg"
+           style="width:80px;height:80px;border-radius:50%">
+    </div>
   </div>
-</div>
+
+  <!-- Search -->
+  <div style="padding:15px">
+    <input id="searchInput"
+      placeholder="Cari kategori (ahli, senior, ternama...)"
+      style="
+        width:100%;
+        padding:14px;
+        border-radius:12px;
+        border:1px solid #ccc;
+        font-size:15px;
+      ">
+  </div>
+
+  <!-- Product List -->
+  <div id="productListBuy" style="padding:15px"></div>
+
+</section>
 
 <!-- ===================== ADMIN ===================== -->
 <div id="adminBtn" onclick="adminLogin()">A</div>
