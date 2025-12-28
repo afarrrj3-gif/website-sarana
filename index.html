@@ -270,7 +270,7 @@ function renderProducts(){
       d.innerHTML=`
         <img src="${p.img}">
         <div class="price">Rp ${p.price}</div>
-        ${p.sold?'':'<button class="btn" onclick="pay()">Beli</button>'}
+        ${p.sold?'':'<button class="btn" onclick="pay(${p.id})">Beli</button>'}
       `;
       box.appendChild(d);
     });
