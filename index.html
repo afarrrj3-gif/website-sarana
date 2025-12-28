@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AryanzUtama Store</title>
 
-<!-- ICON ASLI -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
 <style>
@@ -16,7 +15,7 @@ body{
   background:#f5fbff;
 }
 
-/* ================= LOADING SCREEN (TAMBAHAN) ================= */
+/* ================= LOADING ================= */
 #loadingScreen{
   position:fixed;
   inset:0;
@@ -26,70 +25,31 @@ body{
   justify-content:center;
   z-index:99999;
 }
-
-.loader-box{
-  text-align:center;
-  animation:fadeIn .6s ease;
-}
-
+.loader-box{text-align:center;}
 .loader-box img{
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  object-fit:cover;
+  width:140px;height:140px;border-radius:50%;
   box-shadow:0 10px 25px rgba(0,0,0,.15);
-  margin-bottom:20px;
 }
-
 .progress{
-  width:220px;
-  height:6px;
-  background:#dbe9ff;
-  border-radius:10px;
-  overflow:hidden;
-  margin:0 auto 12px;
+  width:220px;height:6px;background:#dbe9ff;
+  border-radius:10px;overflow:hidden;margin:15px auto;
 }
-
 .progress .bar{
-  height:100%;
-  width:0%;
+  height:100%;width:0%;
   background:linear-gradient(90deg,#4da3ff,#7bb9ff);
   animation:loadBar 3s linear forwards;
 }
-
-.powered-loading{
-  font-size:13px;
-  color:#777;
-  letter-spacing:.3px;
-}
-
-@keyframes loadBar{
-  from{width:0%}
-  to{width:100%}
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(.95)}
-  to{opacity:1;transform:scale(1)}
-}
+@keyframes loadBar{to{width:100%}}
 
 /* ================= BANNER ================= */
 .banner{
   padding:70px 15px 60px;
   text-align:center;
   background:
-    linear-gradient(
-      to bottom,
-      rgba(255,255,255,0) 0%,
-      rgba(255,255,255,.4) 45%,
-      rgba(255,255,255,.8) 75%,
-      #fff 100%
-    ),
+    linear-gradient(to bottom,rgba(255,255,255,0),#fff),
     url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
   background-size:cover;
-  background-position:center;
 }
-
 .banner img{max-width:220px;}
 
 /* ================= SEARCH ================= */
@@ -101,20 +61,14 @@ header{
   box-shadow:0 4px 12px rgba(0,0,0,.05);
   z-index:10;
 }
-
 .search-box{display:flex;gap:10px;}
 .search-box input{
-  flex:1;
-  padding:14px 18px;
-  border-radius:30px;
-  border:1px solid #ccc;
+  flex:1;padding:14px 18px;
+  border-radius:30px;border:1px solid #ccc;
 }
 .search-box button{
-  border:none;
-  background:#4da3ff;
-  color:#fff;
-  padding:14px 18px;
-  border-radius:50%;
+  border:none;background:#4da3ff;
+  color:#fff;padding:14px 18px;border-radius:50%;
 }
 
 /* ================= PRODUK ================= */
@@ -124,37 +78,60 @@ header{
   grid-template-columns:repeat(2,1fr);
   gap:15px;
 }
-
 .card{
   background:#fff;
   border-radius:16px;
   overflow:hidden;
   box-shadow:0 6px 18px rgba(0,0,0,.1);
   transition:.25s;
-  opacity:0;
-  transform:translateY(30px) scale(.97);
-  animation:produkMasuk .6s ease forwards;
+  position:relative;
 }
-
-.card:hover{transform:translateY(-4px) scale(1);}
-
-@keyframes produkMasuk{
-  to{opacity:1;transform:translateY(0) scale(1);}
-}
-
 .card img{
   width:100%;
   aspect-ratio:4/5;
   object-fit:cover;
 }
 
-/* ================= EMPTY & LOADING ================= */
-.empty,.loading{
-  grid-column:1/-1;
-  text-align:center;
-  padding:35px;
-  color:#555;
+/* SOLD BADGE */
+.sold{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  font-weight:bold;
+  letter-spacing:2px;
 }
+
+/* ADMIN BUTTON */
+.admin-btn{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#ff3d3d;
+  color:#fff;
+  border:none;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:13px;
+  display:none;
+}
+
+/* ================= ADMIN SECRET ================= */
+#adminSecret{
+  position:fixed;
+  left:6px;
+  bottom:6px;
+  font-size:10px;
+  color:rgba(0,0,0,.15);
+  cursor:pointer;
+  user-select:none;
+}
+#adminSecret:hover{color:rgba(0,0,0,.35);}
 
 /* ================= MODAL ================= */
 .modal{
@@ -168,35 +145,38 @@ header{
 }
 .modal.show{display:flex;}
 .modal-content{
-  background:linear-gradient(180deg,#fafdff,#eaf4ff);
-  border-radius:18px;
-  width:90%;
-  max-width:420px;
-  padding:22px;
+  background:#fff;
+  border-radius:14px;
+  width:85%;
+  max-width:320px;
+  padding:20px;
   text-align:center;
-  animation:zoom .35s ease;
 }
-@keyframes zoom{
-  from{transform:scale(.7);opacity:0}
-  to{transform:scale(1);opacity:1}
+.modal-content input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin-top:10px;
 }
-
-/* ================= FOOTER ================= */
-.footer{text-align:center;padding:30px 10px 20px;}
-.platform-bottom{display:flex;justify-content:center;gap:22px;margin-bottom:12px;}
-.platform-bottom a{font-size:28px;color:#555;}
-.powered{font-size:13px;color:#888;}
+.modal-content button{
+  margin-top:12px;
+  padding:10px 18px;
+  border:none;
+  background:#4da3ff;
+  color:#fff;
+  border-radius:8px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- LOADING SCREEN -->
+<!-- LOADING -->
 <div id="loadingScreen">
   <div class="loader-box">
     <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
     <div class="progress"><div class="bar"></div></div>
-    <div class="powered-loading">PoweredByAryanzUtama</div>
   </div>
 </div>
 
@@ -204,21 +184,87 @@ header{
 
 <header>
   <div class="search-box">
-    <input id="search" placeholder="Cari kategori (ahli, senior)">
-    <button id="btnCari">🔍</button>
+    <input id="search" placeholder="Cari produk">
+    <button>🔍</button>
   </div>
 </header>
 
 <div class="container" id="produk"></div>
 
-<!-- SCRIPT ASLI + LOADING -->
+<!-- ADMIN SECRET -->
+<div id="adminSecret">powered</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <h3>Admin Login</h3>
+    <input type="password" id="pin" placeholder="Masukkan PIN">
+    <button onclick="loginAdmin()">Masuk</button>
+  </div>
+</div>
+
 <script>
+/* ================= CONFIG ================= */
+const ADMIN_PIN = "1234"; // GANTI PIN
+let isAdmin = localStorage.getItem("admin") === "true";
+
+/* ================= PRODUK DATA ================= */
+const produkData = [
+  {id:1, img:"https://via.placeholder.com/300x400?text=Produk+1"},
+  {id:2, img:"https://via.placeholder.com/300x400?text=Produk+2"},
+  {id:3, img:"https://via.placeholder.com/300x400?text=Produk+3"}
+];
+
+/* ================= RENDER ================= */
+const container = document.getElementById("produk");
+
+function render(){
+  container.innerHTML="";
+  produkData.forEach(p=>{
+    const sold = localStorage.getItem("sold_"+p.id)==="true";
+
+    const card=document.createElement("div");
+    card.className="card";
+
+    card.innerHTML=`
+      <img src="${p.img}">
+      ${sold?'<div class="sold">SOLD</div>':''}
+      <button class="admin-btn">SOLD</button>
+    `;
+
+    if(isAdmin){
+      card.querySelector(".admin-btn").style.display="block";
+      card.querySelector(".admin-btn").onclick=()=>{
+        localStorage.setItem("sold_"+p.id,"true");
+        render();
+      };
+    }
+
+    container.appendChild(card);
+  });
+}
+render();
+
+/* ================= ADMIN LOGIN ================= */
+const secret=document.getElementById("adminSecret");
+const modal=document.getElementById("loginModal");
+
+secret.onclick=()=>modal.classList.add("show");
+
+function loginAdmin(){
+  const pin=document.getElementById("pin").value;
+  if(pin===ADMIN_PIN){
+    localStorage.setItem("admin","true");
+    location.reload();
+  }else{
+    alert("PIN salah");
+  }
+}
+
+/* ================= LOADING HIDE ================= */
 window.addEventListener("load",()=>{
   setTimeout(()=>{
-    const l=document.getElementById("loadingScreen");
-    l.style.opacity="0";
-    l.style.transition="opacity .5s ease";
-    setTimeout(()=>l.remove(),500);
+    document.getElementById("loadingScreen").remove();
   },3000);
 });
 </script>
