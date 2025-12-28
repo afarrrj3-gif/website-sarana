@@ -10,7 +10,7 @@
 
 <style>
 /* =====================================================
-   ROOT & RESET
+   RESET & ROOT
 ===================================================== */
 :root{
 --primary:#ff7a18;
@@ -18,13 +18,14 @@
 --danger:#ff3b3b;
 --dark:#111;
 --soft:#f4f6fb;
+--radius:18px;
 }
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:system-ui;
+font-family:system-ui,-apple-system,BlinkMacSystemFont;
 }
 
 body{
@@ -40,12 +41,12 @@ overflow-x:hidden;
 position:fixed;
 inset:0;
 background:#111;
-color:#fff;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-z-index:99999;
+z-index:9999;
+color:#fff;
 }
 
 .loading-bar{
@@ -61,19 +62,22 @@ display:block;
 height:100%;
 width:0%;
 background:linear-gradient(90deg,var(--primary),var(--secondary));
+transition:.15s;
 }
 
 #loadingPercent{
-margin-top:8px;
+margin-top:10px;
+font-weight:700;
 }
 
 #loadingPower{
 font-size:12px;
 opacity:.6;
+margin-top:4px;
 }
 
 /* =====================================================
-   HOME MODE
+   HOME
 ===================================================== */
 #home{
 min-height:100vh;
@@ -81,26 +85,28 @@ display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-gap:20px;
+gap:18px;
 text-align:center;
+padding:16px;
 }
 
 #home img{
 width:90%;
 max-width:360px;
-border-radius:20px;
+border-radius:22px;
 box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
 
 .home-btn{
-width:80%;
-max-width:280px;
+width:100%;
+max-width:300px;
 padding:16px;
 border:none;
-border-radius:18px;
+border-radius:22px;
 font-size:16px;
-font-weight:800;
+font-weight:900;
 color:#fff;
+cursor:pointer;
 background:linear-gradient(90deg,var(--primary),var(--secondary));
 }
 
@@ -109,7 +115,7 @@ background:linear-gradient(90deg,var(--primary),var(--secondary));
 ===================================================== */
 header{
 display:none;
-height:240px;
+height:220px;
 background:linear-gradient(to bottom,var(--primary),var(--secondary),#fff);
 align-items:flex-end;
 justify-content:center;
@@ -117,29 +123,31 @@ padding-bottom:20px;
 }
 
 header h1{
-font-size:22px;
+font-size:24px;
+font-weight:900;
 }
 
 /* =====================================================
-   SEARCH BAR
+   SEARCH
 ===================================================== */
 #searchBox{
 display:none;
 position:sticky;
 top:0;
-z-index:99;
+z-index:50;
 background:#fff;
-padding:12px;
-box-shadow:0 10px 25px rgba(0,0,0,.1);
+padding:14px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
 }
 
 #searchBox input,
 #searchBox select{
 width:100%;
-padding:12px;
-margin-bottom:8px;
-border-radius:14px;
+padding:14px;
+margin-bottom:10px;
+border-radius:16px;
 border:1px solid #ddd;
+font-weight:600;
 }
 
 /* =====================================================
@@ -150,23 +158,21 @@ display:none;
 padding:16px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:14px;
+gap:16px;
 }
 
 .card{
 background:#fff;
-border-radius:18px;
+border-radius:20px;
 overflow:hidden;
 position:relative;
-box-shadow:0 10px 30px rgba(0,0,0,.12);
+box-shadow:0 15px 35px rgba(0,0,0,.15);
 animation:fade .4s ease;
 }
 
 @keyframes fade{
-from{
-opacity:0;
-transform:translateY(20px);
-}
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;}
 }
 
 .card img{
@@ -176,9 +182,14 @@ object-fit:cover;
 }
 
 .card .info{
-padding:10px;
+padding:12px;
 text-align:center;
-font-weight:700;
+font-weight:800;
+}
+
+.card .price{
+font-size:14px;
+opacity:.8;
 }
 
 .sold{
@@ -188,24 +199,25 @@ background:rgba(0,0,0,.75);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:24px;
+font-size:26px;
 font-weight:900;
 color:#fff;
 }
 
 /* =====================================================
-   ADMIN BUTTON
+   ADMIN BTN
 ===================================================== */
 .admin-btn{
 position:absolute;
 bottom:10px;
 left:50%;
 transform:translateX(-50%);
-padding:6px 18px;
+padding:8px 20px;
 border:none;
 border-radius:20px;
 background:var(--danger);
 color:#fff;
+font-weight:800;
 font-size:12px;
 display:none;
 }
@@ -216,7 +228,7 @@ display:none;
 .modal{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.6);
+background:rgba(0,0,0,.65);
 display:none;
 align-items:center;
 justify-content:center;
@@ -226,25 +238,27 @@ z-index:200;
 .modal-content{
 background:#fff;
 width:90%;
-max-width:360px;
-border-radius:20px;
-padding:16px;
+max-width:380px;
+border-radius:22px;
+padding:18px;
 text-align:center;
+animation:fade .3s;
 }
 
 .modal-content img{
 width:100%;
-border-radius:14px;
-margin-bottom:8px;
+border-radius:16px;
+margin-bottom:10px;
 }
 
 .modal-content button{
 width:100%;
-padding:12px;
+padding:14px;
 border:none;
-border-radius:14px;
-margin-top:8px;
-font-weight:800;
+border-radius:16px;
+margin-top:10px;
+font-weight:900;
+cursor:pointer;
 }
 
 .wa{background:#25d366;color:#fff;}
@@ -260,29 +274,43 @@ bottom:0;
 left:0;
 right:0;
 background:#fff;
-padding:16px;
-border-radius:22px 22px 0 0;
-box-shadow:0 -10px 30px rgba(0,0,0,.3);
+padding:18px;
+border-radius:24px 24px 0 0;
+box-shadow:0 -10px 30px rgba(0,0,0,.35);
 z-index:150;
+max-height:90vh;
+overflow:auto;
+}
+
+#adminPanel h3{
+margin-bottom:10px;
 }
 
 #adminPanel input,
-#adminPanel select{
+#adminPanel select,
+#adminPanel textarea{
 width:100%;
-padding:12px;
-margin-bottom:8px;
-border-radius:14px;
+padding:14px;
+margin-bottom:10px;
+border-radius:16px;
 border:1px solid #ddd;
+font-weight:600;
+}
+
+#adminPanel textarea{
+resize:none;
+height:80px;
 }
 
 #adminPanel button{
 width:100%;
-padding:14px;
+padding:16px;
 border:none;
-border-radius:16px;
+border-radius:18px;
 background:linear-gradient(90deg,var(--primary),var(--secondary));
 color:#fff;
-font-weight:800;
+font-weight:900;
+cursor:pointer;
 }
 </style>
 </head>
@@ -308,7 +336,7 @@ font-weight:800;
 </header>
 
 <div id="searchBox">
-<input id="searchInput" placeholder="Cari kategori (ahli, senior...)">
+<input id="searchInput" placeholder="Cari kategori atau deskripsi">
 <select id="filterKategori">
 <option value="">Semua</option>
 <option>Ahli</option>
@@ -333,14 +361,16 @@ font-weight:800;
 <div class="modal" id="payModal">
 <div class="modal-content">
 <img id="payImg">
-<p><b>QRIS</b></p>
-<button class="wa">WhatsApp</button>
-<button class="ig">Instagram</button>
+<p><b>Hubungi Penjual</b></p>
+<button class="wa" onclick="window.open('https://wa.me/628xxxxxxxxxx')">WhatsApp</button>
+<button class="ig" onclick="window.open('https://instagram.com/')">Instagram</button>
+<button onclick="payModal.style.display='none'">Tutup</button>
 </div>
 </div>
 
 <!-- ADMIN PANEL -->
 <div id="adminPanel">
+<h3>Upload Akun</h3>
 <input type="file" id="file">
 <select id="kategori">
 <option>Ahli</option>
@@ -348,10 +378,34 @@ font-weight:800;
 <option>Ternama</option>
 <option>Terhormat</option>
 </select>
+<input id="harga" placeholder="Harga akun">
+<textarea id="deskripsi" placeholder="Deskripsi lengkap akun"></textarea>
 <button onclick="uploadProduct()">Upload Produk</button>
 </div>
 
 <script>
+/* =====================================================
+   DOM
+===================================================== */
+const loading=document.getElementById("loading");
+const prog=document.getElementById("prog");
+const loadingPercent=document.getElementById("loadingPercent");
+const home=document.getElementById("home");
+const header=document.getElementById("header");
+const searchBox=document.getElementById("searchBox");
+const products=document.getElementById("products");
+const loginModal=document.getElementById("loginModal");
+const adminPanel=document.getElementById("adminPanel");
+const searchInput=document.getElementById("searchInput");
+const filterKategori=document.getElementById("filterKategori");
+const payModal=document.getElementById("payModal");
+const payImg=document.getElementById("payImg");
+const pin=document.getElementById("pin");
+const file=document.getElementById("file");
+const kategori=document.getElementById("kategori");
+const harga=document.getElementById("harga");
+const deskripsi=document.getElementById("deskripsi");
+
 /* =====================================================
    CONFIG
 ===================================================== */
@@ -360,26 +414,28 @@ const SUPABASE_URL="ISI_SUPABASE_URL";
 const SUPABASE_ANON_KEY="ISI_ANON_KEY";
 
 /* =====================================================
-   SUPABASE INIT
+   SUPABASE
 ===================================================== */
-const supabase = window.supabase.createClient(
+const supabase=window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
 
 /* =====================================================
-   LOADING
+   LOADING (ANTI STUCK)
 ===================================================== */
 let p=0;
 const loadInt=setInterval(()=>{
 p++;
 prog.style.width=p+"%";
-loadingPercent.innerText=p+"%";
+loadingPercent.textContent=p+"%";
 if(p>=100){
 clearInterval(loadInt);
+setTimeout(()=>{
 loading.style.display="none";
+},300);
 }
-},15);
+},20);
 
 /* =====================================================
    STATE
@@ -388,7 +444,7 @@ let isAdmin=false;
 let allProducts=[];
 
 /* =====================================================
-   MODE SWITCH
+   MODE
 ===================================================== */
 function openBuyer(){
 home.style.display="none";
@@ -417,7 +473,7 @@ alert("PIN salah");
 }
 
 /* =====================================================
-   LOAD PRODUCTS
+   LOAD
 ===================================================== */
 async function loadProducts(){
 const {data}=await supabase
@@ -439,7 +495,10 @@ const c=document.createElement("div");
 c.className="card";
 c.innerHTML=`
 <img src="${d.image_url}">
-<div class="info">${d.kategori}</div>
+<div class="info">
+${d.kategori}
+<div class="price">${d.harga||""}</div>
+</div>
 ${d.sold?'<div class="sold">SOLD</div>':''}
 <button class="admin-btn">SOLD</button>
 `;
@@ -466,8 +525,11 @@ function filterData(){
 const q=searchInput.value.toLowerCase();
 const k=filterKategori.value;
 const res=allProducts.filter(p=>{
-return p.kategori.toLowerCase().includes(q)
-&& (k? p.kategori===k:true);
+return (
+(p.kategori.toLowerCase().includes(q) ||
+(p.deskripsi||"").toLowerCase().includes(q))
+&& (k? p.kategori===k:true)
+);
 });
 renderProducts(res);
 }
@@ -477,7 +539,7 @@ renderProducts(res);
 ===================================================== */
 async function uploadProduct(){
 const f=file.files[0];
-if(!f)return alert("Pilih foto");
+if(!f)return alert("Pilih gambar");
 const name=Date.now()+"-"+f.name;
 await supabase.storage.from("products")
 .upload(name,f,{upsert:true});
@@ -486,9 +548,14 @@ const {data}=supabase.storage
 await supabase.from("products").insert({
 image_url:data.publicUrl,
 kategori:kategori.value,
+harga:harga.value,
+deskripsi:deskripsi.value,
 sold:false
 });
 file.value="";
+harga.value="";
+deskripsi.value="";
+loadProducts();
 }
 
 /* =====================================================
@@ -498,6 +565,7 @@ async function markSold(id){
 await supabase.from("products")
 .update({sold:true})
 .eq("id",id);
+loadProducts();
 }
 
 /* =====================================================
