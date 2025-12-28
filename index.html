@@ -5,38 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AryanzUtama Store</title>
 
-<!-- SUPABASE -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <style>
-/* =====================================================
-   RESET & ROOT
-===================================================== */
-:root{
---primary:#ff7a18;
---secondary:#ffb347;
---danger:#ff3b3b;
---dark:#111;
---soft:#f4f6fb;
---radius:18px;
-}
+/* ================= RESET ================= */
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui;}
+body{background:#f4f6fb;color:#222;overflow-x:hidden}
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:system-ui,-apple-system,BlinkMacSystemFont;
-}
-
-body{
-background:var(--soft);
-color:#222;
-overflow-x:hidden;
-}
-
-/* =====================================================
-   LOADING
-===================================================== */
+/* ================= LOADING ================= */
 #loading{
 position:fixed;
 inset:0;
@@ -45,40 +21,27 @@ display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-z-index:9999;
-color:#fff;
+z-index:99999;
+color:#fff
 }
-
 .loading-bar{
 width:70%;
 height:6px;
 background:#333;
 border-radius:20px;
-overflow:hidden;
+overflow:hidden
 }
-
 .loading-bar span{
 display:block;
 height:100%;
 width:0%;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
-transition:.15s;
+background:linear-gradient(90deg,#ff7a18,#ffb347);
+transition:.2s
 }
+#loadingPercent{margin-top:10px;font-weight:700}
+#loadingPower{font-size:12px;opacity:.6}
 
-#loadingPercent{
-margin-top:10px;
-font-weight:700;
-}
-
-#loadingPower{
-font-size:12px;
-opacity:.6;
-margin-top:4px;
-}
-
-/* =====================================================
-   HOME
-===================================================== */
+/* ================= HOME ================= */
 #home{
 min-height:100vh;
 display:flex;
@@ -86,112 +49,79 @@ flex-direction:column;
 align-items:center;
 justify-content:center;
 gap:18px;
-text-align:center;
 padding:16px;
+text-align:center
 }
-
 #home img{
 width:90%;
 max-width:360px;
-border-radius:22px;
-box-shadow:0 20px 40px rgba(0,0,0,.25);
+border-radius:20px;
+box-shadow:0 20px 40px rgba(0,0,0,.3)
 }
-
 .home-btn{
 width:100%;
 max-width:300px;
 padding:16px;
 border:none;
 border-radius:22px;
-font-size:16px;
 font-weight:900;
 color:#fff;
-cursor:pointer;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
+background:linear-gradient(90deg,#ff7a18,#ffb347)
 }
 
-/* =====================================================
-   HEADER
-===================================================== */
+/* ================= HEADER ================= */
 header{
 display:none;
 height:220px;
-background:linear-gradient(to bottom,var(--primary),var(--secondary),#fff);
+background:linear-gradient(to bottom,#ff7a18,#ffb347,#fff);
 align-items:flex-end;
 justify-content:center;
-padding-bottom:20px;
+padding-bottom:20px
 }
 
-header h1{
-font-size:24px;
-font-weight:900;
-}
-
-/* =====================================================
-   SEARCH
-===================================================== */
+/* ================= SEARCH ================= */
 #searchBox{
 display:none;
 position:sticky;
 top:0;
-z-index:50;
+z-index:99;
 background:#fff;
 padding:14px;
-box-shadow:0 10px 25px rgba(0,0,0,.12);
+box-shadow:0 10px 25px rgba(0,0,0,.15)
 }
-
-#searchBox input,
-#searchBox select{
+#searchBox input,#searchBox select{
 width:100%;
 padding:14px;
-margin-bottom:10px;
 border-radius:16px;
 border:1px solid #ddd;
-font-weight:600;
+margin-bottom:10px
 }
 
-/* =====================================================
-   PRODUCTS
-===================================================== */
+/* ================= PRODUCTS ================= */
 #products{
 display:none;
 padding:16px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:16px;
+gap:16px
 }
-
 .card{
 background:#fff;
 border-radius:20px;
 overflow:hidden;
-position:relative;
-box-shadow:0 15px 35px rgba(0,0,0,.15);
-animation:fade .4s ease;
+box-shadow:0 15px 30px rgba(0,0,0,.15);
+position:relative
 }
-
-@keyframes fade{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;}
-}
-
 .card img{
 width:100%;
 height:160px;
-object-fit:cover;
+object-fit:cover
 }
-
-.card .info{
+.info{
 padding:12px;
-text-align:center;
 font-weight:800;
+text-align:center
 }
-
-.card .price{
-font-size:14px;
-opacity:.8;
-}
-
 .sold{
 position:absolute;
 inset:0;
@@ -199,74 +129,58 @@ background:rgba(0,0,0,.75);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:26px;
-font-weight:900;
 color:#fff;
+font-size:26px;
+font-weight:900
 }
-
-/* =====================================================
-   ADMIN BTN
-===================================================== */
 .admin-btn{
+display:none;
 position:absolute;
 bottom:10px;
 left:50%;
 transform:translateX(-50%);
-padding:8px 20px;
-border:none;
-border-radius:20px;
-background:var(--danger);
+background:#ff3b3b;
 color:#fff;
-font-weight:800;
-font-size:12px;
-display:none;
+border:none;
+padding:8px 20px;
+border-radius:20px
 }
 
-/* =====================================================
-   MODAL
-===================================================== */
+/* ================= MODAL ================= */
 .modal{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.65);
+background:rgba(0,0,0,.6);
 display:none;
 align-items:center;
 justify-content:center;
-z-index:200;
+z-index:200
 }
-
 .modal-content{
 background:#fff;
+padding:18px;
+border-radius:20px;
 width:90%;
 max-width:380px;
-border-radius:22px;
-padding:18px;
-text-align:center;
-animation:fade .3s;
+text-align:center
 }
-
 .modal-content img{
 width:100%;
 border-radius:16px;
-margin-bottom:10px;
+margin-bottom:10px
 }
-
 .modal-content button{
 width:100%;
 padding:14px;
+margin-top:8px;
 border:none;
 border-radius:16px;
-margin-top:10px;
-font-weight:900;
-cursor:pointer;
+font-weight:900
 }
+.wa{background:#25d366;color:#fff}
+.ig{background:#e1306c;color:#fff}
 
-.wa{background:#25d366;color:#fff;}
-.ig{background:#e1306c;color:#fff;}
-
-/* =====================================================
-   ADMIN PANEL
-===================================================== */
+/* ================= ADMIN PANEL ================= */
 #adminPanel{
 display:none;
 position:fixed;
@@ -277,66 +191,45 @@ background:#fff;
 padding:18px;
 border-radius:24px 24px 0 0;
 box-shadow:0 -10px 30px rgba(0,0,0,.35);
-z-index:150;
-max-height:90vh;
-overflow:auto;
+z-index:150
 }
-
-#adminPanel h3{
-margin-bottom:10px;
-}
-
-#adminPanel input,
-#adminPanel select,
-#adminPanel textarea{
+#adminPanel input,#adminPanel select,#adminPanel textarea{
 width:100%;
 padding:14px;
 margin-bottom:10px;
 border-radius:16px;
-border:1px solid #ddd;
-font-weight:600;
+border:1px solid #ddd
 }
-
-#adminPanel textarea{
-resize:none;
-height:80px;
-}
-
 #adminPanel button{
 width:100%;
 padding:16px;
 border:none;
 border-radius:18px;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
+background:linear-gradient(90deg,#ff7a18,#ffb347);
 color:#fff;
-font-weight:900;
-cursor:pointer;
+font-weight:900
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
 <div id="loading">
 <div class="loading-bar"><span id="prog"></span></div>
 <div id="loadingPercent">0%</div>
 <div id="loadingPower">PoweredByAryanzUtama</div>
 </div>
 
-<!-- HOME -->
 <div id="home">
 <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg">
 <button class="home-btn" onclick="openBuyer()">🛒 BELI AKUN</button>
 <button class="home-btn" onclick="openAdmin()">➕ JUAL AKUN</button>
 </div>
 
-<header id="header">
-<h1>AryanzUtama Store</h1>
-</header>
+<header id="header"><h1>AryanzUtama Store</h1></header>
 
 <div id="searchBox">
-<input id="searchInput" placeholder="Cari kategori atau deskripsi">
+<input id="searchInput" placeholder="Cari kategori">
 <select id="filterKategori">
 <option value="">Semua</option>
 <option>Ahli</option>
@@ -348,7 +241,6 @@ cursor:pointer;
 
 <section id="products"></section>
 
-<!-- LOGIN -->
 <div class="modal" id="loginModal">
 <div class="modal-content">
 <h3>Admin Login</h3>
@@ -357,20 +249,16 @@ cursor:pointer;
 </div>
 </div>
 
-<!-- PAYMENT -->
 <div class="modal" id="payModal">
 <div class="modal-content">
 <img id="payImg">
-<p><b>Hubungi Penjual</b></p>
-<button class="wa" onclick="window.open('https://wa.me/628xxxxxxxxxx')">WhatsApp</button>
-<button class="ig" onclick="window.open('https://instagram.com/')">Instagram</button>
+<button class="wa" onclick="window.open('https://wa.me/6289679520905')">WhatsApp</button>
+<button class="ig" onclick="window.open('https://instagram.com/aryanz_stok')">Instagram</button>
 <button onclick="payModal.style.display='none'">Tutup</button>
 </div>
 </div>
 
-<!-- ADMIN PANEL -->
 <div id="adminPanel">
-<h3>Upload Akun</h3>
 <input type="file" id="file">
 <select id="kategori">
 <option>Ahli</option>
@@ -378,74 +266,47 @@ cursor:pointer;
 <option>Ternama</option>
 <option>Terhormat</option>
 </select>
-<input id="harga" placeholder="Harga akun">
-<textarea id="deskripsi" placeholder="Deskripsi lengkap akun"></textarea>
-<button onclick="uploadProduct()">Upload Produk</button>
+<input id="harga" placeholder="Harga">
+<textarea id="deskripsi" placeholder="Deskripsi"></textarea>
+<button onclick="uploadProduct()">Upload</button>
 </div>
 
 <script>
-/* =====================================================
-   DOM
-===================================================== */
-const loading=document.getElementById("loading");
+/* ================= SAFE LOADING ================= */
+let percent=0;
 const prog=document.getElementById("prog");
+const loading=document.getElementById("loading");
 const loadingPercent=document.getElementById("loadingPercent");
-const home=document.getElementById("home");
-const header=document.getElementById("header");
-const searchBox=document.getElementById("searchBox");
-const products=document.getElementById("products");
-const loginModal=document.getElementById("loginModal");
-const adminPanel=document.getElementById("adminPanel");
-const searchInput=document.getElementById("searchInput");
-const filterKategori=document.getElementById("filterKategori");
-const payModal=document.getElementById("payModal");
-const payImg=document.getElementById("payImg");
-const pin=document.getElementById("pin");
-const file=document.getElementById("file");
-const kategori=document.getElementById("kategori");
-const harga=document.getElementById("harga");
-const deskripsi=document.getElementById("deskripsi");
 
-/* =====================================================
-   CONFIG
-===================================================== */
+const fakeLoad=setInterval(()=>{
+percent+=2;
+prog.style.width=percent+"%";
+loadingPercent.innerText=percent+"%";
+if(percent>=100){
+clearInterval(fakeLoad);
+loading.style.display="none";
+}
+},30);
+
+/* ================= FORCE EXIT (ANTI STUCK) ================= */
+window.onload=()=>{loading.style.display="none";};
+
+/* ================= CONFIG ================= */
 const ADMIN_PIN="009898";
 const SUPABASE_URL="ISI_SUPABASE_URL";
 const SUPABASE_ANON_KEY="ISI_ANON_KEY";
 
-/* =====================================================
-   SUPABASE
-===================================================== */
-const supabase=window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
+/* ================= SUPABASE SAFE ================= */
+let supabase=null;
+try{
+supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+}catch(e){console.warn("Supabase error",e);}
 
-/* =====================================================
-   LOADING (ANTI STUCK)
-===================================================== */
-let p=0;
-const loadInt=setInterval(()=>{
-p++;
-prog.style.width=p+"%";
-loadingPercent.textContent=p+"%";
-if(p>=100){
-clearInterval(loadInt);
-setTimeout(()=>{
-loading.style.display="none";
-},300);
-}
-},20);
-
-/* =====================================================
-   STATE
-===================================================== */
+/* ================= STATE ================= */
 let isAdmin=false;
 let allProducts=[];
 
-/* =====================================================
-   MODE
-===================================================== */
+/* ================= MODE ================= */
 function openBuyer(){
 home.style.display="none";
 header.style.display="flex";
@@ -453,41 +314,26 @@ searchBox.style.display="block";
 products.style.display="grid";
 loadProducts();
 }
+function openAdmin(){loginModal.style.display="flex";}
 
-function openAdmin(){
-loginModal.style.display="flex";
-}
-
-/* =====================================================
-   ADMIN LOGIN
-===================================================== */
+/* ================= ADMIN ================= */
 function loginAdmin(){
 if(pin.value===ADMIN_PIN){
 isAdmin=true;
 loginModal.style.display="none";
 openBuyer();
 adminPanel.style.display="block";
-}else{
-alert("PIN salah");
-}
+}else alert("PIN salah");
 }
 
-/* =====================================================
-   LOAD
-===================================================== */
+/* ================= LOAD ================= */
 async function loadProducts(){
-const {data}=await supabase
-.from("products")
-.select("*")
-.order("created_at",{ascending:false});
-if(!data)return;
-allProducts=data;
-renderProducts(data);
+if(!supabase)return;
+const {data}=await supabase.from("products").select("*");
+if(data){allProducts=data;renderProducts(data);}
 }
 
-/* =====================================================
-   RENDER
-===================================================== */
+/* ================= RENDER ================= */
 function renderProducts(data){
 products.innerHTML="";
 data.forEach(d=>{
@@ -495,56 +341,31 @@ const c=document.createElement("div");
 c.className="card";
 c.innerHTML=`
 <img src="${d.image_url}">
-<div class="info">
-${d.kategori}
-<div class="price">${d.harga||""}</div>
-</div>
+<div class="info">${d.kategori}</div>
 ${d.sold?'<div class="sold">SOLD</div>':''}
 <button class="admin-btn">SOLD</button>
 `;
-if(!d.sold) c.onclick=()=>openPay(d.image_url);
+if(!d.sold)c.onclick=()=>openPay(d.image_url);
 c.querySelector(".admin-btn").onclick=e=>{
 e.stopPropagation();
 markSold(d.id);
 };
 products.appendChild(c);
 });
-if(isAdmin){
-document.querySelectorAll(".admin-btn")
-.forEach(b=>b.style.display="block");
-}
+if(isAdmin)document.querySelectorAll(".admin-btn").forEach(b=>b.style.display="block");
 }
 
-/* =====================================================
-   SEARCH
-===================================================== */
-searchInput.oninput=filterData;
-filterKategori.onchange=filterData;
+/* ================= SEARCH ================= */
+searchInput.oninput=()=>renderProducts(allProducts.filter(p=>p.kategori.toLowerCase().includes(searchInput.value.toLowerCase())));
 
-function filterData(){
-const q=searchInput.value.toLowerCase();
-const k=filterKategori.value;
-const res=allProducts.filter(p=>{
-return (
-(p.kategori.toLowerCase().includes(q) ||
-(p.deskripsi||"").toLowerCase().includes(q))
-&& (k? p.kategori===k:true)
-);
-});
-renderProducts(res);
-}
-
-/* =====================================================
-   UPLOAD
-===================================================== */
+/* ================= UPLOAD ================= */
 async function uploadProduct(){
+if(!supabase)return;
 const f=file.files[0];
-if(!f)return alert("Pilih gambar");
+if(!f)return alert("Pilih foto");
 const name=Date.now()+"-"+f.name;
-await supabase.storage.from("products")
-.upload(name,f,{upsert:true});
-const {data}=supabase.storage
-.from("products").getPublicUrl(name);
+await supabase.storage.from("products").upload(name,f,{upsert:true});
+const {data}=supabase.storage.from("products").getPublicUrl(name);
 await supabase.from("products").insert({
 image_url:data.publicUrl,
 kategori:kategori.value,
@@ -552,25 +373,17 @@ harga:harga.value,
 deskripsi:deskripsi.value,
 sold:false
 });
-file.value="";
-harga.value="";
-deskripsi.value="";
 loadProducts();
 }
 
-/* =====================================================
-   SOLD
-===================================================== */
+/* ================= SOLD ================= */
 async function markSold(id){
-await supabase.from("products")
-.update({sold:true})
-.eq("id",id);
+if(!supabase)return;
+await supabase.from("products").update({sold:true}).eq("id",id);
 loadProducts();
 }
 
-/* =====================================================
-   PAY
-===================================================== */
+/* ================= PAY ================= */
 function openPay(img){
 payModal.style.display="flex";
 payImg.src=img;
