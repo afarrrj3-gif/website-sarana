@@ -9,17 +9,20 @@
 
 <style>
 /* ================= RESET ================= */
-*{box-sizing:border-box}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
 /* ================= BASE ================= */
 body{
-  margin:0;
   font-family:Arial, Helvetica, sans-serif;
   background:#f5fbff;
-  overflow-x:hidden;
+  color:#222;
 }
 
-/* ================= LOADING ================= */
+/* ================= LOADING SCREEN ================= */
 #loadingScreen{
   position:fixed;
   inset:0;
@@ -29,80 +32,96 @@ body{
   justify-content:center;
   z-index:99999;
 }
-.loader-box{
+
+.loading-box{
+  width:260px;
   text-align:center;
-  animation:fadeZoom .8s ease;
+  animation:fadeIn .8s ease;
 }
-.loader-box img{
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  box-shadow:0 12px 30px rgba(0,0,0,.2);
-}
-.progress{
-  width:220px;
-  height:6px;
+
+.loading-bar{
+  width:100%;
+  height:8px;
   background:#dbe9ff;
   border-radius:10px;
   overflow:hidden;
-  margin:18px auto;
+  margin-top:15px;
 }
-.progress .bar{
+
+.loading-progress{
   height:100%;
   width:0%;
   background:linear-gradient(90deg,#4da3ff,#7bb9ff);
-  animation:loadBar 3s linear forwards;
+  border-radius:10px;
 }
-@keyframes loadBar{to{width:100%}}
-@keyframes fadeZoom{
-  from{opacity:0;transform:scale(.9)}
+
+.loading-text{
+  margin-top:8px;
+  font-size:14px;
+  font-weight:bold;
+  color:#333;
+}
+
+.loading-powered{
+  margin-top:10px;
+  font-size:12px;
+  color:#666;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.95)}
   to{opacity:1;transform:scale(1)}
 }
 
-/* ================= BANNER ================= */
-.banner{
-  padding:70px 15px 60px;
-  text-align:center;
-  background:
-    linear-gradient(to bottom,rgba(255,255,255,0),#fff),
-    url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
-  background-size:cover;
-  background-position:center;
-}
-.banner img{
-  max-width:220px;
-  animation:float 4s ease-in-out infinite;
-}
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-6px)}
-}
-
-/* ================= SEARCH ================= */
+/* ================= HEADER ================= */
 header{
   background:#fff;
   padding:15px;
   position:sticky;
   top:0;
-  box-shadow:0 4px 12px rgba(0,0,0,.06);
   z-index:10;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
+
 .search-box{
   display:flex;
   gap:10px;
 }
+
 .search-box input{
   flex:1;
   padding:14px 18px;
   border-radius:30px;
   border:1px solid #ccc;
 }
+
 .search-box button{
   border:none;
   background:#4da3ff;
   color:#fff;
   padding:14px 18px;
   border-radius:50%;
+}
+
+/* ================= CATEGORY ================= */
+.category-bar{
+  display:flex;
+  gap:10px;
+  padding:12px;
+  overflow-x:auto;
+}
+
+.category-bar button{
+  padding:8px 18px;
+  border:none;
+  border-radius:20px;
+  background:#e6f1ff;
+  font-size:14px;
+}
+
+.category-bar button.active{
+  background:#4da3ff;
+  color:#fff;
 }
 
 /* ================= PRODUK GRID ================= */
@@ -120,23 +139,33 @@ header{
   overflow:hidden;
   box-shadow:0 6px 18px rgba(0,0,0,.12);
   position:relative;
-  animation:cardIn .6s ease forwards;
+  animation:cardIn .5s ease;
 }
+
 @keyframes cardIn{
-  from{opacity:0;transform:translateY(25px) scale(.96)}
+  from{opacity:0;transform:translateY(25px)}
   to{opacity:1;transform:none}
 }
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 12px 28px rgba(0,0,0,.18);
-}
+
 .card img{
   width:100%;
   aspect-ratio:4/5;
   object-fit:cover;
 }
 
-/* ================= SOLD OVERLAY ================= */
+/* ================= LABEL ================= */
+.label{
+  position:absolute;
+  top:8px;
+  left:8px;
+  background:#4da3ff;
+  color:#fff;
+  font-size:12px;
+  padding:4px 12px;
+  border-radius:14px;
+}
+
+/* ================= SOLD ================= */
 .sold{
   position:absolute;
   inset:0;
@@ -145,17 +174,17 @@ header{
   align-items:center;
   justify-content:center;
   color:#fff;
-  font-size:26px;
+  font-size:24px;
   font-weight:bold;
-  letter-spacing:2px;
-  animation:soldPop .4s ease;
+  animation:soldIn .3s ease;
 }
-@keyframes soldPop{
-  from{opacity:0;transform:scale(.8)}
+
+@keyframes soldIn{
+  from{opacity:0;transform:scale(.9)}
   to{opacity:1;transform:scale(1)}
 }
 
-/* ================= ADMIN BTN ================= */
+/* ================= ADMIN BUTTON ================= */
 .admin-btn{
   position:absolute;
   bottom:10px;
@@ -168,36 +197,26 @@ header{
   border-radius:20px;
   font-size:13px;
   display:none;
-  animation:fadeUp .3s ease;
-}
-@keyframes fadeUp{
-  from{opacity:0;transform:translate(-50%,10px)}
-  to{opacity:1;transform:translate(-50%,0)}
 }
 
 /* ================= ADMIN UPLOAD ================= */
 #adminUpload{
   position:fixed;
-  bottom:15px;
+  bottom:20px;
   left:50%;
   transform:translateX(-50%);
   display:none;
   z-index:50;
 }
+
 #adminUpload button{
   background:#4da3ff;
   color:#fff;
   border:none;
-  padding:16px 26px;
+  padding:16px 28px;
   border-radius:40px;
   font-size:16px;
-  box-shadow:0 8px 22px rgba(0,0,0,.25);
-  animation:pulse 2s infinite;
-}
-@keyframes pulse{
-  0%{box-shadow:0 0 0 0 rgba(77,163,255,.6)}
-  70%{box-shadow:0 0 0 15px rgba(77,163,255,0)}
-  100%{box-shadow:0 0 0 0 rgba(77,163,255,0)}
+  box-shadow:0 10px 26px rgba(0,0,0,.25);
 }
 
 /* ================= ADMIN SECRET ================= */
@@ -208,7 +227,6 @@ header{
   font-size:10px;
   color:rgba(0,0,0,.15);
   cursor:pointer;
-  user-select:none;
 }
 
 /* ================= MODAL ================= */
@@ -221,49 +239,61 @@ header{
   justify-content:center;
   z-index:99;
 }
-.modal.show{display:flex;}
+
+.modal.show{display:flex}
+
 .modal-content{
   background:#fff;
-  border-radius:16px;
   width:85%;
   max-width:320px;
   padding:22px;
+  border-radius:16px;
   text-align:center;
-  animation:modalZoom .3s ease;
 }
-@keyframes modalZoom{
-  from{opacity:0;transform:scale(.85)}
-  to{opacity:1;transform:scale(1)}
+
+.modal-content h3{
+  margin-bottom:10px;
 }
+
 .modal-content input{
   width:100%;
   padding:12px;
   border-radius:8px;
   border:1px solid #ccc;
-  margin-top:10px;
 }
+
 .modal-content button{
-  margin-top:14px;
-  padding:12px 20px;
+  margin-top:12px;
+  padding:12px;
   border:none;
   background:#4da3ff;
   color:#fff;
   border-radius:10px;
+  width:100%;
+}
+
+/* ================= FOOTER ================= */
+.footer{
+  text-align:center;
+  padding:25px 10px 30px;
+  font-size:13px;
+  color:#777;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
+<!-- ================= LOADING ================= -->
 <div id="loadingScreen">
-  <div class="loader-box">
-    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
-    <div class="progress"><div class="bar"></div></div>
+  <div class="loading-box">
+    <div class="loading-bar">
+      <div class="loading-progress" id="loadingProgress"></div>
+    </div>
+    <div class="loading-text" id="loadingText">0%</div>
+    <div class="loading-powered">PoweredByAryanzUtama</div>
   </div>
 </div>
-
-<div class="banner"><img src="logo.png"></div>
 
 <header>
   <div class="search-box">
@@ -272,12 +302,13 @@ header{
   </div>
 </header>
 
+<div class="category-bar" id="categoryBar"></div>
 <div class="container" id="produk"></div>
 
-<!-- ADMIN SECRET -->
+<div class="footer">PoweredByAryanzUtama</div>
+
 <div id="adminSecret">powered</div>
 
-<!-- ADMIN UPLOAD -->
 <div id="adminUpload">
   <button onclick="openGallery()">➕ Tambah Produk</button>
 </div>
@@ -293,43 +324,73 @@ header{
   </div>
 </div>
 
+<!-- CATEGORY MODAL -->
+<div class="modal" id="kategoriModal">
+  <div class="modal-content">
+    <h3>Pilih Kategori</h3>
+    <button onclick="setKategori('Senior')">Senior</button>
+    <button onclick="setKategori('Ahli')">Ahli</button>
+    <button onclick="setKategori('Ternama')">Ternama</button>
+    <button onclick="setKategori('Terhormat')">Terhormat</button>
+  </div>
+</div>
+
 <script>
 /* ================= CONFIG ================= */
 const ADMIN_PIN = "1234";
-let isAdmin = localStorage.getItem("admin")==="true";
 
-/* ================= DATA ================= */
+/* ================= STATE ================= */
+let isAdmin = localStorage.getItem("admin")==="true";
 let produkData = JSON.parse(localStorage.getItem("produkData")) || [];
+let kategoriAktif = "Semua";
+let tempImage = null;
 
 /* ================= ELEMENT ================= */
 const container = document.getElementById("produk");
-const uploadBox = document.getElementById("adminUpload");
+const categoryBar = document.getElementById("categoryBar");
+
+/* ================= CATEGORY BAR ================= */
+const kategoriList = ["Semua","Senior","Ahli","Ternama","Terhormat"];
+kategoriList.forEach(k=>{
+  const btn=document.createElement("button");
+  btn.textContent=k;
+  btn.onclick=()=>{
+    kategoriAktif=k;
+    document.querySelectorAll(".category-bar button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    render();
+  };
+  if(k==="Semua")btn.classList.add("active");
+  categoryBar.appendChild(btn);
+});
 
 /* ================= RENDER ================= */
 function render(){
   container.innerHTML="";
-  produkData.forEach((p,i)=>{
-    const card=document.createElement("div");
-    card.className="card";
-    card.innerHTML=`
-      <img src="${p.img}">
-      ${p.sold?'<div class="sold">SOLD</div>':''}
-      <button class="admin-btn">SOLD</button>
-    `;
-    if(isAdmin){
-      const btn=card.querySelector(".admin-btn");
-      btn.style.display="block";
-      btn.onclick=()=>{
-        p.sold=true;
-        save();
-        render();
-      };
-    }
-    container.appendChild(card);
-  });
-  uploadBox.style.display = isAdmin ? "block" : "none";
+  produkData
+    .filter(p=>kategoriAktif==="Semua"||p.kategori===kategoriAktif)
+    .forEach(p=>{
+      const card=document.createElement("div");
+      card.className="card";
+      card.innerHTML=`
+        <img src="${p.img}">
+        <div class="label">${p.kategori}</div>
+        ${p.sold?'<div class="sold">SOLD</div>':''}
+        <button class="admin-btn">SOLD</button>
+      `;
+      if(isAdmin){
+        const btn=card.querySelector(".admin-btn");
+        btn.style.display="block";
+        btn.onclick=()=>{
+          p.sold=true;
+          save();
+          render();
+        };
+      }
+      container.appendChild(card);
+    });
+  document.getElementById("adminUpload").style.display=isAdmin?"block":"none";
 }
-render();
 
 /* ================= ADMIN ================= */
 adminSecret.onclick=()=>loginModal.classList.add("show");
@@ -342,30 +403,46 @@ function loginAdmin(){
 }
 
 /* ================= UPLOAD ================= */
-function openGallery(){
-  fileInput.click();
-}
+function openGallery(){fileInput.click()}
 fileInput.onchange=e=>{
   const file=e.target.files[0];
   if(!file)return;
   const reader=new FileReader();
   reader.onload=()=>{
-    produkData.push({img:reader.result,sold:false});
-    save();
-    render();
+    tempImage=reader.result;
+    kategoriModal.classList.add("show");
   };
   reader.readAsDataURL(file);
 };
+
+function setKategori(k){
+  produkData.push({img:tempImage,kategori:k,sold:false});
+  save();
+  kategoriModal.classList.remove("show");
+  render();
+}
 
 /* ================= SAVE ================= */
 function save(){
   localStorage.setItem("produkData",JSON.stringify(produkData));
 }
 
-/* ================= LOADING END ================= */
-window.addEventListener("load",()=>{
-  setTimeout(()=>loadingScreen.remove(),3000);
-});
+/* ================= LOADING ANIMATION ================= */
+let percent=0;
+const progress=document.getElementById("loadingProgress");
+const text=document.getElementById("loadingText");
+const timer=setInterval(()=>{
+  percent++;
+  progress.style.width=percent+"%";
+  text.textContent=percent+"%";
+  if(percent>=100){
+    clearInterval(timer);
+    setTimeout(()=>loadingScreen.remove(),400);
+  }
+},30);
+
+/* ================= INIT ================= */
+render();
 </script>
 
 </body>
