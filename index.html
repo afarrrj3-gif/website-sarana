@@ -236,19 +236,28 @@ let products=[
 function openSell(){
   document.getElementById('sellPopup').classList.add('active');
 }
+<script>
 function openBuy(){
-  // sembunyikan home
-  document.getElementById('homePage').style.display = 'none';
+  const home = document.getElementById('homePage');
+  const buy  = document.getElementById('buyPage');
 
-  // tampilkan buy page
-  document.getElementById('buyPage').style.display = 'block';
+  if(!home){
+    alert("ERROR: homePage tidak ditemukan");
+    return;
+  }
+  if(!buy){
+    alert("ERROR: buyPage tidak ditemukan");
+    return;
+  }
 
-  // render produk
+  home.style.display = 'none';
+  buy.style.display  = 'block';
+
   renderProducts();
 
-  // scroll ke atas
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+</script>
 function closeAll(){
   document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
 }
