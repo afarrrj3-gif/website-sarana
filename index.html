@@ -5,43 +5,60 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AryanzUtama Store</title>
 
+<!-- ================= SUPABASE SDK ================= -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <style>
-/* ================= RESET ================= */
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui;}
-body{background:#f4f6fb;color:#222;overflow-x:hidden}
+/* =========================================================
+   RESET & ROOT
+========================================================= */
+:root{
+--primary:#ff7a18;
+--secondary:#ffb347;
+--danger:#ff3b3b;
+--bg:#f4f6fb;
+--dark:#111;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:var(--bg);color:#222}
 
-/* ================= LOADING ================= */
+/* =========================================================
+   LOADING (PURE CSS + HTML)
+========================================================= */
 #loading{
 position:fixed;
 inset:0;
 background:#111;
+color:#fff;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
 z-index:99999;
-color:#fff
 }
 .loading-bar{
 width:70%;
 height:6px;
 background:#333;
 border-radius:20px;
-overflow:hidden
+overflow:hidden;
 }
 .loading-bar span{
 display:block;
 height:100%;
-width:0%;
-background:linear-gradient(90deg,#ff7a18,#ffb347);
-transition:.2s
+width:100%;
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+animation:loadmove 1.2s infinite linear;
 }
-#loadingPercent{margin-top:10px;font-weight:700}
-#loadingPower{font-size:12px;opacity:.6}
+@keyframes loadmove{
+0%{transform:translateX(-100%)}
+100%{transform:translateX(100%)}
+}
+#loadingPower{margin-top:10px;font-size:12px;opacity:.6}
 
-/* ================= HOME ================= */
+/* =========================================================
+   HOME
+========================================================= */
 #home{
 min-height:100vh;
 display:flex;
@@ -50,13 +67,13 @@ align-items:center;
 justify-content:center;
 gap:18px;
 padding:16px;
-text-align:center
+text-align:center;
 }
 #home img{
 width:90%;
 max-width:360px;
 border-radius:20px;
-box-shadow:0 20px 40px rgba(0,0,0,.3)
+box-shadow:0 20px 40px rgba(0,0,0,.35);
 }
 .home-btn{
 width:100%;
@@ -66,61 +83,67 @@ border:none;
 border-radius:22px;
 font-weight:900;
 color:#fff;
-background:linear-gradient(90deg,#ff7a18,#ffb347)
+background:linear-gradient(90deg,var(--primary),var(--secondary));
 }
 
-/* ================= HEADER ================= */
+/* =========================================================
+   HEADER
+========================================================= */
 header{
 display:none;
 height:220px;
-background:linear-gradient(to bottom,#ff7a18,#ffb347,#fff);
+background:linear-gradient(to bottom,var(--primary),var(--secondary),#fff);
 align-items:flex-end;
 justify-content:center;
-padding-bottom:20px
+padding-bottom:20px;
 }
 
-/* ================= SEARCH ================= */
+/* =========================================================
+   SEARCH
+========================================================= */
 #searchBox{
 display:none;
 position:sticky;
 top:0;
-z-index:99;
 background:#fff;
 padding:14px;
-box-shadow:0 10px 25px rgba(0,0,0,.15)
+z-index:100;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 #searchBox input,#searchBox select{
 width:100%;
 padding:14px;
 border-radius:16px;
 border:1px solid #ddd;
-margin-bottom:10px
+margin-bottom:10px;
 }
 
-/* ================= PRODUCTS ================= */
+/* =========================================================
+   PRODUCTS
+========================================================= */
 #products{
 display:none;
 padding:16px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:16px
+gap:16px;
 }
 .card{
 background:#fff;
 border-radius:20px;
 overflow:hidden;
 box-shadow:0 15px 30px rgba(0,0,0,.15);
-position:relative
+position:relative;
 }
 .card img{
 width:100%;
 height:160px;
-object-fit:cover
+object-fit:cover;
 }
 .info{
 padding:12px;
 font-weight:800;
-text-align:center
+text-align:center;
 }
 .sold{
 position:absolute;
@@ -129,9 +152,9 @@ background:rgba(0,0,0,.75);
 display:flex;
 align-items:center;
 justify-content:center;
-color:#fff;
 font-size:26px;
-font-weight:900
+font-weight:900;
+color:#fff;
 }
 .admin-btn{
 display:none;
@@ -139,14 +162,16 @@ position:absolute;
 bottom:10px;
 left:50%;
 transform:translateX(-50%);
-background:#ff3b3b;
+background:var(--danger);
 color:#fff;
 border:none;
 padding:8px 20px;
-border-radius:20px
+border-radius:20px;
 }
 
-/* ================= MODAL ================= */
+/* =========================================================
+   MODAL
+========================================================= */
 .modal{
 position:fixed;
 inset:0;
@@ -154,7 +179,7 @@ background:rgba(0,0,0,.6);
 display:none;
 align-items:center;
 justify-content:center;
-z-index:200
+z-index:200;
 }
 .modal-content{
 background:#fff;
@@ -162,12 +187,12 @@ padding:18px;
 border-radius:20px;
 width:90%;
 max-width:380px;
-text-align:center
+text-align:center;
 }
 .modal-content img{
 width:100%;
 border-radius:16px;
-margin-bottom:10px
+margin-bottom:10px;
 }
 .modal-content button{
 width:100%;
@@ -175,12 +200,14 @@ padding:14px;
 margin-top:8px;
 border:none;
 border-radius:16px;
-font-weight:900
+font-weight:900;
 }
 .wa{background:#25d366;color:#fff}
 .ig{background:#e1306c;color:#fff}
 
-/* ================= ADMIN PANEL ================= */
+/* =========================================================
+   ADMIN PANEL
+========================================================= */
 #adminPanel{
 display:none;
 position:fixed;
@@ -191,35 +218,36 @@ background:#fff;
 padding:18px;
 border-radius:24px 24px 0 0;
 box-shadow:0 -10px 30px rgba(0,0,0,.35);
-z-index:150
+z-index:150;
 }
-#adminPanel input,#adminPanel select,#adminPanel textarea{
+#adminPanel input,#adminPanel select{
 width:100%;
 padding:14px;
 margin-bottom:10px;
 border-radius:16px;
-border:1px solid #ddd
+border:1px solid #ddd;
 }
 #adminPanel button{
 width:100%;
 padding:16px;
 border:none;
 border-radius:18px;
-background:linear-gradient(90deg,#ff7a18,#ffb347);
+background:linear-gradient(90deg,var(--primary),var(--secondary));
 color:#fff;
-font-weight:900
+font-weight:900;
 }
 </style>
 </head>
 
 <body>
 
+<!-- ================= LOADING ================= -->
 <div id="loading">
-<div class="loading-bar"><span id="prog"></span></div>
-<div id="loadingPercent">0%</div>
+<div class="loading-bar"><span></span></div>
 <div id="loadingPower">PoweredByAryanzUtama</div>
 </div>
 
+<!-- ================= HOME ================= -->
 <div id="home">
 <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg">
 <button class="home-btn" onclick="openBuyer()">🛒 BELI AKUN</button>
@@ -229,7 +257,7 @@ font-weight:900
 <header id="header"><h1>AryanzUtama Store</h1></header>
 
 <div id="searchBox">
-<input id="searchInput" placeholder="Cari kategori">
+<input id="searchInput" placeholder="Cari kategori...">
 <select id="filterKategori">
 <option value="">Semua</option>
 <option>Ahli</option>
@@ -241,6 +269,7 @@ font-weight:900
 
 <section id="products"></section>
 
+<!-- ================= LOGIN ================= -->
 <div class="modal" id="loginModal">
 <div class="modal-content">
 <h3>Admin Login</h3>
@@ -249,6 +278,7 @@ font-weight:900
 </div>
 </div>
 
+<!-- ================= PAYMENT ================= -->
 <div class="modal" id="payModal">
 <div class="modal-content">
 <img id="payImg">
@@ -258,6 +288,7 @@ font-weight:900
 </div>
 </div>
 
+<!-- ================= ADMIN PANEL ================= -->
 <div id="adminPanel">
 <input type="file" id="file">
 <select id="kategori">
@@ -266,47 +297,43 @@ font-weight:900
 <option>Ternama</option>
 <option>Terhormat</option>
 </select>
-<input id="harga" placeholder="Harga">
-<textarea id="deskripsi" placeholder="Deskripsi"></textarea>
-<button onclick="uploadProduct()">Upload</button>
+<button onclick="uploadProduct()">Upload Produk</button>
 </div>
 
 <script>
-/* ================= SAFE LOADING ================= */
-let percent=0;
-const prog=document.getElementById("prog");
-const loading=document.getElementById("loading");
-const loadingPercent=document.getElementById("loadingPercent");
+/* =========================================================
+   HARD STOP LOADING (ANTI STUCK ABSOLUT)
+========================================================= */
+window.addEventListener("load",()=>{
+document.getElementById("loading").style.display="none";
+});
 
-const fakeLoad=setInterval(()=>{
-percent+=2;
-prog.style.width=percent+"%";
-loadingPercent.innerText=percent+"%";
-if(percent>=100){
-clearInterval(fakeLoad);
-loading.style.display="none";
-}
-},30);
-
-/* ================= FORCE EXIT (ANTI STUCK) ================= */
-window.onload=()=>{loading.style.display="none";};
-
-/* ================= CONFIG ================= */
+/* =========================================================
+   CONFIG
+========================================================= */
 const ADMIN_PIN="009898";
 const SUPABASE_URL="ISI_SUPABASE_URL";
 const SUPABASE_ANON_KEY="ISI_ANON_KEY";
 
-/* ================= SUPABASE SAFE ================= */
+/* =========================================================
+   SUPABASE SAFE INIT
+========================================================= */
 let supabase=null;
+if(SUPABASE_URL && SUPABASE_ANON_KEY){
 try{
 supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-}catch(e){console.warn("Supabase error",e);}
+}catch(e){console.warn("Supabase gagal");}
+}
 
-/* ================= STATE ================= */
+/* =========================================================
+   STATE
+========================================================= */
 let isAdmin=false;
 let allProducts=[];
 
-/* ================= MODE ================= */
+/* =========================================================
+   MODE
+========================================================= */
 function openBuyer(){
 home.style.display="none";
 header.style.display="flex";
@@ -314,9 +341,13 @@ searchBox.style.display="block";
 products.style.display="grid";
 loadProducts();
 }
-function openAdmin(){loginModal.style.display="flex";}
+function openAdmin(){
+loginModal.style.display="flex";
+}
 
-/* ================= ADMIN ================= */
+/* =========================================================
+   ADMIN LOGIN
+========================================================= */
 function loginAdmin(){
 if(pin.value===ADMIN_PIN){
 isAdmin=true;
@@ -326,14 +357,18 @@ adminPanel.style.display="block";
 }else alert("PIN salah");
 }
 
-/* ================= LOAD ================= */
+/* =========================================================
+   LOAD PRODUCTS
+========================================================= */
 async function loadProducts(){
 if(!supabase)return;
 const {data}=await supabase.from("products").select("*");
 if(data){allProducts=data;renderProducts(data);}
 }
 
-/* ================= RENDER ================= */
+/* =========================================================
+   RENDER
+========================================================= */
 function renderProducts(data){
 products.innerHTML="";
 data.forEach(d=>{
@@ -355,35 +390,41 @@ products.appendChild(c);
 if(isAdmin)document.querySelectorAll(".admin-btn").forEach(b=>b.style.display="block");
 }
 
-/* ================= SEARCH ================= */
+/* =========================================================
+   SEARCH
+========================================================= */
 searchInput.oninput=()=>renderProducts(allProducts.filter(p=>p.kategori.toLowerCase().includes(searchInput.value.toLowerCase())));
 
-/* ================= UPLOAD ================= */
+/* =========================================================
+   UPLOAD
+========================================================= */
 async function uploadProduct(){
-if(!supabase)return;
+if(!supabase)return alert("Supabase belum diisi");
 const f=file.files[0];
-if(!f)return alert("Pilih foto");
+if(!f)return alert("Pilih gambar");
 const name=Date.now()+"-"+f.name;
 await supabase.storage.from("products").upload(name,f,{upsert:true});
 const {data}=supabase.storage.from("products").getPublicUrl(name);
 await supabase.from("products").insert({
 image_url:data.publicUrl,
 kategori:kategori.value,
-harga:harga.value,
-deskripsi:deskripsi.value,
 sold:false
 });
 loadProducts();
 }
 
-/* ================= SOLD ================= */
+/* =========================================================
+   SOLD
+========================================================= */
 async function markSold(id){
 if(!supabase)return;
 await supabase.from("products").update({sold:true}).eq("id",id);
 loadProducts();
 }
 
-/* ================= PAY ================= */
+/* =========================================================
+   PAY
+========================================================= */
 function openPay(img){
 payModal.style.display="flex";
 payImg.src=img;
