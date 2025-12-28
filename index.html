@@ -8,11 +8,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
 <style>
+/* ================= RESET ================= */
+*{box-sizing:border-box}
+
 /* ================= BASE ================= */
 body{
   margin:0;
-  font-family:Arial, sans-serif;
+  font-family:Arial, Helvetica, sans-serif;
   background:#f5fbff;
+  overflow-x:hidden;
 }
 
 /* ================= LOADING ================= */
@@ -25,21 +29,35 @@ body{
   justify-content:center;
   z-index:99999;
 }
-.loader-box{text-align:center;}
+.loader-box{
+  text-align:center;
+  animation:fadeZoom .8s ease;
+}
 .loader-box img{
-  width:140px;height:140px;border-radius:50%;
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  box-shadow:0 12px 30px rgba(0,0,0,.2);
 }
 .progress{
-  width:220px;height:6px;background:#dbe9ff;
-  border-radius:10px;overflow:hidden;margin:15px auto;
+  width:220px;
+  height:6px;
+  background:#dbe9ff;
+  border-radius:10px;
+  overflow:hidden;
+  margin:18px auto;
 }
 .progress .bar{
-  height:100%;width:0%;
+  height:100%;
+  width:0%;
   background:linear-gradient(90deg,#4da3ff,#7bb9ff);
   animation:loadBar 3s linear forwards;
 }
 @keyframes loadBar{to{width:100%}}
+@keyframes fadeZoom{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1;transform:scale(1)}
+}
 
 /* ================= BANNER ================= */
 .banner{
@@ -49,8 +67,16 @@ body{
     linear-gradient(to bottom,rgba(255,255,255,0),#fff),
     url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
   background-size:cover;
+  background-position:center;
 }
-.banner img{max-width:220px;}
+.banner img{
+  max-width:220px;
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
 
 /* ================= SEARCH ================= */
 header{
@@ -58,33 +84,51 @@ header{
   padding:15px;
   position:sticky;
   top:0;
-  box-shadow:0 4px 12px rgba(0,0,0,.05);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
   z-index:10;
 }
-.search-box{display:flex;gap:10px;}
+.search-box{
+  display:flex;
+  gap:10px;
+}
 .search-box input{
-  flex:1;padding:14px 18px;
-  border-radius:30px;border:1px solid #ccc;
+  flex:1;
+  padding:14px 18px;
+  border-radius:30px;
+  border:1px solid #ccc;
 }
 .search-box button{
-  border:none;background:#4da3ff;
-  color:#fff;padding:14px 18px;border-radius:50%;
+  border:none;
+  background:#4da3ff;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:50%;
 }
 
-/* ================= PRODUK ================= */
+/* ================= PRODUK GRID ================= */
 .container{
   padding:15px;
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:15px;
 }
+
+/* ================= CARD ================= */
 .card{
   background:#fff;
   border-radius:16px;
   overflow:hidden;
-  box-shadow:0 6px 18px rgba(0,0,0,.1);
-  transition:.25s;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
   position:relative;
+  animation:cardIn .6s ease forwards;
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(25px) scale(.96)}
+  to{opacity:1;transform:none}
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(0,0,0,.18);
 }
 .card img{
   width:100%;
@@ -92,21 +136,26 @@ header{
   object-fit:cover;
 }
 
-/* SOLD BADGE */
+/* ================= SOLD OVERLAY ================= */
 .sold{
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,.7);
-  color:#fff;
+  background:rgba(0,0,0,.75);
   display:flex;
   align-items:center;
   justify-content:center;
+  color:#fff;
   font-size:26px;
   font-weight:bold;
   letter-spacing:2px;
+  animation:soldPop .4s ease;
+}
+@keyframes soldPop{
+  from{opacity:0;transform:scale(.8)}
+  to{opacity:1;transform:scale(1)}
 }
 
-/* ADMIN BUTTON */
+/* ================= ADMIN BTN ================= */
 .admin-btn{
   position:absolute;
   bottom:10px;
@@ -115,10 +164,40 @@ header{
   background:#ff3d3d;
   color:#fff;
   border:none;
-  padding:6px 14px;
+  padding:6px 16px;
   border-radius:20px;
   font-size:13px;
   display:none;
+  animation:fadeUp .3s ease;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translate(-50%,10px)}
+  to{opacity:1;transform:translate(-50%,0)}
+}
+
+/* ================= ADMIN UPLOAD ================= */
+#adminUpload{
+  position:fixed;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  display:none;
+  z-index:50;
+}
+#adminUpload button{
+  background:#4da3ff;
+  color:#fff;
+  border:none;
+  padding:16px 26px;
+  border-radius:40px;
+  font-size:16px;
+  box-shadow:0 8px 22px rgba(0,0,0,.25);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(77,163,255,.6)}
+  70%{box-shadow:0 0 0 15px rgba(77,163,255,0)}
+  100%{box-shadow:0 0 0 0 rgba(77,163,255,0)}
 }
 
 /* ================= ADMIN SECRET ================= */
@@ -131,7 +210,6 @@ header{
   cursor:pointer;
   user-select:none;
 }
-#adminSecret:hover{color:rgba(0,0,0,.35);}
 
 /* ================= MODAL ================= */
 .modal{
@@ -146,11 +224,16 @@ header{
 .modal.show{display:flex;}
 .modal-content{
   background:#fff;
-  border-radius:14px;
+  border-radius:16px;
   width:85%;
   max-width:320px;
-  padding:20px;
+  padding:22px;
   text-align:center;
+  animation:modalZoom .3s ease;
+}
+@keyframes modalZoom{
+  from{opacity:0;transform:scale(.85)}
+  to{opacity:1;transform:scale(1)}
 }
 .modal-content input{
   width:100%;
@@ -160,12 +243,12 @@ header{
   margin-top:10px;
 }
 .modal-content button{
-  margin-top:12px;
-  padding:10px 18px;
+  margin-top:14px;
+  padding:12px 20px;
   border:none;
   background:#4da3ff;
   color:#fff;
-  border-radius:8px;
+  border-radius:10px;
 }
 </style>
 </head>
@@ -184,8 +267,8 @@ header{
 
 <header>
   <div class="search-box">
-    <input id="search" placeholder="Cari produk">
-    <button>🔍</button>
+    <input placeholder="Cari produk">
+    <button><i class="fa fa-search"></i></button>
   </div>
 </header>
 
@@ -193,6 +276,13 @@ header{
 
 <!-- ADMIN SECRET -->
 <div id="adminSecret">powered</div>
+
+<!-- ADMIN UPLOAD -->
+<div id="adminUpload">
+  <button onclick="openGallery()">➕ Tambah Produk</button>
+</div>
+
+<input type="file" id="fileInput" accept="image/*" hidden>
 
 <!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
@@ -205,67 +295,76 @@ header{
 
 <script>
 /* ================= CONFIG ================= */
-const ADMIN_PIN = "1234"; // GANTI PIN
-let isAdmin = localStorage.getItem("admin") === "true";
+const ADMIN_PIN = "1234";
+let isAdmin = localStorage.getItem("admin")==="true";
 
-/* ================= PRODUK DATA ================= */
-const produkData = [
-  {id:1, img:"https://via.placeholder.com/300x400?text=Produk+1"},
-  {id:2, img:"https://via.placeholder.com/300x400?text=Produk+2"},
-  {id:3, img:"https://via.placeholder.com/300x400?text=Produk+3"}
-];
+/* ================= DATA ================= */
+let produkData = JSON.parse(localStorage.getItem("produkData")) || [];
+
+/* ================= ELEMENT ================= */
+const container = document.getElementById("produk");
+const uploadBox = document.getElementById("adminUpload");
 
 /* ================= RENDER ================= */
-const container = document.getElementById("produk");
-
 function render(){
   container.innerHTML="";
-  produkData.forEach(p=>{
-    const sold = localStorage.getItem("sold_"+p.id)==="true";
-
+  produkData.forEach((p,i)=>{
     const card=document.createElement("div");
     card.className="card";
-
     card.innerHTML=`
       <img src="${p.img}">
-      ${sold?'<div class="sold">SOLD</div>':''}
+      ${p.sold?'<div class="sold">SOLD</div>':''}
       <button class="admin-btn">SOLD</button>
     `;
-
     if(isAdmin){
-      card.querySelector(".admin-btn").style.display="block";
-      card.querySelector(".admin-btn").onclick=()=>{
-        localStorage.setItem("sold_"+p.id,"true");
+      const btn=card.querySelector(".admin-btn");
+      btn.style.display="block";
+      btn.onclick=()=>{
+        p.sold=true;
+        save();
         render();
       };
     }
-
     container.appendChild(card);
   });
+  uploadBox.style.display = isAdmin ? "block" : "none";
 }
 render();
 
-/* ================= ADMIN LOGIN ================= */
-const secret=document.getElementById("adminSecret");
-const modal=document.getElementById("loginModal");
-
-secret.onclick=()=>modal.classList.add("show");
+/* ================= ADMIN ================= */
+adminSecret.onclick=()=>loginModal.classList.add("show");
 
 function loginAdmin(){
-  const pin=document.getElementById("pin").value;
-  if(pin===ADMIN_PIN){
+  if(pin.value===ADMIN_PIN){
     localStorage.setItem("admin","true");
     location.reload();
-  }else{
-    alert("PIN salah");
-  }
+  }else alert("PIN salah");
 }
 
-/* ================= LOADING HIDE ================= */
+/* ================= UPLOAD ================= */
+function openGallery(){
+  fileInput.click();
+}
+fileInput.onchange=e=>{
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    produkData.push({img:reader.result,sold:false});
+    save();
+    render();
+  };
+  reader.readAsDataURL(file);
+};
+
+/* ================= SAVE ================= */
+function save(){
+  localStorage.setItem("produkData",JSON.stringify(produkData));
+}
+
+/* ================= LOADING END ================= */
 window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    document.getElementById("loadingScreen").remove();
-  },3000);
+  setTimeout(()=>loadingScreen.remove(),3000);
 });
 </script>
 
