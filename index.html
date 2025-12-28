@@ -237,8 +237,17 @@ function openSell(){
   document.getElementById('sellPopup').classList.add('active');
 }
 function openBuy(){
-  document.getElementById('buyPopup').classList.add('active');
+  // sembunyikan home
+  document.getElementById('homePage').style.display = 'none';
+
+  // tampilkan buy page
+  document.getElementById('buyPage').style.display = 'block';
+
+  // render produk
   renderProducts();
+
+  // scroll ke atas
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function closeAll(){
   document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
