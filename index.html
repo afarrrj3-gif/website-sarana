@@ -2,338 +2,239 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AryanzUtama Store</title>
-
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root{
---blue:#4da3ff;
---blueSoft:#eaf3ff;
---dark:#0d1b2a;
---white:#fff;
---radius:18px;
-}
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-
+/* ===================== RESET ===================== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 body{
-background:var(--blueSoft);
-color:#222;
-overflow-x:hidden;
+  background:#eef6ff;
+  color:#0a2540;
+  overflow-x:hidden;
 }
 
-/* ================= BANNER ================= */
-.banner{
-height:260px;
-background:
-linear-gradient(to bottom,
-rgba(255,255,255,0) 0%,
-rgba(255,255,255,.6) 60%,
-#fff 100%),
-url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
-background-size:cover;
-background-position:center;
-display:flex;
-justify-content:center;
-align-items:center;
-position:relative;
+/* ===================== HEADER ===================== */
+header{
+  position:relative;
+  height:220px;
+  background:url('https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg') center/cover no-repeat;
+}
+header::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;
+  width:100%;height:80px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0),#eef6ff);
+}
+.logo{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:90px;height:90px;
+  border-radius:50%;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.logo img{
+  width:80px;height:80px;
+  border-radius:50%;
 }
 
-.banner .logo{
-width:130px;
-height:130px;
-border-radius:50%;
-background:#fff;
-padding:6px;
-box-shadow:0 15px 40px rgba(0,0,0,.25);
+/* ===================== OPTION CARDS ===================== */
+.options{
+  display:flex;
+  gap:20px;
+  padding:20px;
 }
-
-.banner .logo img{
-width:100%;
-height:100%;
-border-radius:50%;
-object-fit:cover;
-}
-
-/* ================= HOME ================= */
-#home{
-padding:30px;
-display:flex;
-gap:20px;
-justify-content:center;
-flex-wrap:wrap;
-}
-
-.card{
-background:#fff;
-border-radius:22px;
-padding:26px;
-max-width:320px;
-width:100%;
-box-shadow:0 15px 40px rgba(0,0,0,.15);
-cursor:pointer;
-transition:.35s;
-animation:fadeUp .6s ease;
-}
-
-.card:hover{transform:translateY(-6px)}
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(30px)}
-to{opacity:1}
-}
-
-.card h2{margin-bottom:10px}
-.card p{font-size:14px;opacity:.75}
-
-/* ================= MODAL ================= */
-.modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.55);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:1000;
-}
-
-.modal.show{display:flex}
-
-.modalBox{
-background:#fff;
-border-radius:22px;
-padding:18px;
-width:92%;
-max-width:420px;
-max-height:90vh;
-overflow:auto;
-animation:scaleIn .3s ease;
-}
-
-@keyframes scaleIn{
-from{opacity:0;transform:scale(.9)}
-to{opacity:1}
-}
-
 .option{
-background:var(--blueSoft);
-padding:14px;
-border-radius:14px;
-margin-bottom:10px;
-font-weight:700;
-cursor:pointer;
-transition:.2s;
+  flex:1;
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
+.option:hover{transform:translateY(-5px)}
+.option h2{margin-bottom:10px}
+.option p{font-size:14px;color:#555}
 
-.option:hover{background:#d9eaff}
-
-/* ================= PRODUCTS ================= */
-#products{
-padding:16px;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px;
+/* ===================== POPUP ===================== */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
 }
-
-.product{
-background:#fff;
-border-radius:18px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
-position:relative;
-animation:fadeUp .4s ease;
+.popup.active{display:flex}
+.popup-box{
+  background:white;
+  width:90%;
+  max-width:420px;
+  max-height:85vh;
+  overflow:auto;
+  border-radius:14px;
+  padding:20px;
+  animation:pop .25s ease;
 }
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.popup-box h3{text-align:center;margin-bottom:15px}
 
-.product.sold{
-filter:grayscale(100%);
-opacity:.5;
-pointer-events:none;
+/* ===================== BUTTON ===================== */
+.btn{
+  display:block;
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#2b7cff;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
+.btn.gray{background:#ccc;cursor:not-allowed}
+.btn.whatsapp{background:#25d366}
 
-.product img{
-width:100%;
-height:160px;
-object-fit:cover;
-}
-
-.product .info{
-padding:10px;
-font-weight:800;
-text-align:center;
-}
-
-/* ================= ADMIN FLOAT ================= */
+/* ===================== ADMIN ICON ===================== */
 #adminBtn{
-position:fixed;
-left:8px;
-bottom:8px;
-width:18px;
-height:18px;
-opacity:.08;
-z-index:2000;
-cursor:pointer;
+  position:fixed;
+  top:10px;left:10px;
+  width:42px;height:42px;
+  background:#2ecc71;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  opacity:.5;
 }
+#adminBtn:hover{opacity:1}
 
-/* ================= FORM ================= */
-input,textarea{
-width:100%;
-padding:12px;
-border-radius:12px;
-border:1px solid #ccc;
-margin-bottom:10px;
+/* ===================== PRODUCT ===================== */
+.product{
+  background:white;
+  border-radius:12px;
+  padding:10px;
+  margin-bottom:10px;
 }
-
-textarea{height:120px;resize:none}
-
-button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
-font-weight:900;
-cursor:pointer;
+.product.sold{
+  filter:grayscale(1);
+  opacity:.6;
 }
-
-.green{background:#25d366;color:#fff}
-.gray{background:#ccc;color:#666}
-
-footer{
-text-align:center;
-padding:26px;
-font-size:12px;
-opacity:.6;
+.product img{
+  width:100%;
+  border-radius:10px;
 }
+.price{font-weight:bold;color:#2b7cff;margin-top:5px}
 </style>
 </head>
 
 <body>
 
-<div class="banner">
-<div class="logo">
-<img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
-</div>
+<header>
+  <div class="logo">
+    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+  </div>
+</header>
+
+<div class="options">
+  <div class="option" onclick="openSell()">
+    <h2>Jual Akun</h2>
+    <p>Jual akun terpercaya, aman, cepat, dan transparan.</p>
+  </div>
+  <div class="option" onclick="openBuy()">
+    <h2>Beli Akun</h2>
+    <p>Akun berkualitas, siap pakai, harga terbaik.</p>
+  </div>
 </div>
 
-<div id="home">
-<div class="card" onclick="openSell()">
-<h2>➕ Jual Akun</h2>
-<p>Jual akun terpercaya, proses aman & transparan.</p>
+<!-- ===================== POPUP SELL ===================== -->
+<div class="popup" id="sellPopup">
+  <div class="popup-box">
+    <h3>Mau jual akun apa?</h3>
+    <button class="btn" onclick="selectGame('ML')">Mobile Legend</button>
+    <button class="btn" onclick="alert('Coming soon')">Free Fire</button>
+    <button class="btn" onclick="alert('Coming soon')">Roblox</button>
+    <button class="btn" onclick="closeAll()">Tutup</button>
+  </div>
 </div>
 
-<div class="card" onclick="openBuy()">
-<h2>🛒 Beli Akun</h2>
-<p>Pilih akun terbaik sesuai kebutuhanmu.</p>
-</div>
-</div>
-
-<div id="products" style="display:none"></div>
-
-<div id="adminBtn" onclick="adminLogin()"></div>
-
-<!-- MODALS -->
-<div class="modal" id="sellModal">
-<div class="modalBox">
-<h3>Mau jual akun apa?</h3>
-<div class="option" onclick="nextTier()">Mobile Legend</div>
-<div class="option">Free Fire</div>
-<div class="option">Roblox</div>
-<div class="option">Efootball</div>
-<div class="option">COC</div>
-</div>
+<!-- ===================== POPUP BUY ===================== -->
+<div class="popup" id="buyPopup">
+  <div class="popup-box">
+    <h3>Beli Akun</h3>
+    <input placeholder="Cari kategori..." style="width:100%;padding:10px;border-radius:8px;border:1px solid #ccc">
+    <div id="productList"></div>
+    <button class="btn" onclick="closeAll()">Tutup</button>
+  </div>
 </div>
 
-<div class="modal" id="tierModal">
-<div class="modalBox">
-<h3>Pilih Tier</h3>
-<div class="option" onclick="nextLevel()">Ahli</div>
-<div class="option">Senior</div>
-<div class="option">Junior</div>
-<p style="text-align:center;font-size:12px">PoweredByAryanzUtama</p>
-</div>
-</div>
-
-<div class="modal" id="levelModal">
-<div class="modalBox">
-<h3>Semua akan ku take selagi benar</h3>
-<div class="option" onclick="openForm()">Ahli 5</div>
-<div class="option">Ahli 4</div>
-<div class="option">Ahli 3</div>
-</div>
-</div>
-
-<div class="modal" id="formModal">
-<div class="modalBox">
-<p style="font-size:13px">
-DATA ACCOUNT ML STOK KE [ ]
-</p>
-<input placeholder="Email">
-<input placeholder="Pw Google">
-<input placeholder="Pw Moonton">
-<input placeholder="Sekunder">
-<textarea placeholder="Code cadangan"></textarea>
-<button class="green" onclick="wa()">Lanjut ke WhatsApp</button>
-</div>
-</div>
-
-<footer>PoweredByAryanzUtama</footer>
+<!-- ===================== ADMIN ===================== -->
+<div id="adminBtn" onclick="adminLogin()">A</div>
 
 <script>
-/* ================= SUPABASE ================= */
-const supabase = window.supabase.createClient(
-"https://afjzqdqzihyttukaprnn.supabase.co",
-"sb_publishable_C7eOYNByY-sNmFskC_gtpQ_SKffaH6Z"
-);
+/* ===================== BASIC STATE ===================== */
+let products=[
+  {id:1,cat:'ahli',price:65000,img:'https://via.placeholder.com/300',sold:false},
+  {id:2,cat:'ahli',price:55000,img:'https://via.placeholder.com/300',sold:false},
+  {id:3,cat:'senior',price:40000,img:'https://via.placeholder.com/300',sold:true}
+];
 
-/* ================= FLOW ================= */
-function openSell(){sellModal.classList.add("show")}
-function nextTier(){closeAll();tierModal.classList.add("show")}
-function nextLevel(){closeAll();levelModal.classList.add("show")}
-function openForm(){closeAll();formModal.classList.add("show")}
+/* ===================== OPEN POPUPS ===================== */
+function openSell(){
+  document.getElementById('sellPopup').classList.add('active');
+}
 function openBuy(){
-document.getElementById("home").style.display="none";
-document.getElementById("products").style.display="grid";
-loadProducts();
+  document.getElementById('buyPopup').classList.add('active');
+  renderProducts();
 }
-
 function closeAll(){
-document.querySelectorAll(".modal").forEach(m=>m.classList.remove("show"));
+  document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
 }
 
-function wa(){
-window.open("https://wa.me/6289679520905","_blank");
+/* ===================== SELL FLOW ===================== */
+function selectGame(game){
+  alert("Game dipilih: "+game+"\n(Lanjutkan tier → CEIN → FORM di tahap berikutnya)");
 }
 
-/* ================= PRODUCTS ================= */
-async function loadProducts(){
-const {data}=await supabase
-.from("products")
-.select("*")
-.order("price",{ascending:false});
-products.innerHTML="";
-data.forEach(p=>{
-const d=document.createElement("div");
-d.className="product"+(p.sold?" sold":"");
-d.innerHTML=`
-<img src="${p.image}">
-<div class="info">${p.category} • Rp ${p.price}</div>`;
-if(!p.sold)d.onclick=()=>pay();
-products.appendChild(d);
-});
+/* ===================== BUY FLOW ===================== */
+function renderProducts(){
+  let box=document.getElementById('productList');
+  box.innerHTML='';
+  products
+    .sort((a,b)=>b.price-a.price)
+    .forEach(p=>{
+      let d=document.createElement('div');
+      d.className='product'+(p.sold?' sold':'');
+      d.innerHTML=`
+        <img src="${p.img}">
+        <div class="price">Rp ${p.price}</div>
+        ${p.sold?'':'<button class="btn" onclick="pay()">Beli</button>'}
+      `;
+      box.appendChild(d);
+    });
 }
-
 function pay(){
-alert("Silakan transfer lalu chat admin");
-wa();
+  window.open("https://wa.me/6289679520905","_blank");
 }
 
-/* ================= ADMIN ================= */
+/* ===================== ADMIN ===================== */
 function adminLogin(){
-const pin=prompt("PIN Admin:");
-if(pin==="009898"){
-alert("ADMIN MODE");
-}
+  let pin=prompt("Masukkan PIN Admin");
+  if(pin==="009898"){
+    alert("Mode Admin Aktif (fitur upload, sold, delete akan dilanjutkan)");
+  }else{
+    alert("PIN salah");
+  }
 }
 </script>
 
