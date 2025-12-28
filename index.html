@@ -275,8 +275,20 @@ function renderProducts(){
       box.appendChild(d);
     });
 }
-function pay(){
-  window.open("https://wa.me/6289679520905","_blank");
+function pay(id){
+  let p = products.find(x => x.id === id);
+  if(!p){
+    alert("Produk tidak ditemukan");
+    return;
+  }
+
+  let pesan =
+    "Halo Admin, saya mau beli akun\n" +
+    "Tier: " + p.cat + "\n" +
+    "Harga: Rp " + p.price;
+
+  let wa = "https://wa.me/6289679520905?text=" + encodeURIComponent(pesan);
+  window.open(wa, "_blank");
 }
 
 /* ===================== ADMIN ===================== */
