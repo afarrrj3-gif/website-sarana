@@ -5,132 +5,263 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AryanzUtama Store</title>
 
-<!-- SUPABASE V2 -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
 <style>
-/* ================= ROOT ================= */
-:root{
---primary:#4facfe;
---secondary:#00f2fe;
---danger:#ff3b3b;
+/* ================= RESET ================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
 }
 
-/* RESET */
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+/* ================= ROOT ================= */
+:root{
+  --primary:#4facfe;
+  --secondary:#00f2fe;
+  --dark:#0f172a;
+  --light:#ffffff;
+  --gray:#64748b;
+}
 
-/* BODY */
-body{background:#f4f6fb;color:#222}
+/* ================= BODY ================= */
+body{
+  background:#f4f6fb;
+  color:#111;
+  overflow-x:hidden;
+}
 
 /* ================= LOADING ================= */
 #loading{
-position:fixed;inset:0;
-background:#111;color:#fff;
-display:flex;flex-direction:column;
-align-items:center;justify-content:center;
-z-index:99999
+  position:fixed;
+  inset:0;
+  background:#0b1220;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+  transition:.5s;
 }
-.loading-bar{width:70%;height:6px;background:#333;border-radius:20px;overflow:hidden}
-.loading-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--secondary))}
-#loadingPercent{margin-top:8px}
-#loadingPower{font-size:12px;opacity:.6}
+
+#loadingLogo{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:#fff;
+  padding:6px;
+  margin-bottom:18px;
+}
+
+#loadingLogo img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.loading-bar-wrap{
+  width:75%;
+  max-width:420px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.loading-bar{
+  flex:1;
+  height:8px;
+  background:#1e293b;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.loading-bar span{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--primary),var(--secondary));
+  transition:width .1s linear;
+}
+
+#loadingPercent{
+  min-width:38px;
+  font-size:13px;
+  color:#fff;
+}
+
+#loadingText{
+  margin-top:12px;
+  font-size:13px;
+  opacity:.7;
+  color:#cbd5f5;
+}
 
 /* ================= HEADER ================= */
 header{
-height:300px;
-background:linear-gradient(to bottom,#4facfe,#00f2fe,#fff);
-display:flex;flex-direction:column;
-align-items:center;justify-content:flex-end;
-padding-bottom:30px;
-position:relative
-}
-.logo{
-position:absolute;top:40px;
-width:140px;height:140px;
-border-radius:50%;
-background:#fff;padding:6px;
-box-shadow:0 20px 40px rgba(0,0,0,.25);
-animation:float 4s ease-in-out infinite
-}
-.logo img{width:100%;height:100%;border-radius:50%;object-fit:cover}
-@keyframes float{50%{transform:translateY(-12px)}}
-header h1{font-size:22px}
-
-/* ================= PRODUCTS ================= */
-#products{
-padding:20px;
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-gap:16px
-}
-.card{
-background:#fff;border-radius:18px;
-overflow:hidden;position:relative;
-box-shadow:0 10px 30px rgba(0,0,0,.12);
-animation:fade .5s ease
-}
-@keyframes fade{from{opacity:0;transform:translateY(20px)}}
-.card img{width:100%;height:180px;object-fit:cover}
-.card .info{text-align:center;padding:10px;font-size:13px;font-weight:600}
-
-/* SOLD */
-.sold{
-position:absolute;inset:0;
-background:rgba(0,0,0,.75);
-display:flex;align-items:center;justify-content:center;
-color:#fff;font-size:24px;font-weight:800
+  height:320px;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(79,172,254,1) 0%,
+      rgba(0,242,254,.85) 45%,
+      rgba(255,255,255,.85) 75%,
+      #fff 100%
+    );
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:30px;
+  position:relative;
 }
 
-/* ADMIN SOLD BTN */
-.admin-btn{
-position:absolute;bottom:10px;left:50%;
-transform:translateX(-50%);
-background:var(--danger);color:#fff;
-border:none;padding:6px 16px;
-border-radius:20px;font-size:12px;
-display:none
+#bannerLogo{
+  position:absolute;
+  top:-160px;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:#fff;
+  padding:6px;
+  box-shadow:0 25px 45px rgba(0,0,0,.25);
+  transition:all 1s cubic-bezier(.4,0,.2,1);
 }
 
-/* ================= ADMIN PANEL ================= */
-#adminPanel{
-position:fixed;bottom:0;left:0;right:0;
-background:#fff;padding:16px;
-border-radius:22px 22px 0 0;
-box-shadow:0 -10px 30px rgba(0,0,0,.25);
-display:none;z-index:99
+#bannerLogo img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
 }
-#adminPanel input,#adminPanel select{
-width:100%;padding:12px;margin-bottom:8px;
-border-radius:14px;border:1px solid #ddd
+
+header h1{
+  font-size:22px;
+  font-weight:700;
 }
-#adminPanel button{
-width:100%;padding:14px;border:none;
-border-radius:16px;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
-color:#fff;font-weight:700
+
+/* ================= OPTIONS ================= */
+.options{
+  margin-top:-40px;
+  padding:20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.option-card{
+  background:#fff;
+  border-radius:22px;
+  padding:22px 18px;
+  box-shadow:0 15px 35px rgba(0,0,0,.12);
+  cursor:pointer;
+  transition:.3s;
+}
+
+.option-card:hover{
+  transform:translateY(-6px);
+}
+
+.option-card h3{
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.option-card p{
+  font-size:13px;
+  color:#555;
+  line-height:1.5;
+}
+
+.option-card.primary{
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:#fff;
+}
+
+.option-card.primary p{
+  color:#eaf6ff;
 }
 
 /* ================= MODAL ================= */
 .modal{
-position:fixed;inset:0;
-background:rgba(0,0,0,.6);
-display:none;align-items:center;justify-content:center;
-z-index:100
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
 }
-.modal-content{
-background:#fff;width:90%;max-width:360px;
-border-radius:20px;padding:16px;text-align:center
-}
-.modal img{width:100%;border-radius:14px;margin-bottom:8px}
-.modal button{
-width:100%;padding:12px;border:none;
-border-radius:14px;font-weight:700;margin-top:8px
-}
-.wa{background:#25d366;color:#fff}
-.ig{background:#e1306c;color:#fff}
 
-/* FOOTER */
-footer{text-align:center;padding:28px;font-size:12px;opacity:.6}
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  background:#fff;
+  width:92%;
+  max-width:500px;
+  border-radius:22px;
+  padding:20px;
+  animation:zoom .35s ease;
+  max-height:85vh;
+  overflow:auto;
+}
+
+@keyframes zoom{
+  from{transform:scale(.85);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.modal-box h3{
+  text-align:center;
+  margin-bottom:12px;
+}
+
+.search{
+  width:100%;
+  padding:14px;
+  border-radius:30px;
+  border:1px solid #ddd;
+  margin-bottom:14px;
+}
+
+/* ================= LIST ================= */
+.list{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.item{
+  background:#f8fafc;
+  border-radius:18px;
+  padding:14px;
+  text-align:center;
+  cursor:pointer;
+  transition:.25s;
+  font-size:14px;
+  font-weight:600;
+}
+
+.item:hover{
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:#fff;
+}
+
+.close{
+  margin-top:14px;
+  text-align:center;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  text-align:center;
+  padding:30px 10px;
+  font-size:12px;
+  opacity:.6;
+}
 </style>
 </head>
 
@@ -138,146 +269,107 @@ footer{text-align:center;padding:28px;font-size:12px;opacity:.6}
 
 <!-- LOADING -->
 <div id="loading">
-<div class="loading-bar"><span id="prog"></span></div>
-<div id="loadingPercent">0%</div>
-<div id="loadingPower">PoweredByAryanzUtama</div>
+  <div id="loadingLogo">
+    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+  </div>
+  <div class="loading-bar-wrap">
+    <div class="loading-bar"><span id="prog"></span></div>
+    <div id="loadingPercent">0%</div>
+  </div>
+  <div id="loadingText">PoweredByAryanzUtama</div>
 </div>
 
+<!-- HEADER -->
 <header>
-<div class="logo">
-<img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
-</div>
-<h1>AryanzUtama Store</h1>
+  <div id="bannerLogo">
+    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+  </div>
+  <h1>AryanzUtama Store</h1>
 </header>
 
-<section id="products"></section>
+<!-- OPTIONS -->
+<section class="options">
+  <div class="option-card primary">
+    <h3>Jual Akun</h3>
+    <p>Jual akun terpercaya, aman, cepat & transparan.</p>
+  </div>
+
+  <div class="option-card" id="btnBeli">
+    <h3>Beli Akun</h3>
+    <p>Cari akun sesuai kategori, spek dan kebutuhanmu.</p>
+  </div>
+</section>
+
 <footer>PoweredByAryanzUtama</footer>
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel">
-<input type="file" id="file" accept="image/*">
-<select id="kategori">
-<option>Ahli</option>
-<option>Senior</option>
-<option>Ternama</option>
-<option>Terhormat</option>
-</select>
-<button onclick="uploadProduct()">Tambah Produk</button>
-</div>
+<!-- MODAL BELI -->
+<div class="modal" id="beliModal">
+  <div class="modal-box">
+    <h3>Mau beli akun apa?</h3>
 
-<!-- LOGIN -->
-<div class="modal" id="loginModal">
-<div class="modal-content">
-<h3>Admin Login</h3>
-<input id="pin" type="password" placeholder="PIN Admin">
-<button onclick="loginAdmin()">Masuk</button>
-</div>
-</div>
+    <input class="search" id="searchInput" placeholder="Cari kategori (ahli, senior, ternama)">
 
-<!-- PAYMENT -->
-<div class="modal" id="payModal">
-<div class="modal-content">
-<img id="payImg">
-<p><b>QRIS</b></p>
-<img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766779896/IMG-20251222-WA0068_thougk.jpg">
-<p>DANA: 0896788037479<br>a/n NI KOMANG</p>
-<button class="wa" onclick="window.open('https://wa.me/6289679520905')">WhatsApp</button>
-<button class="ig" onclick="window.open('https://www.instagram.com/aryanz_stok?igsh=dWdzMTk2Nmt5ZDk1')">Instagram</button>
-</div>
+    <div class="list" id="listKategori"></div>
+
+    <div class="close" onclick="tutupBeli()">Tutup</div>
+  </div>
 </div>
 
 <script>
-/* ================= CONFIG ================= */
-const ADMIN_PIN="009898";
-const SUPABASE_URL="PASTE_PROJECT_URL";
-const SUPABASE_ANON_KEY="PASTE_ANON_KEY";
+/* ================= LOADING ================= */
+let percent=0;
+const prog=document.getElementById("prog");
+const loading=document.getElementById("loading");
+const loadingPercent=document.getElementById("loadingPercent");
+const bannerLogo=document.getElementById("bannerLogo");
 
-/* ================= INIT SUPABASE (BENAR) ================= */
-const supabase = window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
+const int=setInterval(()=>{
+  percent++;
+  prog.style.width=percent+"%";
+  loadingPercent.innerText=percent+"%";
+  if(percent>=100){
+    clearInterval(int);
+    setTimeout(()=>{
+      loading.style.opacity="0";
+      bannerLogo.style.top="45px";
+      setTimeout(()=>loading.style.display="none",500);
+    },300);
+  }
+},24);
 
-/* ================= LOADING (ANTI STUCK) ================= */
-let p=0;
-const loader=setInterval(()=>{
-p++;prog.style.width=p+"%";
-loadingPercent.innerText=p+"%";
-if(p>=100){clearInterval(loader);loading.style.display="none";}
-},15);
-setTimeout(()=>loading.style.display="none",3000);
+/* ================= DATA BELI ================= */
+const dataBeli=[
+  "Junior","Senior","Ahli","Ternama","Terhormat","Juragan"
+];
 
-/* ================= STATE ================= */
-let isAdmin=false;
+const modal=document.getElementById("beliModal");
+const list=document.getElementById("listKategori");
+const search=document.getElementById("searchInput");
 
-/* ================= LOAD PRODUCTS ================= */
-async function loadProducts(){
-const {data,error}=await supabase
-.from("products")
-.select("*")
-.order("created_at",{ascending:false});
-if(error)return;
+function render(data){
+  list.innerHTML="";
+  data.forEach(d=>{
+    const div=document.createElement("div");
+    div.className="item";
+    div.innerText=d;
+    div.onclick=()=>alert("Lanjut ke detail: "+d);
+    list.appendChild(div);
+  });
+}
 
-products.innerHTML="";
-data.forEach(d=>{
-const card=document.createElement("div");
-card.className="card";
-card.innerHTML=`
-<img src="${d.image_url}">
-<div class="info">${d.kategori}</div>
-${d.sold?'<div class="sold">SOLD</div>':''}
-<button class="admin-btn">SOLD</button>
-`;
-if(!d.sold)card.onclick=()=>openPay(d.image_url);
-card.querySelector(".admin-btn").onclick=e=>{
-e.stopPropagation();markSold(d.id);
+render(dataBeli);
+
+search.oninput=()=>{
+  const v=search.value.toLowerCase();
+  render(dataBeli.filter(d=>d.toLowerCase().includes(v)));
 };
-products.appendChild(card);
-});
-if(isAdmin)document.querySelectorAll(".admin-btn").forEach(b=>b.style.display="block");
-}
-loadProducts();
 
-/* REALTIME */
-supabase.channel("live")
-.on("postgres_changes",{event:"*",schema:"public",table:"products"},loadProducts)
-.subscribe();
+document.getElementById("btnBeli").onclick=()=>{
+  modal.classList.add("show");
+};
 
-/* ADMIN LOGIN */
-document.body.addEventListener("dblclick",()=>loginModal.style.display="flex");
-function loginAdmin(){
-if(pin.value===ADMIN_PIN){
-isAdmin=true;
-loginModal.style.display="none";
-adminPanel.style.display="block";
-loadProducts();
-}else alert("PIN salah");
-}
-
-/* UPLOAD */
-async function uploadProduct(){
-const f=file.files[0];
-if(!f)return alert("Pilih foto");
-const name=Date.now()+"-"+f.name;
-await supabase.storage.from("products").upload(name,f,{upsert:true});
-const {data}=supabase.storage.from("products").getPublicUrl(name);
-await supabase.from("products").insert({
-image_url:data.publicUrl,
-kategori:kategori.value,
-sold:false
-});
-file.value="";
-}
-
-/* SOLD */
-async function markSold(id){
-await supabase.from("products").update({sold:true}).eq("id",id);
-}
-
-/* PAY */
-function openPay(img){
-payModal.style.display="flex";
-payImg.src=img;
+function tutupBeli(){
+  modal.classList.remove("show");
 }
 </script>
 
