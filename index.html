@@ -8,325 +8,352 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <style>
+/* ======================================================
+   ROOT
+====================================================== */
 :root{
 --primary:#ff7a18;
 --secondary:#ffb347;
---danger:#ff3b3b;
---soft:#f4f6fb;
 --dark:#111;
+--soft:#f4f6fb;
+--green:#25d366;
+--gray:#ccc;
+--radius:18px;
 }
 
+/* RESET */
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
 
+/* BODY */
 body{background:var(--soft);color:#222}
 
-/* ================= BANNER ================= */
-.banner{
-height:240px;
-background:linear-gradient(to bottom,rgba(0,0,0,.3),#fff),
-url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
-background-size:cover;
+/* ======================================================
+   LOADING
+====================================================== */
+#loading{
+position:fixed;
+inset:0;
+background:#111;
 display:flex;
 flex-direction:column;
 align-items:center;
-justify-content:flex-end;
+justify-content:center;
+z-index:9999;
+color:#fff;
+}
+
+#loading img{
+width:90px;
+height:90px;
+border-radius:50%;
+margin-bottom:16px;
+}
+
+.bar{
+width:70%;
+height:6px;
+background:#333;
+border-radius:10px;
+overflow:hidden;
+}
+
+.bar span{
+display:block;
+height:100%;
+width:0%;
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+transition:width .1s linear;
+}
+
+#loadingText{
+margin-top:10px;
+font-size:13px;
+opacity:.7;
+}
+
+/* ======================================================
+   BANNER
+====================================================== */
+.banner{
+height:260px;
+background:
+linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.9),#fff),
+url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:flex-end;
+justify-content:center;
 padding-bottom:20px;
+position:relative;
 }
 
 .logo{
+position:absolute;
+top:90px;
 width:120px;
 height:120px;
 border-radius:50%;
 background:#fff;
 padding:6px;
-margin-bottom:10px;
 box-shadow:0 20px 40px rgba(0,0,0,.3);
+transition:all .8s cubic-bezier(.4,0,.2,1);
 }
 
-.logo img{width:100%;height:100%;border-radius:50%}
+.logo img{
+width:100%;
+height:100%;
+border-radius:50%;
+object-fit:cover;
+}
 
-.banner h1{font-size:22px;font-weight:900}
+.logo.move{top:190px}
 
-/* ================= HOME ================= */
-#homeMenu{
+/* ======================================================
+   HOME
+====================================================== */
+#home{
 padding:20px;
 display:flex;
-gap:16px;
+gap:20px;
+justify-content:center;
+flex-wrap:wrap;
 }
 
-.home-card{
-flex:1;
+.card{
 background:#fff;
 border-radius:20px;
-padding:22px;
+padding:24px;
+max-width:320px;
+width:100%;
 box-shadow:0 15px 35px rgba(0,0,0,.15);
 cursor:pointer;
 transition:.3s;
 }
 
-.home-card:hover{transform:translateY(-6px)}
+.card:hover{transform:translateY(-6px)}
 
-.home-card h2{margin-bottom:6px}
+.card h2{margin-bottom:8px}
+.card p{font-size:14px;opacity:.8}
 
-/* ================= FILTER ================= */
-#filterBar{
-display:none;
-position:sticky;
-top:0;
-background:#fff;
-padding:12px;
-box-shadow:0 10px 25px rgba(0,0,0,.1);
-z-index:10;
-}
-
-#filterBar input,#filterBar select{
-width:100%;
-padding:12px;
-margin-bottom:8px;
-border-radius:14px;
-border:1px solid #ddd;
-}
-
-/* ================= PRODUCTS ================= */
-#products{
-display:none;
-padding:16px;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px;
-}
-
-.card{
-background:#fff;
-border-radius:18px;
-overflow:hidden;
-position:relative;
-box-shadow:0 10px 30px rgba(0,0,0,.15);
-animation:fade .4s ease;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(20px)}
-}
-
-.card img{
-width:100%;
-height:160px;
-object-fit:cover;
-}
-
-.info{text-align:center;padding:10px;font-weight:800}
-
-.sold{
-position:absolute;
+/* ======================================================
+   MODAL
+====================================================== */
+.modal{
+position:fixed;
 inset:0;
-background:rgba(0,0,0,.75);
-display:flex;
+background:rgba(0,0,0,.6);
+display:none;
 align-items:center;
 justify-content:center;
-color:#fff;
-font-size:26px;
-font-weight:900;
+z-index:1000;
 }
 
-.admin-btn{
-position:absolute;
-bottom:10px;
-left:50%;
-transform:translateX(-50%);
-padding:6px 18px;
-border:none;
+.modal.show{display:flex}
+
+.box{
+background:#fff;
+width:90%;
+max-width:420px;
 border-radius:20px;
-background:var(--danger);
-color:#fff;
-display:none;
+padding:18px;
+max-height:90vh;
+overflow:auto;
 }
 
-/* ================= ADMIN LOGIN POPUP ================= */
-#loginPopup{
-position:fixed;
-bottom:20px;
-left:20px;
-background:#fff;
-padding:16px;
-border-radius:18px;
-box-shadow:0 15px 40px rgba(0,0,0,.35);
-display:none;
-animation:slideUp .4s ease;
-z-index:200;
-}
-
-@keyframes slideUp{
-from{opacity:0;transform:translateY(40px)}
-}
-
-/* ================= ADMIN PANEL ================= */
-#adminPanel{
-position:fixed;
-bottom:-100%;
-left:0;
-right:0;
-background:#fff;
-padding:16px;
-border-radius:22px 22px 0 0;
-box-shadow:0 -15px 40px rgba(0,0,0,.4);
-transition:.4s;
-z-index:150;
-}
-
-#adminPanel.show{bottom:0}
-
-#adminPanel input,#adminPanel select{
-width:100%;
-padding:12px;
-margin-bottom:8px;
+.option{
+padding:14px;
 border-radius:14px;
-border:1px solid #ddd;
+background:#f4f6fb;
+margin-bottom:10px;
+font-weight:700;
+cursor:pointer;
 }
 
-#adminPanel button{
+.option:hover{background:#eaeaea}
+
+/* ======================================================
+   FORM
+====================================================== */
+.readonly{
+white-space:pre-line;
+background:#f4f6fb;
+padding:14px;
+border-radius:14px;
+font-size:13px;
+margin-bottom:10px;
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+border-radius:12px;
+border:1px solid #ddd;
+margin-bottom:8px;
+}
+
+textarea{resize:none;height:120px}
+
+.btn{
 width:100%;
 padding:14px;
 border:none;
-border-radius:16px;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
-color:#fff;
-font-weight:900;
+border-radius:14px;
+font-weight:800;
+margin-top:10px;
 }
+
+.btn.green{background:var(--green);color:#fff}
+.btn.gray{background:var(--gray);color:#666}
+
+/* FOOTER */
+footer{text-align:center;padding:20px;font-size:12px;opacity:.6}
 </style>
 </head>
 
 <body>
 
+<!-- LOADING -->
+<div id="loading">
+<img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+<div class="bar"><span id="bar"></span></div>
+<div id="loadingText">0% • PoweredByAryanzUtama</div>
+</div>
+
+<!-- BANNER -->
 <div class="banner">
-<div class="logo">
+<div class="logo" id="logo">
 <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
 </div>
-<h1>AryanzUtama Store</h1>
 </div>
 
-<div id="homeMenu">
-<div class="home-card" onclick="openBuyer()">
-<h2>🛒 Beli Akun</h2>
-<p>Lihat semua akun tersedia</p>
-</div>
-<div class="home-card" onclick="openAdmin()">
+<!-- HOME -->
+<div id="home">
+<div class="card" onclick="openSell()">
 <h2>➕ Jual Akun</h2>
-<p>Khusus admin</p>
+<p>Jual akun ML terpercaya, proses aman & transparan.</p>
+</div>
+
+<div class="card" onclick="openBuy()">
+<h2>🛒 Beli Akun</h2>
+<p>Beli akun siap pakai & aman.</p>
 </div>
 </div>
 
-<div id="filterBar">
-<input id="searchInput" placeholder="Cari kategori">
-<select id="filterKategori">
-<option value="">Semua</option>
-<option>Ahli</option>
-<option>Senior</option>
-<option>Ternama</option>
-<option>Terhormat</option>
-</select>
+<!-- SELL FLOW -->
+<div class="modal" id="sellModal">
+<div class="box">
+<h3>Mau jual akun apa?</h3>
+<div class="option" onclick="stepTier()">Mobile Legend</div>
+<div class="option">Free Fire</div>
+<div class="option">Roblox</div>
+<div class="option">Efootball</div>
+<div class="option">COC</div>
+</div>
 </div>
 
-<section id="products"></section>
-
-<!-- LOGIN POPUP -->
-<div id="loginPopup">
-<input id="pin" type="password" placeholder="PIN Admin">
-<button onclick="loginAdmin()">LOGIN</button>
+<div class="modal" id="tierModal">
+<div class="box">
+<h3>Pilih tier akun ML</h3>
+<div class="option" onclick="stepLevel()">Ahli</div>
+<div class="option">Senior</div>
+<div class="option">Junior</div>
+<p style="font-size:12px;opacity:.6">PoweredByAryanzUtama</p>
+</div>
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel">
-<input type="file" id="file">
-<select id="kategori">
-<option>Ahli</option>
-<option>Senior</option>
-<option>Ternama</option>
-<option>Terhormat</option>
-</select>
-<button onclick="uploadProduct()">UPLOAD</button>
+<div class="modal" id="levelModal">
+<div class="box">
+<h3>Pilih level Ahli</h3>
+<div class="option" onclick="stepCein()">Ahli 5</div>
+<div class="option">Ahli 4</div>
+<div class="option">Ahli 3</div>
+<div class="option">Ahli 2</div>
+<div class="option">Ahli 1</div>
 </div>
+</div>
+
+<div class="modal" id="ceinModal">
+<div class="box">
+<p><b>Jual akun wajib bisa CEIN</b></p>
+<div class="readonly">
+Nomor :
+089679520905
+
+Gmail :
+nnffvyya48@gmail.com
+</div>
+<button class="btn green" onclick="chatAdmin()">Chat Admin</button>
+<button class="btn gray" onclick="stepForm()">Lanjut (sudah CEIN)</button>
+</div>
+</div>
+
+<div class="modal" id="formModal">
+<div class="box">
+<div class="readonly">
+DATA ACCOUNT ML STOK KE [  ]
+
+(peraturan di bawah)
+</div>
+
+<input id="email" placeholder="Email">
+<input id="pwGoogle" placeholder="Pw Google">
+<input id="pwMoonton" placeholder="Pw Moonton">
+<input id="sekunder" placeholder="Sekunder">
+<textarea id="code" placeholder="Code cadangan (10 baris)"></textarea>
+
+<button id="submitBtn" class="btn gray" disabled onclick="finish()">Lanjut</button>
+</div>
+</div>
+
+<footer>PoweredByAryanzUtama</footer>
 
 <script>
-const ADMIN_PIN="009898";
-const SUPABASE_URL="ISI_SUPABASE_URL";
-const SUPABASE_ANON_KEY="ISI_SUPABASE_ANON_KEY";
-
-const supabase=supabaseJs.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-
-let isAdmin=false;
-let allProducts=[];
-
-function openBuyer(){
-homeMenu.style.display="none";
-filterBar.style.display="block";
-products.style.display="grid";
-loadProducts();
+/* ================= LOADING ================= */
+let p=0;
+const bar=document.getElementById("bar");
+const txt=document.getElementById("loadingText");
+const load=setInterval(()=>{
+p+=5;
+bar.style.width=p+"%";
+txt.innerText=p+"% • PoweredByAryanzUtama";
+if(p>=100){
+clearInterval(load);
+loading.style.display="none";
+logo.classList.add("move");
 }
+},120);
 
-function openAdmin(){
-loginPopup.style.display="block";
-}
+/* ================= SUPABASE (READY) ================= */
+const supabase = window.supabase.createClient(
+"https://afjzqdqzihyttukaprnn.supabase.co",
+"sb_publishable_C7eOYNByY-sNmFskC_gtpQ_SKffaH6Z"
+);
 
-function loginAdmin(){
-if(pin.value===ADMIN_PIN){
-isAdmin=true;
-loginPopup.style.display="none";
-adminPanel.classList.add("show");
-openBuyer();
-}else alert("PIN salah");
-}
+/* ================= FLOW ================= */
+function openSell(){sellModal.classList.add("show")}
+function stepTier(){sellModal.classList.remove("show");tierModal.classList.add("show")}
+function stepLevel(){tierModal.classList.remove("show");levelModal.classList.add("show")}
+function stepCein(){levelModal.classList.remove("show");ceinModal.classList.add("show")}
+function stepForm(){ceinModal.classList.remove("show");formModal.classList.add("show")}
+function openBuy(){window.open("https://wa.me/6289679520905","_blank")}
+function chatAdmin(){window.open("https://wa.me/6289679520905","_blank")}
 
-async function loadProducts(){
-const {data}=await supabase.from("products").select("*").order("created_at",{ascending:false});
-allProducts=data||[];
-renderProducts(allProducts);
-}
-
-function renderProducts(list){
-products.innerHTML="";
-list.forEach(d=>{
-const c=document.createElement("div");
-c.className="card";
-c.innerHTML=`
-<img src="${d.image_url}">
-<div class="info">${d.kategori}</div>
-${d.sold?'<div class="sold">SOLD</div>':''}
-<button class="admin-btn">SOLD</button>
-`;
-if(!d.sold)c.onclick=()=>window.open("https://wa.me/6289679520905");
-c.querySelector(".admin-btn").onclick=e=>{
-e.stopPropagation();
-markSold(d.id);
-};
-products.appendChild(c);
+/* ================= VALIDATION ================= */
+const inputs=["email","pwGoogle","pwMoonton","sekunder","code"];
+inputs.forEach(id=>{
+document.getElementById(id).addEventListener("input",check);
 });
-if(isAdmin)document.querySelectorAll(".admin-btn").forEach(b=>b.style.display="block");
+
+function check(){
+const ok=inputs.every(id=>document.getElementById(id).value.trim()!=="");
+submitBtn.disabled=!ok;
+submitBtn.className="btn "+(ok?"green":"gray");
 }
 
-searchInput.oninput=filterData;
-filterKategori.onchange=filterData;
-
-function filterData(){
-renderProducts(allProducts.filter(p=>
-p.kategori.toLowerCase().includes(searchInput.value.toLowerCase()) &&
-(filterKategori.value? p.kategori===filterKategori.value:true)
-));
-}
-
-async function uploadProduct(){
-const f=file.files[0];
-if(!f)return alert("Pilih foto");
-const name=Date.now()+"-"+f.name;
-await supabase.storage.from("products").upload(name,f,{upsert:true});
-const {data}=supabase.storage.from("products").getPublicUrl(name);
-await supabase.from("products").insert({image_url:data.publicUrl,kategori:kategori.value,sold:false});
-loadProducts();
-}
-
-async function markSold(id){
-await supabase.from("products").update({sold:true}).eq("id",id);
-loadProducts();
+function finish(){
+alert("SALIN DATA AKUN MU & LANJUT KE WHATSAPP ADMIN");
+window.open("https://wa.me/6289679520905","_blank");
 }
 </script>
 
