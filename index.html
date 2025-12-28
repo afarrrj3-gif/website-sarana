@@ -5,152 +5,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AryanzUtama Store</title>
 
-<!-- SUPABASE V2 -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-<!-- ICON -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
-/* =====================================================
-   ROOT & RESET
-===================================================== */
 :root{
 --primary:#ff7a18;
 --secondary:#ffb347;
 --danger:#ff3b3b;
---dark:#111;
 --soft:#f4f6fb;
---radius:18px;
+--dark:#111;
 }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:system-ui,-apple-system,Segoe UI,Roboto;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
 
-body{
-background:var(--soft);
-color:#222;
-overflow-x:hidden;
-}
+body{background:var(--soft);color:#222}
 
-/* =====================================================
-   BANNER
-===================================================== */
+/* ================= BANNER ================= */
 .banner{
-height:260px;
-background:
-linear-gradient(to bottom,
-rgba(255,255,255,0) 0%,
-rgba(255,255,255,.5) 55%,
-rgba(255,255,255,.9) 80%,
-#fff 100%),
+height:240px;
+background:linear-gradient(to bottom,rgba(0,0,0,.3),#fff),
 url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
 background-size:cover;
-background-position:center;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:flex-end;
-padding-bottom:25px;
-position:relative;
-animation:fadeDown .8s ease;
-}
-
-@keyframes fadeDown{
-from{opacity:0;transform:translateY(-20px)}
-to{opacity:1;transform:none}
+padding-bottom:20px;
 }
 
 .logo{
-position:absolute;
-top:40px;
-width:140px;
-height:140px;
+width:120px;
+height:120px;
 border-radius:50%;
 background:#fff;
 padding:6px;
+margin-bottom:10px;
 box-shadow:0 20px 40px rgba(0,0,0,.3);
-animation:float 4s ease-in-out infinite;
 }
 
-.logo img{
-width:100%;
-height:100%;
-border-radius:50%;
-object-fit:cover;
-}
+.logo img{width:100%;height:100%;border-radius:50%}
 
-@keyframes float{
-50%{transform:translateY(-10px)}
-}
+.banner h1{font-size:22px;font-weight:900}
 
-.banner h1{
-font-size:22px;
-font-weight:900;
-}
-
-/* =====================================================
-   HOME MENU
-===================================================== */
+/* ================= HOME ================= */
 #homeMenu{
 padding:20px;
 display:flex;
-gap:18px;
-justify-content:center;
-flex-wrap:wrap;
-animation:fadeUp .8s ease;
-}
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(30px)}
-to{opacity:1;transform:none}
+gap:16px;
 }
 
 .home-card{
 flex:1;
-min-width:260px;
-max-width:320px;
 background:#fff;
 border-radius:20px;
-padding:24px;
-text-align:left;
-box-shadow:0 15px 40px rgba(0,0,0,.15);
+padding:22px;
+box-shadow:0 15px 35px rgba(0,0,0,.15);
 cursor:pointer;
 transition:.3s;
 }
 
-.home-card:hover{
-transform:translateY(-6px);
-}
+.home-card:hover{transform:translateY(-6px)}
 
-.home-card h2{
-margin-bottom:8px;
-}
+.home-card h2{margin-bottom:6px}
 
-.home-card p{
-font-size:14px;
-opacity:.8;
-}
-
-/* =====================================================
-   SEARCH & FILTER
-===================================================== */
+/* ================= FILTER ================= */
 #filterBar{
 display:none;
 position:sticky;
 top:0;
 background:#fff;
 padding:12px;
-z-index:99;
-box-shadow:0 8px 25px rgba(0,0,0,.1);
+box-shadow:0 10px 25px rgba(0,0,0,.1);
+z-index:10;
 }
 
-#filterBar input,
-#filterBar select{
+#filterBar input,#filterBar select{
 width:100%;
 padding:12px;
 margin-bottom:8px;
@@ -158,9 +87,7 @@ border-radius:14px;
 border:1px solid #ddd;
 }
 
-/* =====================================================
-   PRODUCTS
-===================================================== */
+/* ================= PRODUCTS ================= */
 #products{
 display:none;
 padding:16px;
@@ -175,10 +102,10 @@ border-radius:18px;
 overflow:hidden;
 position:relative;
 box-shadow:0 10px 30px rgba(0,0,0,.15);
-animation:cardIn .4s ease;
+animation:fade .4s ease;
 }
 
-@keyframes cardIn{
+@keyframes fade{
 from{opacity:0;transform:translateY(20px)}
 }
 
@@ -188,11 +115,7 @@ height:160px;
 object-fit:cover;
 }
 
-.card .info{
-padding:10px;
-text-align:center;
-font-weight:800;
-}
+.info{text-align:center;padding:10px;font-weight:800}
 
 .sold{
 position:absolute;
@@ -201,14 +124,11 @@ background:rgba(0,0,0,.75);
 display:flex;
 align-items:center;
 justify-content:center;
+color:#fff;
 font-size:26px;
 font-weight:900;
-color:#fff;
 }
 
-/* =====================================================
-   ADMIN SOLD BUTTON
-===================================================== */
 .admin-btn{
 position:absolute;
 bottom:10px;
@@ -219,89 +139,65 @@ border:none;
 border-radius:20px;
 background:var(--danger);
 color:#fff;
-font-size:12px;
 display:none;
 }
 
-/* =====================================================
-   MODAL
-===================================================== */
-.modal{
+/* ================= ADMIN LOGIN POPUP ================= */
+#loginPopup{
 position:fixed;
-inset:0;
-background:rgba(0,0,0,.6);
+bottom:20px;
+left:20px;
+background:#fff;
+padding:16px;
+border-radius:18px;
+box-shadow:0 15px 40px rgba(0,0,0,.35);
 display:none;
-align-items:center;
-justify-content:center;
+animation:slideUp .4s ease;
 z-index:200;
 }
 
-.modal.show{display:flex;}
-
-.modal-content{
-background:#fff;
-width:90%;
-max-width:380px;
-border-radius:20px;
-padding:18px;
-text-align:center;
-animation:zoom .35s ease;
+@keyframes slideUp{
+from{opacity:0;transform:translateY(40px)}
 }
 
-@keyframes zoom{
-from{opacity:0;transform:scale(.85)}
-to{opacity:1;transform:none}
-}
-
-.modal-content img{
-width:100%;
-border-radius:14px;
-margin-bottom:8px;
-}
-
-.modal-content button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:14px;
-margin-top:8px;
-font-weight:900;
-}
-
-.wa{background:#25d366;color:#fff;}
-.ig{background:#e1306c;color:#fff;}
-
-/* =====================================================
-   ADMIN PANEL
-===================================================== */
+/* ================= ADMIN PANEL ================= */
 #adminPanel{
-display:none;
 position:fixed;
-bottom:0;
+bottom:-100%;
 left:0;
 right:0;
 background:#fff;
 padding:16px;
 border-radius:22px 22px 0 0;
-box-shadow:0 -10px 30px rgba(0,0,0,.35);
+box-shadow:0 -15px 40px rgba(0,0,0,.4);
+transition:.4s;
 z-index:150;
 }
 
-/* =====================================================
-   FOOTER
-===================================================== */
-footer{
-text-align:center;
-padding:28px 10px;
-font-size:12px;
-opacity:.6;
+#adminPanel.show{bottom:0}
+
+#adminPanel input,#adminPanel select{
+width:100%;
+padding:12px;
+margin-bottom:8px;
+border-radius:14px;
+border:1px solid #ddd;
+}
+
+#adminPanel button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:16px;
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+color:#fff;
+font-weight:900;
 }
 </style>
 </head>
 
 <body>
 
-<!-- BANNER -->
 <div class="banner">
 <div class="logo">
 <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
@@ -309,22 +205,19 @@ opacity:.6;
 <h1>AryanzUtama Store</h1>
 </div>
 
-<!-- HOME MENU -->
 <div id="homeMenu">
 <div class="home-card" onclick="openBuyer()">
 <h2>🛒 Beli Akun</h2>
-<p>Beli akun terpercaya, aman, cepat & transparan.</p>
+<p>Lihat semua akun tersedia</p>
 </div>
-
 <div class="home-card" onclick="openAdmin()">
 <h2>➕ Jual Akun</h2>
-<p>Jual akun ML & game lain, proses jelas & fair.</p>
+<p>Khusus admin</p>
 </div>
 </div>
 
-<!-- FILTER -->
 <div id="filterBar">
-<input id="searchInput" placeholder="Cari kategori (ahli, senior...)">
+<input id="searchInput" placeholder="Cari kategori">
 <select id="filterKategori">
 <option value="">Semua</option>
 <option>Ahli</option>
@@ -334,67 +227,62 @@ opacity:.6;
 </select>
 </div>
 
-<!-- PRODUCTS -->
 <section id="products"></section>
 
-<footer>PoweredByAryanzUtama</footer>
+<!-- LOGIN POPUP -->
+<div id="loginPopup">
+<input id="pin" type="password" placeholder="PIN Admin">
+<button onclick="loginAdmin()">LOGIN</button>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+<input type="file" id="file">
+<select id="kategori">
+<option>Ahli</option>
+<option>Senior</option>
+<option>Ternama</option>
+<option>Terhormat</option>
+</select>
+<button onclick="uploadProduct()">UPLOAD</button>
+</div>
 
 <script>
-/* =====================================================
-   CONFIG (WAJIB DIISI)
-===================================================== */
 const ADMIN_PIN="009898";
-const SUPABASE_URL="https://afjzqdqzihyttukaprnn.supabase.co";
-const SUPABASE_ANON_KEY="sb_publishable_C7eOYNByY-sNmFskC_gtpQ_SKffaH6Z";
+const SUPABASE_URL="ISI_SUPABASE_URL";
+const SUPABASE_ANON_KEY="ISI_SUPABASE_ANON_KEY";
 
-/* =====================================================
-   INIT SUPABASE
-===================================================== */
-const supabase = supabaseJs.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
+const supabase=supabaseJs.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
-/* =====================================================
-   STATE
-===================================================== */
 let isAdmin=false;
 let allProducts=[];
 
-/* =====================================================
-   MODE
-===================================================== */
 function openBuyer(){
-document.getElementById("homeMenu").style.display="none";
-document.getElementById("filterBar").style.display="block";
-document.getElementById("products").style.display="grid";
+homeMenu.style.display="none";
+filterBar.style.display="block";
+products.style.display="grid";
 loadProducts();
 }
 
 function openAdmin(){
-const pin=prompt("Masukkan PIN Admin:");
-if(pin===ADMIN_PIN){
+loginPopup.style.display="block";
+}
+
+function loginAdmin(){
+if(pin.value===ADMIN_PIN){
 isAdmin=true;
+loginPopup.style.display="none";
+adminPanel.classList.add("show");
 openBuyer();
-}
+}else alert("PIN salah");
 }
 
-/* =====================================================
-   LOAD PRODUCTS
-===================================================== */
 async function loadProducts(){
-const {data,error}=await supabase
-.from("products")
-.select("*")
-.order("created_at",{ascending:false});
-if(error) return;
-allProducts=data;
-renderProducts(data);
+const {data}=await supabase.from("products").select("*").order("created_at",{ascending:false});
+allProducts=data||[];
+renderProducts(allProducts);
 }
 
-/* =====================================================
-   RENDER
-===================================================== */
 function renderProducts(list){
 products.innerHTML="";
 list.forEach(d=>{
@@ -406,52 +294,39 @@ c.innerHTML=`
 ${d.sold?'<div class="sold">SOLD</div>':''}
 <button class="admin-btn">SOLD</button>
 `;
-if(!d.sold){
-c.onclick=()=>openPay(d.image_url);
-}
+if(!d.sold)c.onclick=()=>window.open("https://wa.me/6289679520905");
 c.querySelector(".admin-btn").onclick=e=>{
 e.stopPropagation();
 markSold(d.id);
 };
 products.appendChild(c);
 });
-if(isAdmin){
-document.querySelectorAll(".admin-btn")
-.forEach(b=>b.style.display="block");
-}
+if(isAdmin)document.querySelectorAll(".admin-btn").forEach(b=>b.style.display="block");
 }
 
-/* =====================================================
-   FILTER
-===================================================== */
 searchInput.oninput=filterData;
 filterKategori.onchange=filterData;
 
 function filterData(){
-const q=searchInput.value.toLowerCase();
-const k=filterKategori.value;
-renderProducts(
-allProducts.filter(p=>
-p.kategori.toLowerCase().includes(q) &&
-(k? p.kategori===k:true)
-)
-);
+renderProducts(allProducts.filter(p=>
+p.kategori.toLowerCase().includes(searchInput.value.toLowerCase()) &&
+(filterKategori.value? p.kategori===filterKategori.value:true)
+));
 }
 
-/* =====================================================
-   SOLD
-===================================================== */
+async function uploadProduct(){
+const f=file.files[0];
+if(!f)return alert("Pilih foto");
+const name=Date.now()+"-"+f.name;
+await supabase.storage.from("products").upload(name,f,{upsert:true});
+const {data}=supabase.storage.from("products").getPublicUrl(name);
+await supabase.from("products").insert({image_url:data.publicUrl,kategori:kategori.value,sold:false});
+loadProducts();
+}
+
 async function markSold(id){
-await supabase.from("products")
-.update({sold:true})
-.eq("id",id);
-}
-
-/* =====================================================
-   PAY
-===================================================== */
-function openPay(){
-window.open("https://wa.me/6289679520905","_blank");
+await supabase.from("products").update({sold:true}).eq("id",id);
+loadProducts();
 }
 </script>
 
