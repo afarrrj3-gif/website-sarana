@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AryanzUtama Store</title>
 
-<!-- ================= SUPABASE SDK ================= -->
+<!-- ================= SUPABASE ================= -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <style>
 /* =========================================================
-   RESET & ROOT
+   ROOT & RESET
 ========================================================= */
 :root{
 --primary:#ff7a18;
@@ -19,87 +19,85 @@
 --bg:#f4f6fb;
 --dark:#111;
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:var(--bg);color:#222}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:system-ui;
+}
+
+body{
+background:var(--bg);
+color:#222;
+overflow-x:hidden;
+}
 
 /* =========================================================
-   LOADING (PURE CSS + HTML)
+   BANNER & LOGO
 ========================================================= */
-#loading{
-position:fixed;
-inset:0;
-background:#111;
-color:#fff;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-z-index:99999;
-}
-.loading-bar{
-width:70%;
-height:6px;
-background:#333;
-border-radius:20px;
-overflow:hidden;
-}
-.loading-bar span{
-display:block;
-height:100%;
+#banner{
 width:100%;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
-animation:loadmove 1.2s infinite linear;
-}
-@keyframes loadmove{
-0%{transform:translateX(-100%)}
-100%{transform:translateX(100%)}
-}
-#loadingPower{margin-top:10px;font-size:12px;opacity:.6}
-
-/* =========================================================
-   HOME
-========================================================= */
-#home{
-min-height:100vh;
+height:260px;
+background:
+linear-gradient(to bottom, rgba(0,0,0,.25), #fff),
+url("https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg");
+background-size:cover;
+background-position:center;
 display:flex;
-flex-direction:column;
-align-items:center;
+align-items:flex-end;
 justify-content:center;
-gap:18px;
-padding:16px;
-text-align:center;
+padding-bottom:30px;
+position:relative;
 }
-#home img{
-width:90%;
-max-width:360px;
-border-radius:20px;
+
+#logo{
+position:absolute;
+top:40px;
+width:130px;
+height:130px;
+border-radius:50%;
+background:#fff;
+padding:6px;
 box-shadow:0 20px 40px rgba(0,0,0,.35);
 }
+
+#logo img{
+width:100%;
+height:100%;
+border-radius:50%;
+object-fit:cover;
+}
+
+#banner h1{
+font-size:22px;
+font-weight:900;
+}
+
+/* =========================================================
+   HOME OPTIONS
+========================================================= */
+#home{
+padding:24px;
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
 .home-btn{
 width:100%;
-max-width:300px;
-padding:16px;
+padding:18px;
 border:none;
 border-radius:22px;
+font-size:16px;
 font-weight:900;
 color:#fff;
 background:linear-gradient(90deg,var(--primary),var(--secondary));
+box-shadow:0 12px 30px rgba(0,0,0,.25);
 }
 
 /* =========================================================
-   HEADER
-========================================================= */
-header{
-display:none;
-height:220px;
-background:linear-gradient(to bottom,var(--primary),var(--secondary),#fff);
-align-items:flex-end;
-justify-content:center;
-padding-bottom:20px;
-}
-
-/* =========================================================
-   SEARCH
+   SEARCH BAR
 ========================================================= */
 #searchBox{
 display:none;
@@ -107,15 +105,17 @@ position:sticky;
 top:0;
 background:#fff;
 padding:14px;
-z-index:100;
+z-index:99;
 box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
-#searchBox input,#searchBox select{
+
+#searchBox input,
+#searchBox select{
 width:100%;
 padding:14px;
+margin-bottom:10px;
 border-radius:16px;
 border:1px solid #ddd;
-margin-bottom:10px;
 }
 
 /* =========================================================
@@ -128,23 +128,32 @@ display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:16px;
 }
+
 .card{
 background:#fff;
 border-radius:20px;
 overflow:hidden;
 box-shadow:0 15px 30px rgba(0,0,0,.15);
 position:relative;
+animation:fade .4s ease;
 }
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px)}
+}
+
 .card img{
 width:100%;
 height:160px;
 object-fit:cover;
 }
+
 .info{
 padding:12px;
 font-weight:800;
 text-align:center;
 }
+
 .sold{
 position:absolute;
 inset:0;
@@ -156,6 +165,7 @@ font-size:26px;
 font-weight:900;
 color:#fff;
 }
+
 .admin-btn{
 display:none;
 position:absolute;
@@ -181,6 +191,7 @@ align-items:center;
 justify-content:center;
 z-index:200;
 }
+
 .modal-content{
 background:#fff;
 padding:18px;
@@ -189,11 +200,13 @@ width:90%;
 max-width:380px;
 text-align:center;
 }
+
 .modal-content img{
 width:100%;
 border-radius:16px;
 margin-bottom:10px;
 }
+
 .modal-content button{
 width:100%;
 padding:14px;
@@ -202,6 +215,7 @@ border:none;
 border-radius:16px;
 font-weight:900;
 }
+
 .wa{background:#25d366;color:#fff}
 .ig{background:#e1306c;color:#fff}
 
@@ -220,13 +234,16 @@ border-radius:24px 24px 0 0;
 box-shadow:0 -10px 30px rgba(0,0,0,.35);
 z-index:150;
 }
-#adminPanel input,#adminPanel select{
+
+#adminPanel input,
+#adminPanel select{
 width:100%;
 padding:14px;
 margin-bottom:10px;
 border-radius:16px;
 border:1px solid #ddd;
 }
+
 #adminPanel button{
 width:100%;
 padding:16px;
@@ -236,26 +253,36 @@ background:linear-gradient(90deg,var(--primary),var(--secondary));
 color:#fff;
 font-weight:900;
 }
+
+/* =========================================================
+   FOOTER
+========================================================= */
+footer{
+text-align:center;
+padding:24px;
+font-size:12px;
+opacity:.6;
+}
 </style>
 </head>
 
 <body>
 
-<!-- ================= LOADING ================= -->
-<div id="loading">
-<div class="loading-bar"><span></span></div>
-<div id="loadingPower">PoweredByAryanzUtama</div>
+<!-- ================= BANNER ================= -->
+<div id="banner">
+<div id="logo">
+<img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+</div>
+<h1>AryanzUtama Store</h1>
 </div>
 
 <!-- ================= HOME ================= -->
 <div id="home">
-<img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg">
 <button class="home-btn" onclick="openBuyer()">🛒 BELI AKUN</button>
 <button class="home-btn" onclick="openAdmin()">➕ JUAL AKUN</button>
 </div>
 
-<header id="header"><h1>AryanzUtama Store</h1></header>
-
+<!-- ================= SEARCH ================= -->
 <div id="searchBox">
 <input id="searchInput" placeholder="Cari kategori...">
 <select id="filterKategori">
@@ -267,6 +294,7 @@ font-weight:900;
 </select>
 </div>
 
+<!-- ================= PRODUCTS ================= -->
 <section id="products"></section>
 
 <!-- ================= LOGIN ================= -->
@@ -282,8 +310,10 @@ font-weight:900;
 <div class="modal" id="payModal">
 <div class="modal-content">
 <img id="payImg">
+<img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766779896/IMG-20251222-WA0068_thougk.jpg">
+<p>DANA: 0896788037479<br>a/n NI KOMANG</p>
 <button class="wa" onclick="window.open('https://wa.me/6289679520905')">WhatsApp</button>
-<button class="ig" onclick="window.open('https://instagram.com/aryanz_stok')">Instagram</button>
+<button class="ig" onclick="window.open('https://www.instagram.com/aryanz_stok')">Instagram</button>
 <button onclick="payModal.style.display='none'">Tutup</button>
 </div>
 </div>
@@ -300,29 +330,25 @@ font-weight:900;
 <button onclick="uploadProduct()">Upload Produk</button>
 </div>
 
-<script>
-/* =========================================================
-   HARD STOP LOADING (ANTI STUCK ABSOLUT)
-========================================================= */
-window.addEventListener("load",()=>{
-document.getElementById("loading").style.display="none";
-});
+<footer>PoweredByAryanzUtama</footer>
 
+<script>
 /* =========================================================
    CONFIG
 ========================================================= */
 const ADMIN_PIN="009898";
-const SUPABASE_URL="ISI_SUPABASE_URL";
-const SUPABASE_ANON_KEY="ISI_ANON_KEY";
+const SUPABASE_URL="https://afjzqdqzihyttukaprnn.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_C7eOYNByY-sNmFskC_gtpQ_SKffaH6Z";
 
 /* =========================================================
-   SUPABASE SAFE INIT
+   SUPABASE INIT (SAFE)
 ========================================================= */
 let supabase=null;
 if(SUPABASE_URL && SUPABASE_ANON_KEY){
-try{
-supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-}catch(e){console.warn("Supabase gagal");}
+supabase=window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
 }
 
 /* =========================================================
@@ -332,15 +358,15 @@ let isAdmin=false;
 let allProducts=[];
 
 /* =========================================================
-   MODE
+   MODE SWITCH
 ========================================================= */
 function openBuyer(){
 home.style.display="none";
-header.style.display="flex";
 searchBox.style.display="block";
 products.style.display="grid";
 loadProducts();
 }
+
 function openAdmin(){
 loginModal.style.display="flex";
 }
@@ -362,12 +388,18 @@ adminPanel.style.display="block";
 ========================================================= */
 async function loadProducts(){
 if(!supabase)return;
-const {data}=await supabase.from("products").select("*");
-if(data){allProducts=data;renderProducts(data);}
+const {data}=await supabase
+.from("products")
+.select("*")
+.order("created_at",{ascending:false});
+if(data){
+allProducts=data;
+renderProducts(data);
+}
 }
 
 /* =========================================================
-   RENDER
+   RENDER PRODUCTS
 ========================================================= */
 function renderProducts(data){
 products.innerHTML="";
@@ -387,29 +419,46 @@ markSold(d.id);
 };
 products.appendChild(c);
 });
-if(isAdmin)document.querySelectorAll(".admin-btn").forEach(b=>b.style.display="block");
+if(isAdmin){
+document.querySelectorAll(".admin-btn")
+.forEach(b=>b.style.display="block");
+}
 }
 
 /* =========================================================
    SEARCH
 ========================================================= */
-searchInput.oninput=()=>renderProducts(allProducts.filter(p=>p.kategori.toLowerCase().includes(searchInput.value.toLowerCase())));
+searchInput.oninput=filterData;
+filterKategori.onchange=filterData;
+
+function filterData(){
+const q=searchInput.value.toLowerCase();
+const k=filterKategori.value;
+const res=allProducts.filter(p=>{
+return p.kategori.toLowerCase().includes(q)
+&& (k? p.kategori===k:true);
+});
+renderProducts(res);
+}
 
 /* =========================================================
-   UPLOAD
+   UPLOAD PRODUCT
 ========================================================= */
 async function uploadProduct(){
 if(!supabase)return alert("Supabase belum diisi");
 const f=file.files[0];
 if(!f)return alert("Pilih gambar");
 const name=Date.now()+"-"+f.name;
-await supabase.storage.from("products").upload(name,f,{upsert:true});
-const {data}=supabase.storage.from("products").getPublicUrl(name);
+await supabase.storage.from("products")
+.upload(name,f,{upsert:true});
+const {data}=supabase.storage
+.from("products").getPublicUrl(name);
 await supabase.from("products").insert({
 image_url:data.publicUrl,
 kategori:kategori.value,
 sold:false
 });
+file.value="";
 loadProducts();
 }
 
@@ -417,13 +466,14 @@ loadProducts();
    SOLD
 ========================================================= */
 async function markSold(id){
-if(!supabase)return;
-await supabase.from("products").update({sold:true}).eq("id",id);
+await supabase.from("products")
+.update({sold:true})
+.eq("id",id);
 loadProducts();
 }
 
 /* =========================================================
-   PAY
+   PAYMENT
 ========================================================= */
 function openPay(img){
 payModal.style.display="flex";
