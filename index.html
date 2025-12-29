@@ -19,6 +19,7 @@ header{
   position:relative;
   height:220px;
   background:url('https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg') center/cover no-repeat;
+  overflow:hidden;
 }
 header::after{
   content:'';
@@ -28,6 +29,26 @@ header::after{
   background:linear-gradient(to bottom,rgba(255,255,255,0),#eef6ff);
 }
 
+/* LOGO FIX (INI YANG PALING PENTING) */
+.logo{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:90px;
+  height:90px;
+  background:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:2;
+}
+.logo img{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+}
 
 /* ===================== OPTION CARDS ===================== */
 .options{
@@ -102,6 +123,7 @@ header::after{
   font-weight:bold;
   cursor:pointer;
   opacity:.5;
+  z-index:200;
 }
 #adminBtn:hover{opacity:1}
 
@@ -121,6 +143,16 @@ header::after{
   border-radius:10px;
 }
 .price{font-weight:bold;color:#2b7cff;margin-top:5px}
+.product button{
+  margin-top:8px;
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#2b7cff;
+  color:white;
+  cursor:pointer;
+}
 </style>
 </head>
 
@@ -150,96 +182,53 @@ header::after{
     <button class="btn" onclick="selectGame('ML')">Mobile Legend</button>
     <button class="btn" onclick="alert('Coming soon')">Free Fire</button>
     <button class="btn" onclick="alert('Coming soon')">Roblox</button>
-    <button class="btn" onclick="closeAll()">Tutup</button>
+    <button class="btn gray" onclick="closeAll()">Tutup</button>
   </div>
 </div>
 
-<!-- ===================== POPUP BUY ===================== -->
+<!-- ===================== BUY PAGE ===================== -->
 <section id="buyPage" style="display:none;padding-bottom:50px">
 
-  <!-- Banner -->
-  <div style="
-    position:relative;
-    height:220px;
-    background:url('https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg') center/cover no-repeat;
-  ">
-    <div style="
-      position:absolute;
-      bottom:0;
-      width:100%;
-      height:80px;
-      background:linear-gradient(to bottom,rgba(255,255,255,0),#eef6ff);
-    "></div>
-
-    <div style="
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%,-50%);
-      width:90px;
-      height:90px;
-      background:white;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    ">
-      <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg"
-           style="width:80px;height:80px;border-radius:50%">
-    </div>
-  </div>
-
-  <!-- Search -->
   <div style="padding:15px">
     <input id="searchInput"
       placeholder="Cari kategori (ahli, senior, ternama...)"
-      style="
-        width:100%;
-        padding:14px;
-        border-radius:12px;
-        border:1px solid #ccc;
-        font-size:15px;
-      ">
+      oninput="renderProducts(this.value)"
+      style="width:100%;padding:14px;border-radius:12px;border:1px solid #ccc;font-size:15px">
   </div>
 
-  <!-- Product List -->
   <div id="productListBuy" style="padding:15px"></div>
-
 </section>
 
 <!-- ===================== ADMIN ===================== -->
 <div id="adminBtn" onclick="adminLogin()">A</div>
 
 <script>
-/* ================= BASIC STATE ================= */
 let products = [
   {id:1, cat:'ahli', price:65000, img:'https://via.placeholder.com/300', sold:false},
   {id:2, cat:'ahli', price:55000, img:'https://via.placeholder.com/300', sold:false},
   {id:3, cat:'senior', price:40000, img:'https://via.placeholder.com/300', sold:true}
 ];
 
-/* ================= OPEN PAGES ================= */
 function openBuy(){
-  document.getElementById('homePage').style.display='none';
-  document.getElementById('buyPage').style.display='block';
+  homePage.style.display='none';
+  buyPage.style.display='block';
   renderProducts();
-  window.scrollTo({top:0, behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function openSell(){
-  alert('Fitur jual akun aktif (lanjut form CEIN)');
+  document.getElementById('sellPopup').classList.add('active');
 }
 
 function closeAll(){
-  document.querySelectorAll('.popup')
-    .forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
 }
 
-/* ================= BUY FLOW ================= */
-function renderProducts(){
-  let box = document.getElementById('productListBuy');
+function renderProducts(q=''){
+  let box = productListBuy;
   box.innerHTML='';
   products
+    .filter(p=>p.cat.includes(q.toLowerCase()))
     .sort((a,b)=>b.price-a.price)
     .forEach(p=>{
       let d=document.createElement('div');
@@ -254,26 +243,14 @@ function renderProducts(){
 }
 
 function pay(id){
-  let p = products.find(x=>x.id===id);
-  if(!p) return;
-  let pesan =
-    "Halo Admin, saya mau beli akun\n"+
-    "Tier: "+p.cat+"\n"+
-    "Harga: Rp "+p.price;
-  window.open(
-    "https://wa.me/6289679520905?text="+encodeURIComponent(pesan),
-    "_blank"
-  );
+  let p=products.find(x=>x.id===id);
+  let msg=`Halo Admin,%0ASaya mau beli akun%0ATier: ${p.cat}%0AHarga: Rp ${p.price}`;
+  window.open("https://wa.me/6289679520905?text="+msg,"_blank");
 }
 
-/* ================= ADMIN ================= */
 function adminLogin(){
-  let pin = prompt("Masukkan PIN Admin");
-  if(pin==="009898"){
-    alert("Mode Admin Aktif");
-  }else{
-    alert("PIN salah");
-  }
+  let pin=prompt("Masukkan PIN Admin");
+  alert(pin==="009898"?"Mode Admin Aktif":"PIN salah");
 }
 </script>
 
