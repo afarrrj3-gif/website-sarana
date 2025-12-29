@@ -2,264 +2,255 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>AryanzUtama Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AryanzUtama - Jual Akun</title>
 
 <style>
-/* ===================== RESET ===================== */
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{
-  background:#eef6ff;
-  color:#0a2540;
-  overflow-x:hidden;
-}
-
-/* ===================== HEADER ===================== */
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:#f1f2f6}
 header{
-  position:relative;
-  height:220px;
-  background:url('https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg') center/cover no-repeat;
-  overflow:hidden;
+  height:180px;
+  background:url('https://i.imgur.com/9QO7K9y.jpg') center/cover;
 }
-header::after{
-  content:'';
-  position:absolute;
-  bottom:0;left:0;
-  width:100%;height:80px;
-  background:linear-gradient(to bottom,rgba(255,255,255,0),#eef6ff);
-}
+.container{padding:20px}
 
-/* LOGO FIX (INI YANG PALING PENTING) */
-.logo{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:90px;
-  height:90px;
-  background:white;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:2;
+.cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-top:-40px;
 }
-.logo img{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-}
-
-/* ===================== OPTION CARDS ===================== */
-.options{
-  display:flex;
-  gap:20px;
+.card{
+  background:#fff;
+  border-radius:18px;
   padding:20px;
-}
-.option{
-  flex:1;
-  background:white;
-  border-radius:16px;
-  padding:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
   cursor:pointer;
   transition:.3s;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
-.option:hover{transform:translateY(-5px)}
-.option h2{margin-bottom:10px}
-.option p{font-size:14px;color:#555}
+.card:hover{transform:translateY(-5px)}
+.card h2{margin:0}
+.card p{color:#555;font-size:14px}
 
-/* ===================== POPUP ===================== */
+.btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.green{background:#2ecc71;color:#fff}
+.gray{background:#ccc;color:#666;cursor:not-allowed}
+
 .popup{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.45);
+  background:rgba(0,0,0,.6);
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:100;
+  z-index:10;
 }
 .popup.active{display:flex}
-.popup-box{
-  background:white;
-  width:90%;
+.box{
+  background:#fff;
+  width:92%;
   max-width:420px;
-  max-height:85vh;
-  overflow:auto;
-  border-radius:14px;
+  border-radius:18px;
   padding:20px;
-  animation:pop .25s ease;
+  max-height:90vh;
+  overflow:auto;
 }
-@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-.popup-box h3{text-align:center;margin-bottom:15px}
-
-/* ===================== BUTTON ===================== */
-.btn{
-  display:block;
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  background:#2b7cff;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-.btn.gray{background:#ccc;cursor:not-allowed}
-.btn.whatsapp{background:#25d366}
-
-/* ===================== ADMIN ICON ===================== */
-#adminBtn{
-  position:fixed;
-  top:10px;left:10px;
-  width:42px;height:42px;
-  background:#2ecc71;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-  opacity:.5;
-  z-index:200;
-}
-#adminBtn:hover{opacity:1}
-
-/* ===================== PRODUCT ===================== */
-.product{
-  background:white;
+.option{
+  background:#f1f2f6;
+  padding:14px;
   border-radius:12px;
-  padding:10px;
-  margin-bottom:10px;
-}
-.product.sold{
-  filter:grayscale(1);
-  opacity:.6;
-}
-.product img{
-  width:100%;
-  border-radius:10px;
-}
-.price{font-weight:bold;color:#2b7cff;margin-top:5px}
-.product button{
-  margin-top:8px;
-  width:100%;
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  background:#2b7cff;
-  color:white;
+  margin:8px 0;
+  text-align:center;
   cursor:pointer;
+}
+.option:hover{background:#dfe6e9}
+
+.locked{
+  background:#f5f6fa;
+  padding:12px;
+  border-radius:10px;
+  white-space:pre-wrap;
+  font-size:13px;
+}
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+textarea{min-height:140px}
+
+.footer-text{
+  text-align:center;
+  font-size:12px;
+  color:#888;
+  margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">
-    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
-  </div>
-</header>
+<header></header>
 
-<div class="options" id="homePage">
-  <div class="option" onclick="openSell()">
-    <h2>Jual Akun</h2>
-    <p>Jual akun terpercaya, aman, cepat, dan transparan.</p>
-  </div>
-  <div class="option" onclick="openBuy()">
-    <h2>Beli Akun</h2>
-    <p>Akun berkualitas, siap pakai, harga terbaik.</p>
+<div class="container">
+  <div class="cards">
+    <div class="card" onclick="openPopup('gamePopup')">
+      <h2>Jual Akun</h2>
+      <p>Jual akun terpercaya, aman & harga transparan.</p>
+    </div>
+    <div class="card">
+      <h2>Beli Akun</h2>
+      <p>Stok akun siap pakai & bergaransi.</p>
+    </div>
   </div>
 </div>
 
-<!-- ===================== POPUP SELL ===================== -->
-<div class="popup" id="sellPopup">
-  <div class="popup-box">
-    <h3>Form Jual Akun</h3>
-
-    <input id="sellGame" placeholder="Game (ML / FF / dll)" class="input">
-    <input id="sellTier" placeholder="Tier / Rank" class="input">
-    <input id="sellLevel" placeholder="Level Akun" class="input">
-    <input id="sellLogin" placeholder="Metode Login (Moonton / FB / dll)" class="input">
-    <input id="sellPrice" placeholder="Harga yang diinginkan" class="input">
-    <input id="sellWA" placeholder="No WhatsApp kamu" class="input">
-
-    <textarea id="sellNote" placeholder="Detail tambahan (skin, hero, dll)"
-      style="width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;margin-top:10px"></textarea>
-
-    <button class="btn whatsapp" onclick="submitSell()">Kirim ke Admin</button>
-    <button class="btn gray" onclick="closeAll()">Batal</button>
+<!-- STEP 1 GAME -->
+<div class="popup" id="gamePopup">
+  <div class="box">
+    <h3>Mau jual akun apa?</h3>
+    <p>Click pada pilihan yang benar!</p>
+    <div class="option" onclick="next('tierPopup')">Mobile Legend</div>
+    <div class="option">Free Fire</div>
+    <div class="option">Roblox</div>
+    <div class="option">eFootball</div>
+    <div class="option">COC</div>
   </div>
 </div>
 
-<!-- ===================== BUY PAGE ===================== -->
-<section id="buyPage" style="display:none;padding-bottom:50px">
-
-  <div style="padding:15px">
-    <input id="searchInput"
-      placeholder="Cari kategori (ahli, senior, ternama...)"
-      oninput="renderProducts(this.value)"
-      style="width:100%;padding:14px;border-radius:12px;border:1px solid #ccc;font-size:15px">
+<!-- STEP 2 TIER -->
+<div class="popup" id="tierPopup">
+  <div class="box">
+    <h3>Pilih Tier Akun ML</h3>
+    <div class="option" onclick="next('levelPopup')">Ahli</div>
+    <div class="option">Junior</div>
+    <div class="option">Senior</div>
+    <div class="option">Ternama</div>
+    <div class="option">Terhormat</div>
+    <div class="option">Juragan</div>
+    <p class="footer-text">PoweredByAryanzUtama</p>
   </div>
+</div>
 
-  <div id="productListBuy" style="padding:15px"></div>
-</section>
+<!-- STEP 3 LEVEL -->
+<div class="popup" id="levelPopup">
+  <div class="box">
+    <h3>Semua akan ku take selagi kalian benar mengisi opsi</h3>
+    <div class="option" onclick="next('ceinPopup')">Ahli 5</div>
+    <div class="option">Ahli 4</div>
+    <div class="option">Ahli 3</div>
+    <div class="option">Ahli 2</div>
+    <div class="option">Ahli 1</div>
+    <p class="footer-text">PoweredByAryanzUtama</p>
+  </div>
+</div>
 
-<!-- ===================== ADMIN ===================== -->
-<div id="adminBtn" onclick="adminLogin()">A</div>
+<!-- STEP 4 CEIN -->
+<div class="popup" id="ceinPopup">
+  <div class="box">
+    <h3>Jual akun wajib bisa CEIN</h3>
+    <div class="locked">
+nomor :
+089679520905
+Gmail :
+nnffvyya48@gmail.com
+    </div>
+    <p style="font-size:13px">
+      Salin data di atas & CEIN ke akun Google kamu.<br>
+      Gabisa CEIN? chat admin.
+    </p>
+
+    <button class="btn green" onclick="wa()">Chat Admin</button>
+    <br><br>
+    <button class="btn green" onclick="next('formPopup')">Lanjut</button>
+  </div>
+</div>
+
+<!-- STEP 5 FORM -->
+<div class="popup" id="formPopup">
+  <div class="box">
+    <h3>DATA ACCOUNT ML</h3>
+
+    <label>Email</label>
+    <input id="email" oninput="checkForm()">
+
+    <label>Pw Google</label>
+    <input id="pwgoogle" oninput="checkForm()">
+
+    <label>Pw Moonton</label>
+    <input id="pwmoonton" oninput="checkForm()">
+
+    <label>Sekunder</label>
+    <input id="sekunder" oninput="checkForm()">
+
+    <label>Code Cadangan</label>
+    <textarea id="code" oninput="checkForm()"></textarea>
+
+    <p style="font-size:12px">
+      • Semua wajib di isi<br>
+      • Sekunder & code cadangan WAJIB
+    </p>
+
+    <button id="lanjutBtn" class="btn gray">Lanjut</button>
+  </div>
+</div>
 
 <script>
-let products = [
-  {id:1, cat:'ahli', price:65000, img:'https://via.placeholder.com/300', sold:false},
-  {id:2, cat:'ahli', price:55000, img:'https://via.placeholder.com/300', sold:false},
-  {id:3, cat:'senior', price:40000, img:'https://via.placeholder.com/300', sold:true}
-];
-
-function openBuy(){
-  homePage.style.display='none';
-  buyPage.style.display='block';
-  renderProducts();
-  window.scrollTo({top:0,behavior:'smooth'});
+function openPopup(id){
+  document.getElementById(id).classList.add('active')
 }
-
-function openSell(){
-  document.getElementById('sellPopup').classList.add('active');
-}
-
 function closeAll(){
-  document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'))
+}
+function next(id){
+  closeAll()
+  openPopup(id)
+}
+function wa(){
+  window.location.href="https://wa.me/6289679520905"
 }
 
-function renderProducts(q=''){
-  let box = productListBuy;
-  box.innerHTML='';
-  products
-    .filter(p=>p.cat.includes(q.toLowerCase()))
-    .sort((a,b)=>b.price-a.price)
-    .forEach(p=>{
-      let d=document.createElement('div');
-      d.className='product'+(p.sold?' sold':'');
-      d.innerHTML=`
-        <img src="${p.img}">
-        <div class="price">Rp ${p.price}</div>
-        ${p.sold?'':'<button onclick="pay('+p.id+')">Beli</button>'}
-      `;
-      box.appendChild(d);
-    });
+function checkForm(){
+  let ok =
+    email.value &&
+    pwgoogle.value &&
+    pwmoonton.value &&
+    sekunder.value &&
+    code.value
+
+  let btn=document.getElementById('lanjutBtn')
+  if(ok){
+    btn.className='btn green'
+    btn.onclick=send
+  }else{
+    btn.className='btn gray'
+    btn.onclick=null
+  }
 }
 
-function pay(id){
-  let p=products.find(x=>x.id===id);
-  let msg=`Halo Admin,%0ASaya mau beli akun%0ATier: ${p.cat}%0AHarga: Rp ${p.price}`;
-  window.open("https://wa.me/6289679520905?text="+msg,"_blank");
-}
+function send(){
+  let text=
+`*_DATA ACCOUNT ML STOK_*
 
-function adminLogin(){
-  let pin=prompt("Masukkan PIN Admin");
-  alert(pin==="009898"?"Mode Admin Aktif":"PIN salah");
+✧ Email : ${email.value}
+✧ Pw Google : ${pwgoogle.value}
+✧ Pw Moonton : ${pwmoonton.value}
+✧ Sekunder : ${sekunder.value}
+- Code Cadangan
+${code.value}`
+
+  navigator.clipboard.writeText(text)
+  alert('Data disalin! Kirim ke admin.')
+  wa()
 }
 </script>
 
