@@ -225,9 +225,6 @@ header::after{
 <div id="adminBtn" onclick="adminLogin()">A</div>
 
 <script>
-<!-- HTML KONTEN SELESAI DI SINI -->
-
-<script>
 /* ================= BASIC STATE ================= */
 let products = [
   {id:1, cat:'ahli', price:65000, img:'https://via.placeholder.com/300', sold:false},
@@ -248,7 +245,8 @@ function openSell(){
 }
 
 function closeAll(){
-  document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.popup')
+    .forEach(p=>p.classList.remove('active'));
 }
 
 /* ================= BUY FLOW ================= */
