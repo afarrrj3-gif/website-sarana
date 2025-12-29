@@ -225,51 +225,35 @@ header::after{
 <div id="adminBtn" onclick="adminLogin()">A</div>
 
 <script>
-/* ===================== BASIC STATE ===================== */
-let products=[
-  {id:1,cat:'ahli',price:65000,img:'https://via.placeholder.com/300',sold:false},
-  {id:2,cat:'ahli',price:55000,img:'https://via.placeholder.com/300',sold:false},
-  {id:3,cat:'senior',price:40000,img:'https://via.placeholder.com/300',sold:true}
+<!-- HTML KONTEN SELESAI DI SINI -->
+
+<script>
+/* ================= BASIC STATE ================= */
+let products = [
+  {id:1, cat:'ahli', price:65000, img:'https://via.placeholder.com/300', sold:false},
+  {id:2, cat:'ahli', price:55000, img:'https://via.placeholder.com/300', sold:false},
+  {id:3, cat:'senior', price:40000, img:'https://via.placeholder.com/300', sold:true}
 ];
 
-/* ===================== OPEN POPUPS ===================== */
-function openSell(){
-  document.getElementById('sellPopup').classList.add('active');
-}
-<script>
+/* ================= OPEN PAGES ================= */
 function openBuy(){
-  const home = document.getElementById('homePage');
-  const buy  = document.getElementById('buyPage');
-
-  if(!home){
-    alert("ERROR: homePage tidak ditemukan");
-    return;
-  }
-  if(!buy){
-    alert("ERROR: buyPage tidak ditemukan");
-    return;
-  }
-
-  home.style.display = 'none';
-  buy.style.display  = 'block';
-
+  document.getElementById('homePage').style.display='none';
+  document.getElementById('buyPage').style.display='block';
   renderProducts();
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top:0, behavior:'smooth'});
 }
-</script>
+
+function openSell(){
+  alert('Fitur jual akun aktif (lanjut form CEIN)');
+}
+
 function closeAll(){
   document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
 }
 
-/* ===================== SELL FLOW ===================== */
-function selectGame(game){
-  alert("Game dipilih: "+game+"\n(Lanjutkan tier → CEIN → FORM di tahap berikutnya)");
-}
-
-/* ===================== BUY FLOW ===================== */
+/* ================= BUY FLOW ================= */
 function renderProducts(){
-  let box=document.getElementById('productListBuy');
+  let box = document.getElementById('productListBuy');
   box.innerHTML='';
   products
     .sort((a,b)=>b.price-a.price)
@@ -279,32 +263,30 @@ function renderProducts(){
       d.innerHTML=`
         <img src="${p.img}">
         <div class="price">Rp ${p.price}</div>
-        ${p.sold?'':'<button class="btn" onclick="pay(${p.id})">Beli</button>'}
+        ${p.sold?'':'<button onclick="pay('+p.id+')">Beli</button>'}
       `;
       box.appendChild(d);
     });
 }
+
 function pay(id){
-  let p = products.find(x => x.id === id);
-  if(!p){
-    alert("Produk tidak ditemukan");
-    return;
-  }
-
+  let p = products.find(x=>x.id===id);
+  if(!p) return;
   let pesan =
-    "Halo Admin, saya mau beli akun\n" +
-    "Tier: " + p.cat + "\n" +
-    "Harga: Rp " + p.price;
-
-  let wa = "https://wa.me/6289679520905?text=" + encodeURIComponent(pesan);
-  window.open(wa, "_blank");
+    "Halo Admin, saya mau beli akun\n"+
+    "Tier: "+p.cat+"\n"+
+    "Harga: Rp "+p.price;
+  window.open(
+    "https://wa.me/6289679520905?text="+encodeURIComponent(pesan),
+    "_blank"
+  );
 }
 
-/* ===================== ADMIN ===================== */
+/* ================= ADMIN ================= */
 function adminLogin(){
-  let pin=prompt("Masukkan PIN Admin");
+  let pin = prompt("Masukkan PIN Admin");
   if(pin==="009898"){
-    alert("Mode Admin Aktif (fitur upload, sold, delete akan dilanjutkan)");
+    alert("Mode Admin Aktif");
   }else{
     alert("PIN salah");
   }
