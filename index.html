@@ -178,11 +178,20 @@ header::after{
 <!-- ===================== POPUP SELL ===================== -->
 <div class="popup" id="sellPopup">
   <div class="popup-box">
-    <h3>Mau jual akun apa?</h3>
-    <button class="btn" onclick="selectGame('ML')">Mobile Legend</button>
-    <button class="btn" onclick="alert('Coming soon')">Free Fire</button>
-    <button class="btn" onclick="alert('Coming soon')">Roblox</button>
-    <button class="btn gray" onclick="closeAll()">Tutup</button>
+    <h3>Form Jual Akun</h3>
+
+    <input id="sellGame" placeholder="Game (ML / FF / dll)" class="input">
+    <input id="sellTier" placeholder="Tier / Rank" class="input">
+    <input id="sellLevel" placeholder="Level Akun" class="input">
+    <input id="sellLogin" placeholder="Metode Login (Moonton / FB / dll)" class="input">
+    <input id="sellPrice" placeholder="Harga yang diinginkan" class="input">
+    <input id="sellWA" placeholder="No WhatsApp kamu" class="input">
+
+    <textarea id="sellNote" placeholder="Detail tambahan (skin, hero, dll)"
+      style="width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;margin-top:10px"></textarea>
+
+    <button class="btn whatsapp" onclick="submitSell()">Kirim ke Admin</button>
+    <button class="btn gray" onclick="closeAll()">Batal</button>
   </div>
 </div>
 
