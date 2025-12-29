@@ -2,256 +2,256 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<title>AryanzUtama Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AryanzUtama - Jual Akun</title>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{margin:0;background:#f1f2f6}
+/* ================= RESET ================= */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
+body{background:#eef6ff;color:#0a2540}
+
+/* ================= LOADING ================= */
+#loading{
+  position:fixed;inset:0;
+  background:#0a3cff;
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999
+}
+#loading img{width:90px;animation:pulse 1.5s infinite}
+@keyframes pulse{50%{transform:scale(1.1)}}
+
+/* ================= HEADER ================= */
 header{
-  height:180px;
-  background:url('https://i.imgur.com/9QO7K9y.jpg') center/cover;
+  height:260px;
+  background:url('https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg') center/cover;
+  position:relative
 }
-.container{padding:20px}
+header::after{
+  content:'';
+  position:absolute;bottom:0;left:0;width:100%;height:120px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0),#eef6ff)
+}
+.logo{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:120px;height:120px;
+  background:white;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  z-index:2
+}
+.logo img{width:100px;height:100px;border-radius:50%}
 
-.cards{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-  margin-top:-40px;
+/* ================= SEARCH ================= */
+.search-box{
+  margin:-40px auto 20px;
+  width:90%;max-width:420px;
+  background:white;border-radius:14px;
+  padding:10px;display:flex;gap:10px;
+  box-shadow:0 15px 30px rgba(0,0,0,.1);
+  position:relative;z-index:3
 }
-.card{
-  background:#fff;
-  border-radius:18px;
+.search-box input{flex:1;border:none;outline:none}
+.search-box button{
+  width:40px;height:40px;border:none;
+  border-radius:50%;background:#2b7cff;color:white
+}
+
+/* ================= PRODUCTS ================= */
+#products{
   padding:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
-  cursor:pointer;
-  transition:.3s;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:15px
 }
-.card:hover{transform:translateY(-5px)}
-.card h2{margin:0}
-.card p{color:#555;font-size:14px}
-
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  font-weight:bold;
-  cursor:pointer;
+.product{
+  background:white;border-radius:14px;
+  padding:10px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  animation:fade .4s ease
 }
-.green{background:#2ecc71;color:#fff}
-.gray{background:#ccc;color:#666;cursor:not-allowed}
+@keyframes fade{from{opacity:0;transform:translateY(20px)}}
+.product img{width:100%;border-radius:10px}
+.cat{font-size:13px;color:#666;margin:5px 0}
+.price{font-weight:bold;color:#2b7cff}
+.product button{
+  width:100%;margin-top:8px;
+  padding:8px;border:none;border-radius:10px;
+  background:#2b7cff;color:white
+}
+.sold{opacity:.5;filter:grayscale(1)}
 
+/* ================= ADMIN BTN ================= */
+#adminBtn{
+  position:fixed;bottom:15px;left:15px;
+  width:45px;height:45px;
+  background:#2b7cff;color:white;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  opacity:.4;z-index:200
+}
+
+/* ================= POPUP ================= */
 .popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:10;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;align-items:center;justify-content:center;
+  z-index:300
 }
 .popup.active{display:flex}
-.box{
-  background:#fff;
-  width:92%;
-  max-width:420px;
-  border-radius:18px;
-  padding:20px;
-  max-height:90vh;
-  overflow:auto;
+.popup-box{
+  background:white;
+  width:90%;max-width:420px;
+  max-height:85vh;overflow:auto;
+  border-radius:16px;padding:20px
 }
-.option{
-  background:#f1f2f6;
-  padding:14px;
-  border-radius:12px;
-  margin:8px 0;
-  text-align:center;
-  cursor:pointer;
-}
-.option:hover{background:#dfe6e9}
 
-.locked{
-  background:#f5f6fa;
-  padding:12px;
-  border-radius:10px;
-  white-space:pre-wrap;
-  font-size:13px;
+/* ================= FOOTER ================= */
+footer{text-align:center;padding:20px}
+.social{display:flex;justify-content:center;gap:15px;margin-bottom:10px}
+.social a{
+  width:40px;height:40px;
+  background:#2b7cff;color:white;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none
 }
-input,textarea{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-textarea{min-height:140px}
-
-.footer-text{
-  text-align:center;
-  font-size:12px;
-  color:#888;
-  margin-top:10px;
-}
+.powered{font-size:13px;color:#555}
 </style>
 </head>
 
 <body>
 
-<header></header>
+<div id="loading">
+  <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+</div>
 
-<div class="container">
-  <div class="cards">
-    <div class="card" onclick="openPopup('gamePopup')">
-      <h2>Jual Akun</h2>
-      <p>Jual akun terpercaya, aman & harga transparan.</p>
-    </div>
-    <div class="card">
-      <h2>Beli Akun</h2>
-      <p>Stok akun siap pakai & bergaransi.</p>
-    </div>
+<header>
+  <div class="logo">
+    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+  </div>
+</header>
+
+<div class="search-box">
+  <input id="searchInput" placeholder="Cari ahli / senior / ternama...">
+  <button onclick="search()">🔍</button>
+</div>
+
+<div id="products"></div>
+
+<div id="adminBtn" onclick="adminLogin()">A</div>
+
+<!-- UPLOAD -->
+<div class="popup" id="uploadPopup">
+  <div class="popup-box">
+    <h3>Upload Produk</h3>
+    <input type="file" id="img"><br><br>
+    <select id="cat">
+      <option>ahli</option>
+      <option>senior</option>
+      <option>ternama</option>
+      <option>terhormat</option>
+    </select><br><br>
+    <input id="price" placeholder="Harga"><br><br>
+    <button onclick="upload()">Upload</button>
+    <button onclick="closePopup()">Batal</button>
   </div>
 </div>
 
-<!-- STEP 1 GAME -->
-<div class="popup" id="gamePopup">
-  <div class="box">
-    <h3>Mau jual akun apa?</h3>
-    <p>Click pada pilihan yang benar!</p>
-    <div class="option" onclick="next('tierPopup')">Mobile Legend</div>
-    <div class="option">Free Fire</div>
-    <div class="option">Roblox</div>
-    <div class="option">eFootball</div>
-    <div class="option">COC</div>
+<!-- PAYMENT -->
+<div class="popup" id="payPopup">
+  <div class="popup-box">
+    <h3>Pembayaran</h3>
+    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766779896/IMG-20251222-WA0068_thougk.jpg" style="width:100%">
+    <p>DANA: <b>089688037479</b><br>a/n NI KOMANG</p>
+    <a href="https://wa.me/6289679520905"><button>WhatsApp Admin</button></a>
+    <p>jika udah tf, lanjut ambil data ke admin 💙</p>
   </div>
 </div>
 
-<!-- STEP 2 TIER -->
-<div class="popup" id="tierPopup">
-  <div class="box">
-    <h3>Pilih Tier Akun ML</h3>
-    <div class="option" onclick="next('levelPopup')">Ahli</div>
-    <div class="option">Junior</div>
-    <div class="option">Senior</div>
-    <div class="option">Ternama</div>
-    <div class="option">Terhormat</div>
-    <div class="option">Juragan</div>
-    <p class="footer-text">PoweredByAryanzUtama</p>
+<footer>
+  <div class="social">
+    <a href="https://wa.me/6289679520905">WA</a>
+    <a href="https://www.instagram.com/aryanz_stok">IG</a>
+    <a href="https://www.tiktok.com/@uryanzutama">TT</a>
+    <a href="https://whatsapp.com/channel/0029VbB5xTP3GJOzlxzCl20S">CH</a>
   </div>
-</div>
-
-<!-- STEP 3 LEVEL -->
-<div class="popup" id="levelPopup">
-  <div class="box">
-    <h3>Semua akan ku take selagi kalian benar mengisi opsi</h3>
-    <div class="option" onclick="next('ceinPopup')">Ahli 5</div>
-    <div class="option">Ahli 4</div>
-    <div class="option">Ahli 3</div>
-    <div class="option">Ahli 2</div>
-    <div class="option">Ahli 1</div>
-    <p class="footer-text">PoweredByAryanzUtama</p>
-  </div>
-</div>
-
-<!-- STEP 4 CEIN -->
-<div class="popup" id="ceinPopup">
-  <div class="box">
-    <h3>Jual akun wajib bisa CEIN</h3>
-    <div class="locked">
-nomor :
-089679520905
-Gmail :
-nnffvyya48@gmail.com
-    </div>
-    <p style="font-size:13px">
-      Salin data di atas & CEIN ke akun Google kamu.<br>
-      Gabisa CEIN? chat admin.
-    </p>
-
-    <button class="btn green" onclick="wa()">Chat Admin</button>
-    <br><br>
-    <button class="btn green" onclick="next('formPopup')">Lanjut</button>
-  </div>
-</div>
-
-<!-- STEP 5 FORM -->
-<div class="popup" id="formPopup">
-  <div class="box">
-    <h3>DATA ACCOUNT ML</h3>
-
-    <label>Email</label>
-    <input id="email" oninput="checkForm()">
-
-    <label>Pw Google</label>
-    <input id="pwgoogle" oninput="checkForm()">
-
-    <label>Pw Moonton</label>
-    <input id="pwmoonton" oninput="checkForm()">
-
-    <label>Sekunder</label>
-    <input id="sekunder" oninput="checkForm()">
-
-    <label>Code Cadangan</label>
-    <textarea id="code" oninput="checkForm()"></textarea>
-
-    <p style="font-size:12px">
-      • Semua wajib di isi<br>
-      • Sekunder & code cadangan WAJIB
-    </p>
-
-    <button id="lanjutBtn" class="btn gray">Lanjut</button>
-  </div>
-</div>
+  <div class="powered">PoweredByAryanzUtama</div>
+</footer>
 
 <script>
-function openPopup(id){
-  document.getElementById(id).classList.add('active')
+/* ================= SUPABASE CONFIG ================= */
+const supabase = supabaseJs.createClient(
+  "PASTE_PROJECT_URL_DI_SINI",
+  "PASTE_ANON_KEY_DI_SINI"
+)
+
+/* ================= LOADING ================= */
+setTimeout(()=>loading.style.display='none',2000)
+
+/* ================= FETCH ================= */
+async function load(){
+  let {data}=await supabase.from('products')
+    .select('*').order('price',{ascending:false})
+  render(data)
 }
-function closeAll(){
-  document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'))
-}
-function next(id){
-  closeAll()
-  openPopup(id)
-}
-function wa(){
-  window.location.href="https://wa.me/6289679520905"
+load()
+
+/* ================= REALTIME ================= */
+supabase.channel('realtime')
+  .on('postgres_changes',{event:'*',schema:'public',table:'products'},load)
+  .subscribe()
+
+/* ================= RENDER ================= */
+function render(list){
+  products.innerHTML=''
+  list.forEach(p=>{
+    let d=document.createElement('div')
+    d.className='product'+(p.sold?' sold':'')
+    d.innerHTML=`
+      <img src="${p.image}">
+      <div class="cat">${p.category}</div>
+      <div class="price">Rp ${p.price}</div>
+      ${p.sold?'<button>TERJUAL</button>':'<button onclick="openPay()">Beli</button>'}
+    `
+    products.appendChild(d)
+  })
 }
 
-function checkForm(){
-  let ok =
-    email.value &&
-    pwgoogle.value &&
-    pwmoonton.value &&
-    sekunder.value &&
-    code.value
+/* ================= SEARCH ================= */
+async function search(){
+  let q=searchInput.value
+  let {data}=await supabase.from('products')
+    .select('*').ilike('category',`%${q}%`)
+    .order('price',{ascending:false})
+  render(data)
+}
 
-  let btn=document.getElementById('lanjutBtn')
-  if(ok){
-    btn.className='btn green'
-    btn.onclick=send
-  }else{
-    btn.className='btn gray'
-    btn.onclick=null
+/* ================= ADMIN ================= */
+function adminLogin(){
+  if(prompt('PIN ADMIN')==='009898')
+    uploadPopup.classList.add('active')
+}
+
+/* ================= UPLOAD ================= */
+function upload(){
+  let file=img.files[0]
+  let r=new FileReader()
+  r.onload=async()=>{
+    await supabase.from('products').insert({
+      image:r.result,
+      category:cat.value,
+      price:price.value
+    })
+    closePopup()
   }
+  r.readAsDataURL(file)
 }
 
-function send(){
-  let text=
-`*_DATA ACCOUNT ML STOK_*
-
-✧ Email : ${email.value}
-✧ Pw Google : ${pwgoogle.value}
-✧ Pw Moonton : ${pwmoonton.value}
-✧ Sekunder : ${sekunder.value}
-- Code Cadangan
-${code.value}`
-
-  navigator.clipboard.writeText(text)
-  alert('Data disalin! Kirim ke admin.')
-  wa()
-}
+function openPay(){payPopup.classList.add('active')}
+function closePopup(){document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'))}
 </script>
 
 </body>
