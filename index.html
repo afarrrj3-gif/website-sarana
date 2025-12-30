@@ -164,19 +164,25 @@ function openPay(){document.getElementById("payPopup").style.display="flex"}
 function closePopup(){document.getElementById("payPopup").style.display="none"}
 
 /* ADMIN */
+<script>
 function adminLogin(){
  const pin=prompt("Masukkan PIN Admin");
  if(pin==="009898"){
+  isAdmin=true;
+  alert("Mode Admin Aktif");
+
   const name=prompt("Nama Produk");
-  const category=prompt("Kategori (senior/ahli/ternama/terhormat)");
+  const category=prompt("Kategori");
   const price=parseInt(prompt("Harga"));
   const image=prompt("Link Gambar");
 
-  supabase.from("products").insert([{name,category,price,image}]);
- }else alert("PIN SALAH");
+  supabase.from("products").insert([
+   {name,category,price,image,sold:false}
+  ]);
+ }else{
+  alert("PIN SALAH");
+ }
 }
-
-loadProducts();
 </script>
 
 </body>
