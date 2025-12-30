@@ -2,256 +2,181 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>AryanzUtama Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aryanz Utama Store</title>
 
-<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-/* ================= RESET ================= */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
-body{background:#eef6ff;color:#0a2540}
+*{box-sizing:border-box;font-family:Poppins,Arial}
+body{margin:0;background:#eef4ff;color:#033}
 
-/* ================= LOADING ================= */
-#loading{
-  position:fixed;inset:0;
-  background:#0a3cff;
-  display:flex;align-items:center;justify-content:center;
-  z-index:9999
-}
-#loading img{width:90px;animation:pulse 1.5s infinite}
-@keyframes pulse{50%{transform:scale(1.1)}}
+/* HEADER */
+header{position:relative;height:260px;overflow:hidden}
+header img.banner{position:absolute;width:100%;height:100%;object-fit:cover}
+header .overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.8),#eef4ff)}
+header .logo{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10}
+header .logo img{width:90px;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
 
-/* ================= HEADER ================= */
-header{
-  height:260px;
-  background:url('https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg') center/cover;
-  position:relative
+.search-box{margin-top:160px;padding:0 20px;position:relative}
+.search-box input{
+ width:100%;padding:14px 50px 14px 18px;
+ border-radius:30px;border:none;outline:none;
+ box-shadow:0 8px 20px rgba(0,0,0,.1)
 }
-header::after{
-  content:'';
-  position:absolute;bottom:0;left:0;width:100%;height:120px;
-  background:linear-gradient(to bottom,rgba(255,255,255,0),#eef6ff)
-}
-.logo{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:120px;height:120px;
-  background:white;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  z-index:2
-}
-.logo img{width:100px;height:100px;border-radius:50%}
-
-/* ================= SEARCH ================= */
-.search-box{
-  margin:-40px auto 20px;
-  width:90%;max-width:420px;
-  background:white;border-radius:14px;
-  padding:10px;display:flex;gap:10px;
-  box-shadow:0 15px 30px rgba(0,0,0,.1);
-  position:relative;z-index:3
-}
-.search-box input{flex:1;border:none;outline:none}
 .search-box button{
-  width:40px;height:40px;border:none;
-  border-radius:50%;background:#2b7cff;color:white
+ position:absolute;right:30px;top:50%;
+ transform:translateY(-50%);
+ border:none;background:none;font-size:20px;cursor:pointer
 }
 
-/* ================= PRODUCTS ================= */
+/* PRODUCTS */
 #products{
-  padding:20px;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-  gap:15px
+ padding:20px;
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+ gap:16px
 }
 .product{
-  background:white;border-radius:14px;
-  padding:10px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
-  animation:fade .4s ease
+ background:white;border-radius:18px;padding:10px;
+ box-shadow:0 10px 25px rgba(0,0,0,.08);
+ cursor:pointer;transition:.3s
 }
-@keyframes fade{from{opacity:0;transform:translateY(20px)}}
-.product img{width:100%;border-radius:10px}
-.cat{font-size:13px;color:#666;margin:5px 0}
-.price{font-weight:bold;color:#2b7cff}
-.product button{
-  width:100%;margin-top:8px;
-  padding:8px;border:none;border-radius:10px;
-  background:#2b7cff;color:white
-}
-.sold{opacity:.5;filter:grayscale(1)}
+.product:hover{transform:translateY(-6px)}
+.product img{width:100%;border-radius:14px}
+.product h4{margin:8px 0 4px}
+.product p{margin:0;font-size:13px;color:#555}
 
-/* ================= ADMIN BTN ================= */
+/* ADMIN */
 #adminBtn{
-  position:fixed;bottom:15px;left:15px;
-  width:45px;height:45px;
-  background:#2b7cff;color:white;
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  opacity:.4;z-index:200
+ position:fixed;bottom:20px;left:20px;
+ opacity:.25;background:#0a3cff;color:white;
+ border:none;border-radius:50%;
+ width:50px;height:50px;font-size:20px
 }
 
-/* ================= POPUP ================= */
+/* POPUP */
 .popup{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.45);
-  display:none;align-items:center;justify-content:center;
-  z-index:300
+ position:fixed;inset:0;
+ background:rgba(0,0,0,.5);
+ display:none;justify-content:center;align-items:center;z-index:999
 }
-.popup.active{display:flex}
-.popup-box{
-  background:white;
-  width:90%;max-width:420px;
-  max-height:85vh;overflow:auto;
-  border-radius:16px;padding:20px
+.popup .box{
+ background:white;border-radius:20px;padding:20px;
+ width:90%;max-width:400px;
+ animation:fade .3s
 }
+@keyframes fade{from{opacity:0;transform:scale(.9)}to{opacity:1}}
+.popup img{width:100%;border-radius:14px}
 
-/* ================= FOOTER ================= */
-footer{text-align:center;padding:20px}
-.social{display:flex;justify-content:center;gap:15px;margin-bottom:10px}
-.social a{
-  width:40px;height:40px;
-  background:#2b7cff;color:white;
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  text-decoration:none
-}
-.powered{font-size:13px;color:#555}
+/* FOOTER */
+footer{text-align:center;padding:30px 10px;font-size:13px}
+footer .socials img{width:26px;margin:0 6px}
 </style>
 </head>
 
 <body>
 
-<div id="loading">
-  <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
-</div>
-
 <header>
-  <div class="logo">
-    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
-  </div>
+ <img class="banner" src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766772767/IMG-20251128-WA0091_ldbe9l.jpg">
+ <div class="overlay"></div>
+ <div class="logo">
+  <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766845910/IMG-20251128-WA0094_1_rrrhdn.jpg">
+ </div>
+
+ <div class="search-box">
+  <input id="search" placeholder="Cari kategori (senior, ahli, ternama, terhormat)">
+  <button onclick="doSearch()">🔍</button>
+ </div>
 </header>
 
-<div class="search-box">
-  <input id="searchInput" placeholder="Cari ahli / senior / ternama...">
-  <button onclick="search()">🔍</button>
-</div>
+<section id="products"></section>
 
-<div id="products"></div>
-
-<div id="adminBtn" onclick="adminLogin()">A</div>
-
-<!-- UPLOAD -->
-<div class="popup" id="uploadPopup">
-  <div class="popup-box">
-    <h3>Upload Produk</h3>
-    <input type="file" id="img"><br><br>
-    <select id="cat">
-      <option>ahli</option>
-      <option>senior</option>
-      <option>ternama</option>
-      <option>terhormat</option>
-    </select><br><br>
-    <input id="price" placeholder="Harga"><br><br>
-    <button onclick="upload()">Upload</button>
-    <button onclick="closePopup()">Batal</button>
-  </div>
-</div>
+<button id="adminBtn" onclick="adminLogin()">⚙</button>
 
 <!-- PAYMENT -->
 <div class="popup" id="payPopup">
-  <div class="popup-box">
-    <h3>Pembayaran</h3>
-    <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766779896/IMG-20251222-WA0068_thougk.jpg" style="width:100%">
-    <p>DANA: <b>089688037479</b><br>a/n NI KOMANG</p>
-    <a href="https://wa.me/6289679520905"><button>WhatsApp Admin</button></a>
-    <p>jika udah tf, lanjut ambil data ke admin 💙</p>
-  </div>
+ <div class="box">
+  <img src="https://res.cloudinary.com/dtdodhqqi/image/upload/v1766779896/IMG-20251222-WA0068_thougk.jpg">
+  <p><b>DANA:</b> 089688037479<br>NI KOMANG</p>
+  <a href="https://wa.me/6289679520905">💬 WhatsApp Admin</a>
+  <p style="font-size:12px">jika udah tf, lanjut ambil data ke admin 💙</p>
+  <button onclick="closePopup()">Tutup</button>
+ </div>
 </div>
 
 <footer>
-  <div class="social">
-    <a href="https://wa.me/6289679520905">WA</a>
-    <a href="https://www.instagram.com/aryanz_stok">IG</a>
-    <a href="https://www.tiktok.com/@uryanzutama">TT</a>
-    <a href="https://whatsapp.com/channel/0029VbB5xTP3GJOzlxzCl20S">CH</a>
-  </div>
-  <div class="powered">PoweredByAryanzUtama</div>
+ <div class="socials">
+  <a href="https://wa.me/6289679520905"><img src="https://img.icons8.com/color/48/whatsapp.png"></a>
+  <a href="https://www.instagram.com/aryanz_stok"><img src="https://img.icons8.com/color/48/instagram-new.png"></a>
+  <a href="https://www.tiktok.com/@uryanzutama"><img src="https://img.icons8.com/color/48/tiktok.png"></a>
+ </div>
+ <p>PoweredByAryanzUtama</p>
 </footer>
 
 <script>
-/* ================= SUPABASE CONFIG ================= */
-const supabase = supabaseJs.createClient(
-  "PASTE_PROJECT_URL_DI_SINI",
-  "PASTE_ANON_KEY_DI_SINI"
-)
+/* SUPABASE */
+const SUPABASE_URL = "ISI_URL_SUPABASE";
+const SUPABASE_KEY = "ISI_ANON_KEY";
+const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* ================= LOADING ================= */
-setTimeout(()=>loading.style.display='none',2000)
+let products = [];
 
-/* ================= FETCH ================= */
-async function load(){
-  let {data}=await supabase.from('products')
-    .select('*').order('price',{ascending:false})
-  render(data)
+/* LOAD */
+async function loadProducts(){
+ const {data} = await supabase
+  .from("products")
+  .select("*")
+  .order("price",{ascending:false});
+ products = data || [];
+ render(products);
 }
-load()
 
-/* ================= REALTIME ================= */
-supabase.channel('realtime')
-  .on('postgres_changes',{event:'*',schema:'public',table:'products'},load)
-  .subscribe()
+/* REALTIME */
+supabase.channel("realtime-products")
+ .on("postgres_changes",{event:"*",schema:"public",table:"products"},loadProducts)
+ .subscribe();
 
-/* ================= RENDER ================= */
+/* RENDER */
 function render(list){
-  products.innerHTML=''
-  list.forEach(p=>{
-    let d=document.createElement('div')
-    d.className='product'+(p.sold?' sold':'')
-    d.innerHTML=`
-      <img src="${p.image}">
-      <div class="cat">${p.category}</div>
-      <div class="price">Rp ${p.price}</div>
-      ${p.sold?'<button>TERJUAL</button>':'<button onclick="openPay()">Beli</button>'}
-    `
-    products.appendChild(d)
-  })
+ const box=document.getElementById("products");
+ box.innerHTML="";
+ list.forEach(p=>{
+  box.innerHTML+=`
+   <div class="product" onclick="openPay()">
+    <img src="${p.image}">
+    <h4>${p.name}</h4>
+    <p>Rp ${p.price.toLocaleString()}</p>
+    <p>Kategori: ${p.category}</p>
+   </div>
+  `;
+ });
 }
 
-/* ================= SEARCH ================= */
-async function search(){
-  let q=searchInput.value
-  let {data}=await supabase.from('products')
-    .select('*').ilike('category',`%${q}%`)
-    .order('price',{ascending:false})
-  render(data)
+/* SEARCH */
+function doSearch(){
+ const q=document.getElementById("search").value.toLowerCase();
+ render(products.filter(p=>p.category.includes(q)));
 }
 
-/* ================= ADMIN ================= */
+/* POPUP */
+function openPay(){document.getElementById("payPopup").style.display="flex"}
+function closePopup(){document.getElementById("payPopup").style.display="none"}
+
+/* ADMIN */
 function adminLogin(){
-  if(prompt('PIN ADMIN')==='009898')
-    uploadPopup.classList.add('active')
+ const pin=prompt("Masukkan PIN Admin");
+ if(pin==="009898"){
+  const name=prompt("Nama Produk");
+  const category=prompt("Kategori (senior/ahli/ternama/terhormat)");
+  const price=parseInt(prompt("Harga"));
+  const image=prompt("Link Gambar");
+
+  supabase.from("products").insert([{name,category,price,image}]);
+ }else alert("PIN SALAH");
 }
 
-/* ================= UPLOAD ================= */
-function upload(){
-  let file=img.files[0]
-  let r=new FileReader()
-  r.onload=async()=>{
-    await supabase.from('products').insert({
-      image:r.result,
-      category:cat.value,
-      price:price.value
-    })
-    closePopup()
-  }
-  r.readAsDataURL(file)
-}
-
-function openPay(){payPopup.classList.add('active')}
-function closePopup(){document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'))}
+loadProducts();
 </script>
 
 </body>
