@@ -183,6 +183,22 @@ function adminLogin(){
   alert("PIN SALAH");
  }
 }
+// === ADMIN ACTION ===
+async function markSold(id){
+ await supabase
+  .from("products")
+  .update({ sold: true })
+  .eq("id", id);
+}
+
+async function deleteProduct(id){
+ if(confirm("Yakin hapus produk?")){
+  await supabase
+   .from("products")
+   .delete()
+   .eq("id", id);
+ }
+}
 </script>
 
 </body>
