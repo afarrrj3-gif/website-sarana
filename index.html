@@ -121,7 +121,7 @@ const SUPABASE_KEY = "ISI_ANON_KEY";
 const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let products = [];
-
+let isAdmin = false;
 /* LOAD */
 async function loadProducts(){
  const {data} = await supabase
@@ -164,12 +164,16 @@ function render(list){
 function doSearch(){
  const q=document.getElementById("search").value.toLowerCase();
  render(products.filter(p=>p.category.includes(q)));
-}
 
 /* POPUP */
-function openPay(){document.getElementById("payPopup").style.display="flex"}
-function closePopup(){document.getElementById("payPopup").style.display="none"}
+/* POPUP */
+function openPay(){
+ document.getElementById("payPopup").style.display = "flex";
+}
 
+function closePopup(){
+ document.getElementById("payPopup").style.display = "none";
+}
 /* ADMIN */
 function adminLogin(){
  const pin=prompt("Masukkan PIN Admin");
@@ -205,7 +209,56 @@ async function deleteProduct(id){
    .eq("id", id);
  }
 }
+loadProducts();
 </script>
+<!-- PAY POPUP -->
+<div id="payPopup" style="
+ display:none;
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.7);
+ z-index:999;
+ justify-content:center;
+ align-items:center;
+">
+  <div style="
+   background:#111;
+   padding:20px;
+   width:90%;
+   max-width:400px;
+   border-radius:12px;
+   color:#fff;
+  ">
+    <h3>💳 Pembayaran</h3>
+    <p>Silakan hubungi admin untuk pembayaran.</p>
 
+    <a href="https://wa.me/6289679520905" target="_blank"
+     style="
+      display:block;
+      margin-top:15px;
+      padding:10px;
+      background:#25D366;
+      color:#000;
+      text-align:center;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:bold;
+     ">
+     💬 Chat WhatsApp
+    </a>
+
+    <button onclick="closePopup()" style="
+     margin-top:10px;
+     width:100%;
+     padding:10px;
+     background:#333;
+     color:#fff;
+     border:none;
+     border-radius:8px;
+    ">
+     ❌ Tutup
+    </button>
+  </div>
+</div>
 </body>
 </html>
