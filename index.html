@@ -139,20 +139,27 @@ supabase.channel("realtime-products")
 
 /* RENDER */
 function render(list){
- const box=document.getElementById("products");
- box.innerHTML="";
+ const box = document.getElementById("products");
+ box.innerHTML = "";
+
  list.forEach(p=>{
-  box.innerHTML+=`
-   <div class="product" onclick="openPay()">
+  box.innerHTML += `
+   <div class="product">
     <img src="${p.image}">
     <h4>${p.name}</h4>
-    <p>Rp ${p.price.toLocaleString()}</p>
+    <p>Rp ${Number(p.price).toLocaleString("id-ID")}</p>
     <p>Kategori: ${p.category}</p>
+
+    ${isAdmin ? `
+      <button onclick="markSold(${p.id})">✅ SOLD</button>
+      <button onclick="deleteProduct(${p.id})">🗑 HAPUS</button>
+    ` : `
+      <button onclick="openPay()">💳 Beli</button>
+    `}
    </div>
   `;
  });
 }
-
 /* SEARCH */
 function doSearch(){
  const q=document.getElementById("search").value.toLowerCase();
