@@ -144,22 +144,28 @@ function render(list){
 
  list.forEach(p=>{
   box.innerHTML += `
-   <div class="product">
+  <div class="product">
     <img src="${p.image}">
     <h4>${p.name}</h4>
     <p>Rp ${Number(p.price).toLocaleString("id-ID")}</p>
     <p>Kategori: ${p.category}</p>
 
-    ${isAdmin ? `
-      <button onclick="markSold(${p.id})">✅ SOLD</button>
-      <button onclick="deleteProduct(${p.id})">🗑 HAPUS</button>
-    ` : `
-      <button onclick="openPay()">💳 Beli</button>
-    `}
-   </div>
-  `;
- });
-}
+    ${
+      p.sold
+        ? `<div style="color:red;font-weight:bold;margin-top:8px;">❌ SOLD</div>`
+        : (
+            isAdmin
+              ? `
+                <button onclick="markSold(${p.id})">✅ SOLD</button>
+                <button onclick="deleteProduct(${p.id})">🗑 HAPUS</button>
+              `
+              : `
+                <button onclick="openPay()">🛒 Beli</button>
+              `
+          )
+    }
+  </div>
+`;
 /* SEARCH */
 function doSearch(){
  const q=document.getElementById("search").value.toLowerCase();
